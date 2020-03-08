@@ -19,6 +19,11 @@ add_executable(rtc WIN32
 target_link_libraries(rtc rtc_lib)
 
 
+add_executable(particle WIN32
+    src/particle.cc)
+target_link_libraries(particle rtc_lib)
+
+
 # Below is from googletest README.md.
 # Download and unpack googletest at configure time.
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
