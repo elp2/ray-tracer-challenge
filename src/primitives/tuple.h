@@ -14,11 +14,18 @@ class Tuple {
   bool IsPoint();
   bool IsVector();
 
+  const void Debug();
+
  private:
   float x_, y_, z_, w_;
 };
 
-Tuple *point(float x, float y, float z);
-Tuple *vector(float x, float y, float z);
+bool operator==(const Tuple lhs, const Tuple rhs);
+Tuple operator+(const Tuple lhs, const Tuple rhs);
+Tuple operator-(const Tuple lhs, const Tuple rhs);
+Tuple operator-(const Tuple neg);
+
+Tuple TupleFromPoint(float x, float y, float z);
+Tuple TupleFromVector(float x, float y, float z);
 
 #endif    // RTC_PRIMITIVES_TUPLE_H_
