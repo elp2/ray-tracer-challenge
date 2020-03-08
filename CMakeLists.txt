@@ -11,7 +11,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 add_library (rtc_lib
     src/primitives/tuple.cc)
-target_include_directories(rtc_lib PUBLIC ${PROJECT_SOURCE_DIR}/src/primitives)
+target_include_directories(rtc_lib PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
 
 add_executable(rtc WIN32
