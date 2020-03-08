@@ -2,6 +2,8 @@
 
 #include "primitives/tuple.h"
 
+#include <cmath>
+
 class TupleTest : public ::testing::Test {
  protected:
   TupleTest() {};
@@ -76,4 +78,61 @@ TEST(TupleTest, SubVectorFromZeroVector) {
 
 TEST(TupleTest, NegateTuple) {
   ASSERT_TRUE(-Tuple(1, -2, 3, -4) == Tuple(-1, 2, -3, 4));
+}
+
+TEST(TupleTest, MultiplyTupleByScalar) {
+  const auto a = Tuple(1, -2, 3, -4);
+  ASSERT_TRUE(a * 3.5 == Tuple(3.5, -7, 10.5, -14));
+}
+
+TEST(TupleTest, MultiplyTupleByFraction) {
+  const auto a = Tuple(1, -2, 3, -4);
+  ASSERT_TRUE(a * 0.5 == Tuple(0.5, -1, 1.5, -2));
+}
+
+TEST(TupleTest, DivideTuple) {
+  const auto a = Tuple(1, -2, 3, -4);
+  ASSERT_TRUE(a / 2 == Tuple(0.5, -1, 1.5, -2));
+  ASSERT_TRUE(a / 2 == a * 0.5);
+}
+
+TEST(TupleTest, UnitVectorMagnitudes) {
+  auto x = TupleFromVector(1, 0, 0);
+  auto y = TupleFromVector(0, 1, 0);
+  auto z = TupleFromVector(0, 0, 1);
+  ASSERT_FLOAT_EQ(x.Magnitude(), 1);
+  ASSERT_FLOAT_EQ(y.Magnitude(), 1);
+  ASSERT_FLOAT_EQ(z.Magnitude(), 1);
+}
+
+TEST(TupleTest, UnitVectorOpposing) {
+  const auto x = TupleFromVector(1, 2, 3);
+  const auto y = TupleFromVector(-1, -2, -3);
+  ASSERT_FLOAT_EQ(x.Magnitude(), y.Magnitude());
+  ASSERT_FLOAT_EQ(y.Magnitude(), std::sqrt(14));
+}
+
+TEST(TupleTest, Normalized) {
+  const auto x = TupleFromVector(4, 0, 0);
+  ASSERT_TRUE(x.Normalized() == TupleFromVector(1, 0, 0));
+}
+
+TEST(TupleTest, Normalize123) {
+  const auto v = TupleFromVector(1, 2, 3);
+  ASSERT_TRUE(v.Normalized() == TupleFromVector(0.26726, 0.53452, 0.80178));
+  ASSERT_FLOAT_EQ(v.Normalized().Magnitude(), 1);
+}
+
+TEST(TupleTest, DotProduct) {
+  const auto a = TupleFromVector(1, 2, 3);
+  const auto b = TupleFromVector(2, 3, 4);
+  ASSERT_FLOAT_EQ(a.Dot(b), 20);
+}
+
+TEST(TupleTest, CrossProduct) {
+  const auto a = TupleFromVector(1, 2, 3);
+  const auto b = TupleFromVector(2, 3, 4);
+
+  ASSERT_TRUE(a.Cross(b) == TupleFromVector(-1, 2, -1));
+  ASSERT_TRUE(b.Cross(a) == TupleFromVector(1, -2, 1));
 }
