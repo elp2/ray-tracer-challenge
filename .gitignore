@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+# Cmake Directories to ignore.
+build/*
+wsl/*
