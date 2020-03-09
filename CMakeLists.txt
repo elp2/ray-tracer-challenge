@@ -10,6 +10,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 add_library (rtc_lib
+    src/primitives/color.cc
     src/primitives/tuple.cc)
 target_include_directories(rtc_lib PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
@@ -59,6 +60,7 @@ endif()
 
 # Tests
 add_executable(tests
+    src/primitives/color_test.cc
     src/primitives/tuple_test.cc)
 target_include_directories(tests PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_link_libraries(tests gtest_main)
