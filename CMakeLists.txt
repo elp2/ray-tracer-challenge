@@ -15,7 +15,8 @@ add_library (primitives
 target_include_directories(primitives PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
 add_library (display
-    src/display/canvas.cc)
+    src/display/canvas.cc
+    src/display/ppm_writer.cc)
 target_include_directories(display PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
 add_executable(rtc WIN32
@@ -65,7 +66,8 @@ endif()
 add_executable(tests
     src/primitives/color_test.cc
     src/primitives/tuple_test.cc
-    src/display/canvas_test.cc)
+    src/display/canvas_test.cc
+    src/display/ppm_writer_test.cc)
 target_include_directories(tests PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_link_libraries(tests gtest_main)
 target_link_libraries(tests gmock)
