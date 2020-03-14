@@ -8,4 +8,8 @@ class Canvas {
 
   void WritePixel(Color c, int x, int y);
   Color PixelAt(int x, int y);
+
+ private:
+  Color *pixels_;
+  int w_, h_;
 };
