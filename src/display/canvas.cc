@@ -1,6 +1,7 @@
 #include "display/canvas.h"
 
-#include <iostream>
+#include <cassert>
+#include <cstdlib>
 
 Canvas::Canvas(int w, int h) {
   w_ = w;
@@ -13,13 +14,18 @@ Canvas::Canvas(int w, int h) {
   }
 }
 
-Color Canvas::PixelAt(int x, int y) {
+int Canvas::PixelIndex(int x, int y) {
   if (x < 0 || y < 0 || x >= w_ || y >= h_) {
-    std::cout << "Access beyond canvas boundaries." << std::endl;
+    assert(false);
   }
-  return pixels_[x + y * w_];
+  return x + y * w_;
+}
+
+Color Canvas::PixelAt(int x, int y) {
+ 
+  return pixels_[PixelIndex(x, y)];
 }
 
 void Canvas::WritePixel(Color c, int x, int y) {
-  pixels_[x + y * w_] = c;
+  pixels_[PixelIndex(x, y)] = c;
 }

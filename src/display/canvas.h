@@ -17,6 +17,7 @@ class Canvas {
  private:
   Color *pixels_;
   int w_, h_;
+  int PixelIndex(int x, int y);
 };
 
 #endif    // RTC_DISPLAY_CANVAS_H

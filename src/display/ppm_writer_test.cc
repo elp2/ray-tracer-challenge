@@ -20,7 +20,7 @@ TEST(PPMWriterTest, HeaderReflectsDimensions) {
   std::ostringstream stream;
   writer.WriteStream(stream);
 
-  ASSERT_EQ(std::string("P3\n5 3\n255\n"), stream.str());
+  ASSERT_EQ(std::string("P3\n5 3\n255\n0 0 0 0 0 0 0 0 0 0 0 0 0 0 0\n0 0 0 0 0 0 0 0 0 0 0 0 0 0 0\n0 0 0 0 0 0 0 0 0 0 0 0 0 0 0\n"), stream.str());
 }
 
 TEST(PPMWriterTest, PixelContent) {
@@ -34,7 +34,7 @@ TEST(PPMWriterTest, PixelContent) {
   writer.WriteStream(stream);
 
   std::string output = stream.str();
-  ASSERT_EQ(std::string("255 0 0 0 0 0 0 0 0 0 0 0 0 0 0\n0 0 0 0 0 0 0 128 0 0 0 0 0 0 0\n0 0 0 0 0 0 0 0 0 0 0 0 0 0 255\n"), stream.str());
+  ASSERT_EQ(std::string("P3\n5 3\n255\n255 0 0 0 0 0 0 0 0 0 0 0 0 0 0\n0 0 0 0 0 0 0 128 0 0 0 0 0 0 0\n0 0 0 0 0 0 0 0 0 0 0 0 0 0 255\n"), stream.str());
 }
 
 TEST(PPMWriterTest, SplitsLongLines) {
@@ -53,7 +53,7 @@ TEST(PPMWriterTest, SplitsLongLines) {
   writer.WriteStream(stream);
 
   std::string output = stream.str();  
-  ASSERT_EQ(std::string("255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204\n153 255 204 153 255 204 153 255 204 153 255 204 153\n255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204\n153 255 204 153 255 204 153 255 204 153 255 204 153\n"), output);
+  ASSERT_EQ(std::string("P3\n10 2\n255\n255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204\n153 255 204 153 255 204 153 255 204 153 255 204 153\n255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204\n153 255 204 153 255 204 153 255 204 153 255 204 153\n"), output);
 }
 
 TEST(PPMWriterTest, EndsInNewLine) {

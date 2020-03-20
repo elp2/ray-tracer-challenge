@@ -3,6 +3,7 @@
 #include <math.h>
 
 #include <iostream>
+#include <fstream>
 
 const int MAX_COLOR_VALUE = 255;
 const int MAX_LINE_LEN = 70;
@@ -11,9 +12,11 @@ PPMWriter::PPMWriter(Canvas *canvas) {
   canvas_ = canvas;
 }
 
-bool PPMWriter::WriteFile() {
-  // TODO.
-  return false;
+bool PPMWriter::WriteFile(std::string filename) {
+  std::ofstream out;
+  out.open(filename);
+  WriteStream(out);
+  out.close();
 }
 
 void PPMWriter::WriteHeader(std::ostream &stream) {
@@ -36,7 +39,7 @@ int PPMWriter::ColorInt(float color) {
   }
 }
 
-bool PPMWriter::WriteColorFloat(std::ostream &stream, float fcolor, int *line_len) {
+void PPMWriter::WriteColorFloat(std::ostream &stream, float fcolor, int *line_len, bool row_end) {
   int color_len;
   int color = ColorInt(fcolor);
   if (color >= 100) {
@@ -46,34 +49,29 @@ bool PPMWriter::WriteColorFloat(std::ostream &stream, float fcolor, int *line_le
   } else {
     color_len = 1;
   }
-
-  *line_len += color_len + 1;
-  if (*line_len >= 70) {
+  bool space_before = *line_len != 0;
+  if ((*line_len + color_len + (space_before ? 1 : 0)) >= MAX_LINE_LEN) {
     stream << "\n";
-    stream << color;
-    *line_len = color_len + 1;
-    return true;
-  } else {
-    stream << color;
-    return false;
+    *line_len = 0;
+  } else if (space_before) {
+    stream << " ";
+    *line_len += 1;
   }
+
+  *line_len += color_len;
+  stream << color;
 }
 
 void PPMWriter::WriteRow(std::ostream &stream, int y) {
   int line_len = 0;
   for (int x = 0; x < canvas_->width(); x++) {
+    bool row_end = x == canvas_->width() - 1;
     Color color = canvas_->PixelAt(x, y);
-    if (!WriteColorFloat(stream, color.r(), &line_len)) {
-      stream << " ";
-    }
-    if (!WriteColorFloat(stream, color.g(), &line_len)) {
-      stream << " ";
-    }
-    WriteColorFloat(stream, color.b(), &line_len);
-    if (x == canvas_->width() - 1) {
+    WriteColorFloat(stream, color.r(), &line_len, false);
+    WriteColorFloat(stream, color.g(), &line_len, false);
+    WriteColorFloat(stream, color.b(), &line_len, row_end);
+    if (row_end) {
       stream << "\n";
-    } else {
-      stream << " ";
     }
   }
 }
