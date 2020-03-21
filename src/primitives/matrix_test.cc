@@ -8,6 +8,14 @@ class MatrixTest : public ::testing::Test {
   ~MatrixTest() {};
 };
 
+TEST(MatrixTest, SetGet) {
+  Matrix m = Matrix(3, 4);
+  ASSERT_FLOAT_EQ(m(0, 0), 0.0);
+
+  m.Set(1.0, 1, 1);
+  ASSERT_FLOAT_EQ(m(1, 1), 1.0);
+}
+
 TEST(MatrixTest, TwoByTwo) {
   ASSERT_FALSE(true); // TODO.
 }
