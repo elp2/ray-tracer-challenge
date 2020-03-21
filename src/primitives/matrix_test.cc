@@ -139,27 +139,50 @@ TEST(MatrixTest, Transpose) {
                                                0, 8, 3, 8 });
   ASSERT_EQ(m.Transpose(), t);
 }
-/*
+
 TEST(MatrixTest, DeterminantOf2x2) {
-  ASSERT_FALSE(true); // TODO.
+  Matrix m = Matrix(2, 2, std::vector<float> { 1, 5,
+                                              -3, 2 });
+  ASSERT_FLOAT_EQ(m.Determinant(), 17);
 }
 
 TEST(MatrixTest, SubmatrixOf3x3Is2x2) {
-  ASSERT_FALSE(true); // TODO.
+  Matrix three = Matrix(3, 3, std::vector<float> { 1, 5, 0,
+                                                  -3, 2, 7,
+                                                  0, 6, -3 });
+  Matrix sub = Matrix(2, 2, std::vector<float> { -3, 2,
+                                                  0, 6 });
+  ASSERT_EQ(three.SubMatrix(0, 2), sub);
 }
 
 TEST(MatrixTest, SubmatrixOf4x4Is3x3) {
-  ASSERT_FALSE(true); // TODO.
+  Matrix fourx4 = Matrix(4, 4, std::vector<float> { -6, 1, 1, 6,
+                                                    -8, 5, 8, 6,
+                                                    -1, 0, 8, 2,
+                                                    -7, 1, -1, 1 });
+  Matrix threex3 = Matrix(3, 3, std::vector<float> { -6, 1, 6,
+                                                      -8, 8, 6,
+                                                      -7, -1, 1 });
+  ASSERT_EQ(fourx4.SubMatrix(2, 1), threex3);
 }
 
 TEST(MatrixTest, MinorOf3x3) {
-  ASSERT_FALSE(true); // TODO.
+  Matrix three = Matrix(3, 3, std::vector<float> { 3, 5, 0,
+                                                   2, -1, -7,
+                                                   6, -1, 5 });
+  ASSERT_FLOAT_EQ(three.Minor(1, 0), 25);
 }
 
 TEST(MatrixTest, CofactorOf3x3) {
-  ASSERT_FALSE(true); // TODO.
+  Matrix three = Matrix(3, 3, std::vector<float> { 3, 5, 0,
+                                                   2, -1, -7,
+                                                   6, -1, 5 });
+  ASSERT_FLOAT_EQ(three.Minor(0, 0), -12);
+  ASSERT_FLOAT_EQ(three.Cofactor(0, 0), -12);
+  ASSERT_FLOAT_EQ(three.Minor(1, 0), 25);
+  ASSERT_FLOAT_EQ(three.Cofactor(1, 0), -25);
 }
-
+/*
 TEST(MatrixTest, DeterminantOf3x3) {
   ASSERT_FALSE(true); // TODO.
 }

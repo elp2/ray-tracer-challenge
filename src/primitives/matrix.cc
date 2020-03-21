@@ -94,3 +94,45 @@ Matrix Matrix::Transpose() {
   }
   return transposed;
 }
+
+float Matrix::Determinant() {
+  if (this->w() == 2) {
+    return this->operator()(0, 0) * this->operator()(1, 1) -
+      this->operator()(1, 0) * this->operator()(0, 1);
+  } else {
+    return -1;
+  }
+}
+
+Matrix Matrix::SubMatrix(int rrow, int rcol) {
+  int y = 0;
+  Matrix sub = Matrix(this->h() - 1, this->w() - 1);
+  for (int r = 0; r < this->h(); ++r) {
+    if (r == rrow) {
+      continue;
+    }
+    int x = 0;
+    for (int c = 0; c < this->w(); ++c) {
+      if (c != rcol) {
+        sub.Set(this->operator()(r, c), y, x);
+        ++x;
+      }
+    }
+    ++y;
+  }
+  return sub;
+}
+
+float Matrix::Minor(int row, int col) {
+  assert(this->w() == 3);
+  return this->SubMatrix(row, col).Determinant();
+}
+
+float Matrix::Cofactor(int row, int col) {
+  float minor = this->Minor(row, col);
+  if ((row + col) % 2 == 1) {
+    return -1 * minor;
+  } else {
+    return minor;
+  }
+}

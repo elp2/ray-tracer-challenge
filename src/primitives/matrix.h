@@ -18,6 +18,11 @@ class Matrix {
   int h() const { return h_; };
 
   Matrix Transpose();
+  float Determinant();
+  // Returns a submatrix by removing row and col.
+  Matrix SubMatrix(int row, int col);
+  float Minor(int row, int col);
+  float Cofactor(int row, int col);
 
  private:
   int w_, h_;
