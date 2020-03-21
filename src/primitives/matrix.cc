@@ -4,6 +4,8 @@
 #include <cstdlib>
 #include <vector>
 
+#include "primitives/tuple.h"
+
 Matrix::Matrix(int w, int h) {
   w_ = h;
   h_ = h;
@@ -50,4 +52,27 @@ const bool operator==(const Matrix lhs, const Matrix rhs) {
 
 const bool operator!=(const Matrix lhs, const Matrix rhs) {
   return !(lhs == rhs);
+}
+
+const Matrix operator*(const Matrix lhs, const Matrix rhs) {
+  Matrix ret = Matrix(lhs.h(), rhs.w());
+  for (int row = 0; row < lhs.h(); ++row) {
+    for (int col = 0; col < rhs.w(); ++col) {
+      float element = 0;
+      for (int i = 0; i < lhs.w(); ++i) {
+        element += lhs(row, i) * rhs(i, col);
+      }
+      ret.Set(element, row, col);
+    }
+  }
+  return ret;
+}
+
+const Tuple operator*(const Matrix m, const Tuple t) {
+  return Tuple(
+    m(0, 0) * t.x() + m(0, 1) * t.y() + m(0, 2) * t.z() + m(0, 3) * t.w(),
+    m(1, 0) * t.x() + m(1, 1) * t.y() + m(1, 2) * t.z() + m(1, 3) * t.w(),
+    m(2, 0) * t.x() + m(2, 1) * t.y() + m(2, 2) * t.z() + m(2, 3) * t.w(),
+    m(3, 0) * t.x() + m(3, 1) * t.y() + m(3, 2) * t.z() + m(3, 3) * t.w()
+  );
 }

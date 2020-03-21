@@ -1,6 +1,7 @@
 #include "gtest/gtest.h"
 
 #include "primitives/matrix.h"
+#include "primitives/tuple.h"
 
 class MatrixTest : public ::testing::Test {
  protected:
@@ -80,15 +81,40 @@ TEST(MatrixTest, NotEqual) {
   ASSERT_EQ(a, b);
 }
 
-/*
 TEST(MatrixTest, MultiplyMatrix) {
-  ASSERT_FALSE(true); // TODO.
+  std::vector<float> avalues = {1, 2, 3, 4,
+                                5, 6, 7, 8,
+                                9, 8, 7, 6,
+                                5, 4, 3, 2};
+  Matrix a = Matrix(4, 4, avalues);
+  std::vector<float> bvalues = {-2, 1, 2, 3,
+                                3, 2, 1, -1,
+                                4, 3, 6, 5,
+                                1, 2, 7, 8};
+  Matrix b = Matrix(4, 4, bvalues);
+  Matrix mult = a * b;
+
+  std::vector<float> expected = {20, 22, 50, 48,
+                                 44, 54, 114, 108,
+                                 40, 58, 110, 102,
+                                 16, 26, 46, 42};
+  Matrix exp = Matrix(4, 4, expected);
+  ASSERT_EQ(mult, exp);
 }
 
 TEST(MatrixTest, MultiplyTuple) {
-  ASSERT_FALSE(true); // TODO.
-}
+  std::vector<float> values = {1, 2, 3, 4,
+                               2, 4, 4, 2,
+                               8, 6, 4, 1,
+                               0, 0, 0, 1};
+  Matrix m = Matrix(4, 4, values);
 
+  Tuple t = Tuple(1, 2, 3, 1);
+  Tuple ret = m * t;
+  ret.Debug();
+  ASSERT_EQ(Tuple(18, 24, 33, 1), ret);
+}
+/*
 TEST(MatrixTest, MultiplyIdentity) {
   ASSERT_FALSE(true); // TODO.
 }

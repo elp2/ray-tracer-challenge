@@ -3,6 +3,8 @@
 
 #include <vector>
 
+class Tuple;
+
 class Matrix {
  public:
   Matrix(int w, int h);
@@ -23,5 +25,7 @@ class Matrix {
 
 const bool operator==(const Matrix lhs, const Matrix rhs);
 const bool operator!=(const Matrix lhs, const Matrix rhs);
+const Matrix operator*(const Matrix lhs, const Matrix rhs);
+const Tuple operator*(const Matrix lhs, const Tuple rhs);
 
 #endif    // RTC_PRIMITIVES_MATRIX_H_
