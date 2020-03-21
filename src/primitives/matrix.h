@@ -9,13 +9,19 @@ class Matrix {
   Matrix(int w, int h, std::vector<float> values);
   ~Matrix() = default;
 
-  float operator()(int row, int col);
+  const float operator()(int row, int col) const;
   void Set(float value, int row, int col);
+
+  int w() const { return w_; };
+  int h() const { return h_; };
 
  private:
   int w_, h_;
   float *matrix_;
-  inline int MatrixIndex(int row, int col);
+  inline int MatrixIndex(const int row, const int col) const;
 };
+
+const bool operator==(const Matrix lhs, const Matrix rhs);
+const bool operator!=(const Matrix lhs, const Matrix rhs);
 
 #endif    // RTC_PRIMITIVES_MATRIX_H_

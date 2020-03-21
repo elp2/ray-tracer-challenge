@@ -50,15 +50,37 @@ TEST(MatrixTest, ThreeByThree) {
   ASSERT_FLOAT_EQ(m(1, 1), -2);  
   ASSERT_FLOAT_EQ(m(2, 2), 1);
 }
-/*
+
 TEST(MatrixTest, Equal) {
-  ASSERT_FALSE(true); // TODO.
+  std::vector<float> values = {1, 2, 3, 4,
+                               5, 6, 7, 8,
+                               9, 8, 7, 6,
+                               5, 4, 3, 2};
+  Matrix a = Matrix(4, 4, values);
+  Matrix b = Matrix(4, 4, values);
+  ASSERT_EQ(a, b);
 }
 
 TEST(MatrixTest, NotEqual) {
-  ASSERT_FALSE(true); // TODO.
+  std::vector<float> values = {1, 2, 3, 4,
+                               5, 6, 7, 8,
+                               9, 8, 7, 6,
+                               5, 4, 3, 2};
+  Matrix a = Matrix(4, 4, values);
+
+  for (int i = 0; i < 16; ++i) {
+    float orig = values[i];
+    values[i] = 99;
+    Matrix b = Matrix(4, 4, values);
+    ASSERT_NE(a, b);
+    values[i] = orig;
+  }
+
+  Matrix b = Matrix(4, 4, values);
+  ASSERT_EQ(a, b);
 }
 
+/*
 TEST(MatrixTest, MultiplyMatrix) {
   ASSERT_FALSE(true); // TODO.
 }
