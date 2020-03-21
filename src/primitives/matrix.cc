@@ -10,16 +10,26 @@ Matrix::Matrix(int w, int h) {
   matrix_ = (float *)calloc(w * h, sizeof(float));
 }
 
-inline int Matrix::MatrixIndex(int x, int y) {
-  assert(x >= 0 && x < w_);
-  assert(y >= 0 && y < h_);
-  return x + y * h_;
+Matrix::Matrix(int w, int h, std::vector<float> values) {
+  w_ = h;
+  h_ = h;
+  matrix_ = (float *)calloc(w * h, sizeof(float));
+  assert(values.size() == w * h);
+  for (int i = 0; i < values.size(); ++i) {
+    matrix_[i] = values[i];
+  }
 }
 
-float Matrix::operator()(int x, int y) {
-  return matrix_[MatrixIndex(x, y)];
+inline int Matrix::MatrixIndex(int row, int col) {
+  assert(col >= 0 && col < w_);
+  assert(row >= 0 && row < h_);
+  return col + row * h_;
 }
 
-void Matrix::Set(float value, int x, int y) {
-  matrix_[MatrixIndex(x, y)] = value;
+float Matrix::operator()(int row, int col) {
+  return matrix_[MatrixIndex(row, col)];
+}
+
+void Matrix::Set(float value, int row, int col) {
+  matrix_[MatrixIndex(row, col)] = value;
 }
