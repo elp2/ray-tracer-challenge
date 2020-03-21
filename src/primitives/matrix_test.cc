@@ -111,18 +111,23 @@ TEST(MatrixTest, MultiplyTuple) {
 
   Tuple t = Tuple(1, 2, 3, 1);
   Tuple ret = m * t;
-  ret.Debug();
   ASSERT_EQ(Tuple(18, 24, 33, 1), ret);
 }
-/*
+
 TEST(MatrixTest, MultiplyIdentity) {
-  ASSERT_FALSE(true); // TODO.
+  std::vector<float> values = {1, 2, 3, 4,
+                               2, 4, 4, 2,
+                               8, 6, 4, 1,
+                               0, 0, 0, 1};
+  Matrix m = Matrix(4, 4, values);
+  ASSERT_EQ(m,  m * IdentityMatrix(4));
 }
 
-TEST(MatrixTest, MultiplyTupleItentity) {
-  ASSERT_FALSE(true); // TODO.
+TEST(MatrixTest, MultiplyTupleIdentity) {
+  Tuple t = Tuple(1, 2, 3, 1);
+  ASSERT_EQ(t, IdentityMatrix(4) * t);
 }
-
+/*
 TEST(MatrixTest, Transpose) {
   ASSERT_FALSE(true); // TODO.
 }

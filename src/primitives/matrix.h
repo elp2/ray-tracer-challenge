@@ -28,4 +28,7 @@ const bool operator!=(const Matrix lhs, const Matrix rhs);
 const Matrix operator*(const Matrix lhs, const Matrix rhs);
 const Tuple operator*(const Matrix lhs, const Tuple rhs);
 
+// TODO static method.
+Matrix IdentityMatrix(int dimension);
+
 #endif    // RTC_PRIMITIVES_MATRIX_H_

@@ -76,3 +76,11 @@ const Tuple operator*(const Matrix m, const Tuple t) {
     m(3, 0) * t.x() + m(3, 1) * t.y() + m(3, 2) * t.z() + m(3, 3) * t.w()
   );
 }
+
+Matrix IdentityMatrix(int dimension) {
+  Matrix identity = Matrix(dimension, dimension);
+  for (int i = 0; i < dimension; ++i) {
+    identity.Set(1, i, i);
+  }
+  return identity;
+}
