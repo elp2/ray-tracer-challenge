@@ -17,6 +17,8 @@ class Matrix {
   int w() const { return w_; };
   int h() const { return h_; };
 
+  Matrix Transpose();
+
  private:
   int w_, h_;
   float *matrix_;

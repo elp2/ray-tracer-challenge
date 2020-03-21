@@ -127,12 +127,20 @@ TEST(MatrixTest, MultiplyTupleIdentity) {
   Tuple t = Tuple(1, 2, 3, 1);
   ASSERT_EQ(t, IdentityMatrix(4) * t);
 }
-/*
-TEST(MatrixTest, Transpose) {
-  ASSERT_FALSE(true); // TODO.
-}
 
-TEST(MatrixTest, Invert) {
+TEST(MatrixTest, Transpose) {
+  Matrix m = Matrix(4, 4, std::vector<float> { 0, 9, 3, 0,
+                                               9, 8, 0, 8,
+                                               1, 8, 5, 3,
+                                               0, 0, 5, 8 });
+  Matrix t = Matrix(4, 4, std::vector<float> { 0, 9, 1, 0,
+                                               9, 8, 8, 0,
+                                               3, 0, 5, 5,
+                                               0, 8, 3, 8 });
+  ASSERT_EQ(m.Transpose(), t);
+}
+/*
+TEST(MatrixTest, DeterminantOf2x2) {
   ASSERT_FALSE(true); // TODO.
 }
 

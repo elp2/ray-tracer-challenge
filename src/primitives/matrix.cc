@@ -84,3 +84,13 @@ Matrix IdentityMatrix(int dimension) {
   }
   return identity;
 }
+
+Matrix Matrix::Transpose() {
+  Matrix transposed = Matrix(this->w(), this->h());
+  for (int row = 0; row < this->h(); ++row) {
+    for (int col = 0; col < this->w(); ++col) {
+      transposed.Set(this->operator()(row, col), col, row);
+    }
+  }
+  return transposed;
+}
