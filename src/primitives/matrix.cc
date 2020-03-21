@@ -2,8 +2,10 @@
 
 #include <cassert>
 #include <cstdlib>
+#include <iostream>
 #include <vector>
 
+#include "primitives/math.h"
 #include "primitives/tuple.h"
 
 Matrix::Matrix(int w, int h) {
@@ -42,7 +44,9 @@ const bool operator==(const Matrix lhs, const Matrix rhs) {
   }
   for (int row = 0; row < lhs.h(); ++row) {
     for (int col = 0; col < lhs.w(); ++col) {
-      if (lhs(row, col) != rhs(row, col)) {
+      float l = lhs(row, col);
+      float r = rhs(row, col);
+      if (!epsilon_eq(r, l)) {
         return false;
       }
     }
@@ -95,16 +99,20 @@ Matrix Matrix::Transpose() {
   return transposed;
 }
 
-float Matrix::Determinant() {
+float Matrix::Determinant() const {
   if (this->w() == 2) {
     return this->operator()(0, 0) * this->operator()(1, 1) -
       this->operator()(1, 0) * this->operator()(0, 1);
   } else {
-    return -1;
+    float determinant = 0;
+    for (int col = 0; col < this->w(); ++col) {
+      determinant += this->operator()(0, col) * this->Cofactor(0, col);
+    }
+    return determinant;
   }
 }
 
-Matrix Matrix::SubMatrix(int rrow, int rcol) {
+Matrix Matrix::SubMatrix(int rrow, int rcol) const {
   int y = 0;
   Matrix sub = Matrix(this->h() - 1, this->w() - 1);
   for (int r = 0; r < this->h(); ++r) {
@@ -123,16 +131,31 @@ Matrix Matrix::SubMatrix(int rrow, int rcol) {
   return sub;
 }
 
-float Matrix::Minor(int row, int col) {
-  assert(this->w() == 3);
+float Matrix::Minor(int row, int col) const {
   return this->SubMatrix(row, col).Determinant();
 }
 
-float Matrix::Cofactor(int row, int col) {
+float Matrix::Cofactor(int row, int col) const {
   float minor = this->Minor(row, col);
   if ((row + col) % 2 == 1) {
     return -1 * minor;
   } else {
     return minor;
   }
+}
+
+bool Matrix::Invertible() const {
+  return this->Determinant() != 0;
+}
+
+Matrix Matrix::Inverse() const {
+  float determinent = this->Determinant();
+  Matrix inverse = Matrix(this->h(), this->w());
+  for (int row = 0; row < this->h(); ++row) {
+    for (int col = 0; col < this->w(); ++col) {
+      float cofactor = this->Cofactor(row, col);
+      inverse.Set(cofactor / determinent, col, row);
+    }
+  }
+  return inverse;
 }
