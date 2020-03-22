@@ -128,3 +128,29 @@ TEST(TransformationTest, ShearingZY) {
   Tuple p = TupleFromPoint(2, 3, 4);
   ASSERT_EQ(TupleFromPoint(2, 3, 7), transform * p);
 }
+
+TEST(TransformationTest, TransformationSequence) {
+  Matrix a = RotationX(M_PI / 2);
+  Matrix b = Scaling(5, 5, 5);
+  Matrix c = Translation(10, 5, 7);
+  
+  Tuple p = TupleFromPoint(1, 0, 1);
+  Tuple p2 = a * p;
+  ASSERT_EQ(p2, TupleFromPoint(1, -1, 0));
+
+  Tuple p3 = b * p2;
+  ASSERT_EQ(p3, TupleFromPoint(5, -5, 0));
+
+  Tuple p4 = c * p3;
+  ASSERT_EQ(p4, TupleFromPoint(15, 0, 7));
+}
+
+TEST(TransformationTest, TransformationSequenceInverse) {
+  Matrix a = RotationX(M_PI / 2);
+  Matrix b = Scaling(5, 5, 5);
+  Matrix c = Translation(10, 5, 7);
+  Matrix t = c * b * a;
+  Tuple p = TupleFromPoint(1, 0, 1);
+
+  ASSERT_EQ(t * p, TupleFromPoint(15, 0, 7));
+}
