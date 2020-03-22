@@ -4,5 +4,6 @@
 class Matrix;
 
 Matrix Translation(float x, float y, float z);
+Matrix Scaling(float x, float y, float z);
 
 #endif    // RTC_PRIMITIVES_TRANSFORMATION_H_
