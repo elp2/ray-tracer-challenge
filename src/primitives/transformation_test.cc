@@ -92,3 +92,39 @@ TEST(TransformationTest, RotationZ) {
   ASSERT_EQ(TupleFromPoint(-sqrt(2) / 2, sqrt(2) / 2, 0), half_quarter * p);
   ASSERT_EQ(TupleFromPoint(-1, 0, 0), full_quarter * p);
 }
+
+TEST(TransformationTest, ShearingXY) {
+  Matrix transform = Shearing(1, 0, 0, 0, 0, 0);
+  Tuple p = TupleFromPoint(2, 3, 4);
+  ASSERT_EQ(TupleFromPoint(5, 3, 4), transform * p);
+}
+
+TEST(TransformationTest, ShearingXZ) {
+  Matrix transform = Shearing(0, 1, 0, 0, 0, 0);
+  Tuple p = TupleFromPoint(2, 3, 4);
+  ASSERT_EQ(TupleFromPoint(6, 3, 4), transform * p);
+}
+
+TEST(TransformationTest, ShearingYX) {
+  Matrix transform = Shearing(0, 0, 1, 0, 0, 0);
+  Tuple p = TupleFromPoint(2, 3, 4);
+  ASSERT_EQ(TupleFromPoint(2, 5, 4), transform * p);
+}
+
+TEST(TransformationTest, ShearingYZ) {
+  Matrix transform = Shearing(0, 0, 0, 1, 0, 0);
+  Tuple p = TupleFromPoint(2, 3, 4);
+  ASSERT_EQ(TupleFromPoint(2, 7, 4), transform * p);
+}
+
+TEST(TransformationTest, ShearingZX) {
+  Matrix transform = Shearing(0, 0, 0, 0, 1, 0);
+  Tuple p = TupleFromPoint(2, 3, 4);
+  ASSERT_EQ(TupleFromPoint(2, 3, 6), transform * p);
+}
+
+TEST(TransformationTest, ShearingZY) {
+  Matrix transform = Shearing(0, 0, 0, 0, 0, 1);
+  Tuple p = TupleFromPoint(2, 3, 4);
+  ASSERT_EQ(TupleFromPoint(2, 3, 7), transform * p);
+}
