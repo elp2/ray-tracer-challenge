@@ -12,6 +12,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 add_library (primitives
     src/primitives/color.cc
     src/primitives/matrix.cc
+    src/primitives/transformation.cc
     src/primitives/tuple.cc)
 target_include_directories(primitives PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
@@ -67,6 +68,7 @@ endif()
 add_executable(tests
     src/primitives/color_test.cc
     src/primitives/matrix_test.cc
+    src/primitives/transformation_test.cc
     src/primitives/tuple_test.cc
     src/display/canvas_test.cc
     src/display/ppm_writer_test.cc)
