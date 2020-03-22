@@ -25,11 +25,13 @@ add_executable(rtc WIN32
     src/main.cc)
 target_link_libraries(rtc primitives display)
 
-
 add_executable(particle WIN32
     src/particle.cc)
 target_link_libraries(particle primitives display)
 
+add_executable(clock WIN32
+    src/clock.cc)
+target_link_libraries(clock primitives display)
 
 # Below is from googletest README.md.
 # Download and unpack googletest at configure time.
