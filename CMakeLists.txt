@@ -11,6 +11,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 add_library (primitives
     src/primitives/color.cc
+    src/primitives/intersection.cc
     src/primitives/matrix.cc
     src/primitives/ray.cc
     src/primitives/transformation.cc
@@ -21,6 +22,11 @@ add_library (display
     src/display/canvas.cc
     src/display/ppm_writer.cc)
 target_include_directories(display PUBLIC ${PROJECT_SOURCE_DIR}/src)
+
+add_library (shapes
+    src/shapes/sphere.cc)
+target_link_libraries(shapes primitives)
+target_include_directories(shapes PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
 add_executable(rtc WIN32
     src/main.cc)
@@ -69,16 +75,18 @@ endif()
 
 # Tests
 add_executable(tests
+    src/display/canvas_test.cc
+    src/display/ppm_writer_test.cc
     src/primitives/color_test.cc
     src/primitives/matrix_test.cc
     src/primitives/ray_test.cc
     src/primitives/transformation_test.cc
     src/primitives/tuple_test.cc
-    src/display/canvas_test.cc
-    src/display/ppm_writer_test.cc)
+    src/shapes/sphere_test.cc)
 target_include_directories(tests PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_link_libraries(tests gtest_main)
 target_link_libraries(tests gmock)
 target_link_libraries(tests primitives)
 target_link_libraries(tests display)
+target_link_libraries(tests shapes)
 add_test(NAME basic_tests COMMAND tests)
