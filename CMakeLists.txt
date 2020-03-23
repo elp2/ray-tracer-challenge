@@ -78,6 +78,7 @@ add_executable(tests
     src/display/canvas_test.cc
     src/display/ppm_writer_test.cc
     src/primitives/color_test.cc
+    src/primitives/intersection_test.cc
     src/primitives/matrix_test.cc
     src/primitives/ray_test.cc
     src/primitives/transformation_test.cc

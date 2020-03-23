@@ -24,8 +24,8 @@ std::vector<Intersection> Sphere::Intersections(Ray ray) {
 
   float two_a = 2 * a;
   float sqrt_discriminant = sqrt(discriminant);
-  Intersection t1 = Intersection((-b - sqrt_discriminant) / two_a);
-  Intersection t2 = Intersection((-b + sqrt_discriminant) / two_a);
+  Intersection t1 = Intersection((-b - sqrt_discriminant) / two_a, this);
+  Intersection t2 = Intersection((-b + sqrt_discriminant) / two_a, this);
   intersections.push_back(t1);
   intersections.push_back(t2);
 
