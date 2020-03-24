@@ -6,11 +6,10 @@
 
 Sphere::Sphere() {
   origin_ = TupleFromPoint(0, 0, 0);
-  radius_ = 1.0;
 }
 
-Intersections Sphere::Intersect(Ray ray) {
-  std::vector<Intersection> intersections;
+Intersections Sphere::Intersect(Ray original_ray) {
+  Ray ray = original_ray.Transform(transform_.Inverse());
 
   Tuple sphere_to_ray = ray.Origin() - origin_;
   float a = ray.Direction().Dot(ray.Direction());
@@ -19,13 +18,16 @@ Intersections Sphere::Intersect(Ray ray) {
 
   float discriminant = b * b - 4 * a * c;
   if (discriminant < 0) {
-    return intersections;
+    return Intersections(std::vector<Intersection>{});
   }
 
   float two_a = 2 * a;
   float sqrt_discriminant = sqrt(discriminant);
+
   Intersection t1 = Intersection((-b - sqrt_discriminant) / two_a, this);
   Intersection t2 = Intersection((-b + sqrt_discriminant) / two_a, this);
+
+  std::vector<Intersection> intersections;
   intersections.push_back(t1);
   intersections.push_back(t2);
 

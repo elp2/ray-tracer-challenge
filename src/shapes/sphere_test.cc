@@ -2,6 +2,7 @@
 
 #include "primitives/ray.h"
 #include "shapes/sphere.h"
+#include "primitives/transformation.h"
 #include "primitives/tuple.h"
 
 #include <vector>
@@ -68,4 +69,27 @@ TEST(SphereTest, ObjectSetOnIntersection) {
   ASSERT_EQ(2, xs.Size());
   ASSERT_EQ(xs[0].Object(), &s);
   ASSERT_EQ(xs[1].Object(), &s);
+}
+
+TEST(SphereTest, StartsWithIdentity) {
+  Sphere s = Sphere();
+  ASSERT_EQ(s.Transform(), IdentityMatrix(4));
+}
+
+TEST(SphereTest, IntersectsScaling) {
+  Sphere s = Sphere();
+  s.SetTransform(Scaling(2, 2, 2));
+  Ray r = Ray(TupleFromPoint(0, 0, -5), TupleFromVector(0, 0, 1));
+  Intersections xs = s.Intersect(r);
+  ASSERT_EQ(xs.Size(), 2);
+  ASSERT_FLOAT_EQ(xs[0].T(), 3);
+  ASSERT_FLOAT_EQ(xs[1].T(), 7);
+}
+
+TEST(SphereTest, DoesntIntersectTranslation) {
+  Sphere s = Sphere();
+  s.SetTransform(Translation(5, 0, 0));
+  Ray r = Ray(TupleFromPoint(0, 0, -5), TupleFromVector(0, 0, 1));
+  Intersections xs = s.Intersect(r);
+  ASSERT_EQ(xs.Size(), 0);
 }

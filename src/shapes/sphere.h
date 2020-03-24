@@ -2,6 +2,7 @@
 #define RTC_SHAPES_SPHERE_H
 
 #include "primitives/intersections.h"
+#include "primitives/matrix.h"
 #include "primitives/tuple.h"
 #include "primitives/ray.h"
 
@@ -14,9 +15,12 @@ class Sphere {
 
   Intersections Intersect(Ray r);
 
+  void SetTransform(Matrix m) { transform_ = m; };
+  Matrix Transform() { return transform_; };
+
  private:
   Tuple origin_;
-  float radius_;
+  Matrix transform_ = IdentityMatrix(4);
 };
 
 #endif    // RTC_SHAPES_SPHERE_H

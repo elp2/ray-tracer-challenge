@@ -3,6 +3,8 @@
 
 #include "primitives/tuple.h"
 
+class Matrix;
+
 class Ray {
  public:
   Ray(Tuple origin, Tuple direction);
@@ -11,6 +13,8 @@ class Ray {
   Tuple Origin() { return origin_; };
   Tuple Direction() { return direction_; };
   Tuple Position(float t);
+
+  Ray Transform(Matrix m);
 
  private:
   Tuple origin_, direction_;
