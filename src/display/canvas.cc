@@ -15,14 +15,15 @@ Canvas::Canvas(int w, int h) {
 }
 
 int Canvas::PixelIndex(int x, int y) {
-  if (x < 0 || y < 0 || x >= w_ || y >= h_) {
-    assert(false);
-  }
+  assert(x >= 0);
+  assert(x < w_);
+  assert(y >= 0);
+  assert(y < h_);
+
   return x + y * w_;
 }
 
 Color Canvas::PixelAt(int x, int y) {
- 
   return pixels_[PixelIndex(x, y)];
 }
 

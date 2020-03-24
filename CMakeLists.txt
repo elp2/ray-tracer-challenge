@@ -41,6 +41,10 @@ add_executable(clock WIN32
     src/clock.cc)
 target_link_libraries(clock primitives display)
 
+add_executable(sphere_shadow WIN32
+    src/sphere_shadow.cc)
+target_link_libraries(sphere_shadow primitives display shapes)
+
 # Below is from googletest README.md.
 # Download and unpack googletest at configure time.
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
