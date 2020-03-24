@@ -12,6 +12,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 add_library (primitives
     src/primitives/color.cc
     src/primitives/intersection.cc
+    src/primitives/intersections.cc
     src/primitives/matrix.cc
     src/primitives/ray.cc
     src/primitives/transformation.cc

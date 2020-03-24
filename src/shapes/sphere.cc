@@ -9,7 +9,7 @@ Sphere::Sphere() {
   radius_ = 1.0;
 }
 
-std::vector<Intersection> Sphere::Intersections(Ray ray) {
+Intersections Sphere::Intersect(Ray ray) {
   std::vector<Intersection> intersections;
 
   Tuple sphere_to_ray = ray.Origin() - origin_;
@@ -29,5 +29,5 @@ std::vector<Intersection> Sphere::Intersections(Ray ray) {
   intersections.push_back(t1);
   intersections.push_back(t2);
 
-  return intersections;
+  return Intersections(intersections);
 }

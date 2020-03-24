@@ -15,9 +15,9 @@ class SphereTest : public ::testing::Test {
 TEST(SphereTest, IntersectsTwoPointsStraightOn) {
   Ray r = Ray(TupleFromPoint(0, 0, -5), TupleFromVector(0, 0, 1));
   Sphere s = Sphere();
-  std::vector<Intersection> xs = s.Intersections(r);
+  Intersections xs = s.Intersect(r);
 
-  ASSERT_EQ(2, xs.size());
+  ASSERT_EQ(2, xs.Size());
   ASSERT_FLOAT_EQ(xs[0].T(), 4.0);
   ASSERT_FLOAT_EQ(xs[1].T(), 6.0);
 }
@@ -25,9 +25,9 @@ TEST(SphereTest, IntersectsTwoPointsStraightOn) {
 TEST(SphereTest, IntersectsAtTangent) {
   Ray r = Ray(TupleFromPoint(0, 1, -5), TupleFromVector(0, 0, 1));
   Sphere s = Sphere();
-  std::vector<Intersection> xs = s.Intersections(r);
+  Intersections xs = s.Intersect(r);
 
-  ASSERT_EQ(2, xs.size());
+  ASSERT_EQ(2, xs.Size());
   ASSERT_FLOAT_EQ(xs[0].T(), 5.0);
   ASSERT_FLOAT_EQ(xs[1].T(), 5.0);
 }
@@ -35,17 +35,17 @@ TEST(SphereTest, IntersectsAtTangent) {
 TEST(SphereTest, MissesSphere) {
   Ray r = Ray(TupleFromPoint(0, 2, -5), TupleFromVector(0, 0, 1));
   Sphere s = Sphere();
-  std::vector<Intersection> xs = s.Intersections(r);
+  Intersections xs = s.Intersect(r);
 
-  ASSERT_EQ(0, xs.size());
+  ASSERT_EQ(0, xs.Size());
 }
 
 TEST(SphereTest, OriginatesInSphere) {
   Ray r = Ray(TupleFromPoint(0, 0, 0), TupleFromVector(0, 0, 1));
   Sphere s = Sphere();
-  std::vector<Intersection> xs = s.Intersections(r);
+  Intersections xs = s.Intersect(r);
 
-  ASSERT_EQ(2, xs.size());
+  ASSERT_EQ(2, xs.Size());
   ASSERT_FLOAT_EQ(xs[0].T(), -1.0);
   ASSERT_FLOAT_EQ(xs[1].T(), 1.0);
 }
@@ -53,9 +53,9 @@ TEST(SphereTest, OriginatesInSphere) {
 TEST(SphereTest, SphereBehindRay) {
   Ray r = Ray(TupleFromPoint(0, 0, 5), TupleFromVector(0, 0, 1));
   Sphere s = Sphere();
-  std::vector<Intersection> xs = s.Intersections(r);
+  Intersections xs = s.Intersect(r);
 
-  ASSERT_EQ(2, xs.size());
+  ASSERT_EQ(2, xs.Size());
   ASSERT_FLOAT_EQ(xs[0].T(), -6.0);
   ASSERT_FLOAT_EQ(xs[1].T(), -4.0);
 }
@@ -63,9 +63,9 @@ TEST(SphereTest, SphereBehindRay) {
 TEST(SphereTest, ObjectSetOnIntersection) {
   Ray r = Ray(TupleFromPoint(0, 0, -5), TupleFromVector(0, 0, 1));
   Sphere s = Sphere();
-  std::vector<Intersection> xs = s.Intersections(r);
+  Intersections xs = s.Intersect(r);
 
-  ASSERT_EQ(2, xs.size());
+  ASSERT_EQ(2, xs.Size());
   ASSERT_EQ(xs[0].Object(), &s);
   ASSERT_EQ(xs[1].Object(), &s);
 }

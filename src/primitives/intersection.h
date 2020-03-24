@@ -8,6 +8,7 @@ class Intersection {
 
   float T() const { return t_; };
   void *Object() const { return object_; };
+  bool operator==(Intersection other) const { return object_ == other.Object() && t_ == other.T(); };
 
  private:
   float t_;

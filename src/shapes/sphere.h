@@ -1,7 +1,7 @@
 #ifndef RTC_SHAPES_SPHERE_H
 #define RTC_SHAPES_SPHERE_H
 
-#include "primitives/intersection.h"
+#include "primitives/intersections.h"
 #include "primitives/tuple.h"
 #include "primitives/ray.h"
 
@@ -12,7 +12,7 @@ class Sphere {
   Sphere();
   ~Sphere() = default;
 
-  std::vector<Intersection> Intersections(Ray r);
+  Intersections Intersect(Ray r);
 
  private:
   Tuple origin_;
