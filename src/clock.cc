@@ -4,7 +4,6 @@
 #include "primitives/transformation.h"
 #include "display/ppm_writer.h"
 
-#include <cassert>
 #include <cmath>
 #include <iostream>
 
@@ -44,7 +43,7 @@ int main(int argc, char* argv[]) {
   }
 
   PPMWriter ppm_writer = PPMWriter(canvas);
-  assert(ppm_writer.WriteFile("clock.ppm"));
+  ppm_writer.WriteFile("clock.ppm");
 
   return 0;
 }

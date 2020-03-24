@@ -12,7 +12,7 @@ PPMWriter::PPMWriter(Canvas *canvas) {
   canvas_ = canvas;
 }
 
-bool PPMWriter::WriteFile(std::string filename) {
+void PPMWriter::WriteFile(std::string filename) {
   std::ofstream out;
   out.open(filename);
   WriteStream(out);

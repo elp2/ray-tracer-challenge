@@ -2,7 +2,6 @@
 #include "display/canvas.h"
 #include "display/ppm_writer.h"
 
-#include <cassert>
 #include <cmath>
 
 const int CANVAS_WIDTH = 900;
@@ -33,7 +32,7 @@ int main(int argc, char* argv[]) {
   }
 
   PPMWriter ppm_writer = PPMWriter(canvas);
-  assert(ppm_writer.WriteFile("particle.ppm"));
+  ppm_writer.WriteFile("particle.ppm");
 
   return 0;
 }

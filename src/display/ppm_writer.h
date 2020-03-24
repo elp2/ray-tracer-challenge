@@ -12,7 +12,7 @@ class PPMWriter {
   PPMWriter(Canvas *canvas);
   ~PPMWriter() = default;
 
-  bool WriteFile(std::string filename);
+  void WriteFile(std::string filename);
   void WriteStream(std::ostream &stream);
 
  private:
