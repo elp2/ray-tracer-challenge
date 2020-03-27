@@ -17,6 +17,7 @@ class Sphere {
 
   void SetTransform(Matrix m) { transform_ = m; };
   Matrix Transform() { return transform_; };
+  Tuple Normal(Tuple p);
 
  private:
   Tuple origin_;

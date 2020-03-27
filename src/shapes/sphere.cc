@@ -33,3 +33,7 @@ Intersections Sphere::Intersect(Ray original_ray) {
 
   return Intersections(intersections);
 }
+
+Tuple Sphere::Normal(Tuple p) {
+  return (p - TupleFromPoint(0, 0, 0)).Normalized();
+}

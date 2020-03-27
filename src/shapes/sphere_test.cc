@@ -5,6 +5,7 @@
 #include "primitives/transformation.h"
 #include "primitives/tuple.h"
 
+#include <math.h>
 #include <vector>
 
 class SphereTest : public ::testing::Test {
@@ -92,4 +93,28 @@ TEST(SphereTest, DoesntIntersectTranslation) {
   Ray r = Ray(TupleFromPoint(0, 0, -5), TupleFromVector(0, 0, 1));
   Intersections xs = s.Intersect(r);
   ASSERT_EQ(xs.Size(), 0);
+}
+
+TEST(SphereTest, NormalXAxis) {
+  Sphere s = Sphere();
+  Tuple n = s.Normal(TupleFromPoint(1, 0, 0));
+  ASSERT_EQ(TupleFromVector(1, 0, 0), n);
+}
+
+TEST(SphereTest, NormalYAxis) {
+  Sphere s = Sphere();
+  Tuple n = s.Normal(TupleFromPoint(0, 1, 0));
+  ASSERT_EQ(TupleFromVector(0, 1, 0), n);
+}
+
+TEST(SphereTest, NormalZAxis) {
+  Sphere s = Sphere();
+  Tuple n = s.Normal(TupleFromPoint(0, 0, 1));
+  ASSERT_EQ(TupleFromVector(0, 0, 1), n);
+}
+
+TEST(SphereTest, PointIsANormalizedVector) {
+  Sphere s = Sphere();
+  Tuple n = s.Normal(TupleFromPoint(sqrt(3) / 3.0, sqrt(3) / 3.0, sqrt(3) / 3.0));
+  ASSERT_EQ(n.Normalized(), n);
 }
