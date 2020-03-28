@@ -24,9 +24,15 @@ add_library (display
     src/display/ppm_writer.cc)
 target_include_directories(display PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
+add_library (lights
+    src/lights/point_light.cc)
+target_link_libraries(lights primitives)
+target_include_directories(lights PUBLIC ${PROJECT_SOURCE_DIR}/src)
+
 add_library (shapes
     src/shapes/sphere.cc)
 target_link_libraries(shapes primitives)
+target_link_libraries(shapes lights)
 target_include_directories(shapes PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
 add_executable(rtc WIN32
@@ -82,6 +88,7 @@ endif()
 add_executable(tests
     src/display/canvas_test.cc
     src/display/ppm_writer_test.cc
+    src/lights/point_light_test.cc
     src/primitives/color_test.cc
     src/primitives/intersection_test.cc
     src/primitives/matrix_test.cc
@@ -92,7 +99,8 @@ add_executable(tests
 target_include_directories(tests PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_link_libraries(tests gtest_main)
 target_link_libraries(tests gmock)
-target_link_libraries(tests primitives)
 target_link_libraries(tests display)
+target_link_libraries(tests lights)
+target_link_libraries(tests primitives)
 target_link_libraries(tests shapes)
 add_test(NAME basic_tests COMMAND tests)

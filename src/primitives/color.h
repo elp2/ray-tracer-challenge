@@ -5,6 +5,7 @@
 
 class Color : public Tuple {
  public:
+  Color() {};
   Color(float r, float g, float b);
   ~Color() = default;
 
