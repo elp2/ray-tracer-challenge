@@ -132,3 +132,16 @@ TEST(SphereTest, ScaledRotatedSphereNormal) {
   Tuple n = s.Normal(TupleFromPoint(0, sqrt(2.0) / 2.0, -sqrt(2.0) / 2.0));
   ASSERT_EQ(TupleFromVector(0.0, 0.97014, -0.24254), n);
 }
+
+TEST(SphereTest, HasMaterial) {
+  Sphere s = Sphere();
+  ASSERT_EQ(s.material(), Material());
+}
+
+TEST(SphereTest, SetsMaterial) {
+  Sphere s = Sphere();
+  Material m = Material();
+  m.set_ambient(1.0);
+  s.set_material(m);
+  ASSERT_EQ(s.material(), m);
+}

@@ -9,8 +9,8 @@ class PointLight {
   PointLight(Tuple position, Color intensity) { position_ = position; intensity_ = intensity; };
   ~PointLight() = default;
 
-  Tuple Position() { return position_; };
-  Color Intensity() { return intensity_; };
+  Tuple position() { return position_; };
+  Color intensity() { return intensity_; };
 
  private:
   Tuple position_;

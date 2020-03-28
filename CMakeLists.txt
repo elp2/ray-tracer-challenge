@@ -30,6 +30,7 @@ target_link_libraries(lights primitives)
 target_include_directories(lights PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
 add_library (shapes
+    src/shapes/material.cc
     src/shapes/sphere.cc)
 target_link_libraries(shapes primitives)
 target_link_libraries(shapes lights)
@@ -95,6 +96,7 @@ add_executable(tests
     src/primitives/ray_test.cc
     src/primitives/transformation_test.cc
     src/primitives/tuple_test.cc
+    src/shapes/material_test.cc
     src/shapes/sphere_test.cc)
 target_include_directories(tests PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_link_libraries(tests gtest_main)

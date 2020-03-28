@@ -17,6 +17,6 @@ TEST(PointLightTest, HasPositionAndIntensity) {
   Color intensity = Color(1.0, 0.0, 0.0);
   Tuple position = TupleFromPoint(0.0, 0.0, 0.0);
   PointLight point_light = PointLight(position, intensity);
-  ASSERT_EQ(point_light.Position(), position);
-  ASSERT_EQ(point_light.Intensity(), intensity);
+  ASSERT_EQ(point_light.position(), position);
+  ASSERT_EQ(point_light.intensity(), intensity);
 }
