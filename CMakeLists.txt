@@ -37,19 +37,19 @@ target_link_libraries(shapes lights)
 target_include_directories(shapes PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
 add_executable(rtc WIN32
-    src/main.cc)
+    src/exe/main.cc)
 target_link_libraries(rtc primitives display)
 
 add_executable(particle WIN32
-    src/particle.cc)
+    src/exe/particle.cc)
 target_link_libraries(particle primitives display)
 
 add_executable(clock WIN32
-    src/clock.cc)
+    src/exe/clock.cc)
 target_link_libraries(clock primitives display)
 
 add_executable(sphere_shadow WIN32
-    src/sphere_shadow.cc)
+    src/exe/sphere_shadow.cc)
 target_link_libraries(sphere_shadow primitives display shapes)
 
 # Below is from googletest README.md.
