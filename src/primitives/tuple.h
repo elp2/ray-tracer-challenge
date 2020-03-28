@@ -11,6 +11,7 @@ class Tuple {
   float y() const { return y_; }
   float z() const { return z_; }
   float w() const { return w_; }
+  void SetW(float w) { w_ = w; };
 
   bool IsPoint() const;
   bool IsVector() const;

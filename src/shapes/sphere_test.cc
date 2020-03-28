@@ -118,3 +118,17 @@ TEST(SphereTest, PointIsANormalizedVector) {
   Tuple n = s.Normal(TupleFromPoint(sqrt(3) / 3.0, sqrt(3) / 3.0, sqrt(3) / 3.0));
   ASSERT_EQ(n.Normalized(), n);
 }
+
+TEST(SphereTest, TranslatedSphereNormal) {
+  Sphere s = Sphere();
+  s.SetTransform(Translation(0.0, 1.0, 0.0));
+  Tuple n = s.Normal(TupleFromPoint(0, 1.70711, -0.70711));
+  ASSERT_EQ(TupleFromVector(0, 0.70711, -0.70711), n);
+}
+
+TEST(SphereTest, ScaledRotatedSphereNormal) {
+  Sphere s = Sphere();
+  s.SetTransform(Scaling(1.0, 0.5, 1.0) * RotationZ(M_PI / 5.0));
+  Tuple n = s.Normal(TupleFromPoint(0, sqrt(2.0) / 2.0, -sqrt(2.0) / 2.0));
+  ASSERT_EQ(TupleFromVector(0.0, 0.97014, -0.24254), n);
+}
