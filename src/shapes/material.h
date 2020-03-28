@@ -1,6 +1,7 @@
 #ifndef RTC_SHAPES_MATERIAL_H_
 #define RTC_SHAPES_MATERIAL_H_
 
+#include "lights/point_light.h"
 #include "primitives/color.h"
 #include "primitives/tuple.h"
 
@@ -8,6 +9,8 @@ class Material {
  public:
   Material();
   ~Material() = default;
+
+  Color Lighting(PointLight light, Tuple position, Tuple eye_vector, Tuple normal_vector);
 
   Color color() { return color_; };
   void set_color(Color color) { color_ = color; };

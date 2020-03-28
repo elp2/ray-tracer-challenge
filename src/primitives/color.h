@@ -16,5 +16,7 @@ class Color : public Tuple {
 
 // Hadmard Product.
 Color operator*(const Color c, const Color o);
+Color operator*(const Color c, const float factor);
+Color operator+(const Color c, const Color o);
 
 #endif    // RTC_PRIMITIVES_COLOR_H_
