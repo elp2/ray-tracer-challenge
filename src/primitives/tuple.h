@@ -21,6 +21,7 @@ class Tuple {
 
   float Dot(Tuple other) const;
   Tuple Cross(Tuple other) const;
+  Tuple Reflect(Tuple normal) const;
 
   void Debug() const;
 

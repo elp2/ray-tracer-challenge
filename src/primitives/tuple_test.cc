@@ -136,3 +136,17 @@ TEST(TupleTest, CrossProduct) {
   ASSERT_TRUE(a.Cross(b) == TupleFromVector(-1, 2, -1));
   ASSERT_TRUE(b.Cross(a) == TupleFromVector(1, -2, 1));
 }
+
+TEST(TupleTest, Reflect45Degrees) {
+  const auto v = TupleFromVector(1.0, -1.0, 0.0);
+  const auto n = TupleFromVector(0.0, 1.0, 0.0);
+
+  ASSERT_EQ(TupleFromVector(1.0, 1.0, 0.0), v.Reflect(n));
+}
+
+TEST(TupleTest, ReflectSlantedSurface) {
+  const auto v = TupleFromVector(0.0, -1.0, 0.0);
+  const auto n = TupleFromVector(sqrt(2.0) / 2.0, sqrt(2.0) / 2.0, 0.0);
+
+  ASSERT_EQ(TupleFromVector(1.0, 0.0, 0.0), v.Reflect(n));
+}

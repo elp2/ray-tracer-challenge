@@ -38,6 +38,11 @@ Tuple Tuple::Cross(Tuple other) const {
     this->x() * other.y() - this->y() * other.x());
 }
 
+Tuple Tuple::Reflect(Tuple normal) const {
+  Tuple reflected = (*this) - normal * this->Dot(normal) * 2;
+  return reflected;
+}
+
 Tuple TupleFromPoint(float x, float y, float z) {
   return Tuple(x, y, z, 1.0);
 }
