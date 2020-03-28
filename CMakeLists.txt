@@ -52,6 +52,10 @@ add_executable(sphere_shadow WIN32
     src/exe/sphere_shadow.cc)
 target_link_libraries(sphere_shadow primitives display shapes)
 
+add_executable(sphere_lit WIN32
+    src/exe/sphere_lit.cc)
+target_link_libraries(sphere_lit primitives display shapes lights)
+
 # Below is from googletest README.md.
 # Download and unpack googletest at configure time.
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
