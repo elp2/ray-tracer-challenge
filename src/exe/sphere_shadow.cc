@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
 
   for (int y = -INSET; y < INSET; ++y) {
     for (int x = -INSET; x < INSET; ++x) {
-      Ray r = Ray(TupleFromPoint(x, y, SPHERE_RADIUS * 2), TupleFromVector(0, 0, -1));
+      Ray r = Ray(Point(x, y, SPHERE_RADIUS * 2), Vector(0, 0, -1));
       Intersections xs = s.Intersect(r);
       if (xs.Size()) {
         DrawPixel(canvas, x, y);

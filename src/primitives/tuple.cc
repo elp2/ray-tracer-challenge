@@ -33,7 +33,7 @@ float Tuple::Dot(Tuple other) const {
 }
 
 Tuple Tuple::Cross(Tuple other) const {
-  return TupleFromVector(this->y() * other.z() - this->z() * other.y(),
+  return Vector(this->y() * other.z() - this->z() * other.y(),
     this->z() * other.x() - this->x() * other.z(),
     this->x() * other.y() - this->y() * other.x());
 }
@@ -43,11 +43,11 @@ Tuple Tuple::Reflect(Tuple normal) const {
   return reflected;
 }
 
-Tuple TupleFromPoint(float x, float y, float z) {
+Tuple Point(float x, float y, float z) {
   return Tuple(x, y, z, 1.0);
 }
 
-Tuple TupleFromVector(float x, float y, float z) {
+Tuple Vector(float x, float y, float z) {
   return Tuple(x, y, z, 0.0);
 }
 

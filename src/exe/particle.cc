@@ -11,11 +11,11 @@ int main(int argc, char* argv[]) {
   (void)argc;
   (void)argv;
 
-  auto pos = TupleFromVector(0, 1, 0);
-  auto vel = TupleFromVector(0.1, 1.8, 0).Normalized();
+  auto pos = Vector(0, 1, 0);
+  auto vel = Vector(0.1, 1.8, 0).Normalized();
   vel = vel * 11.25;
-  const auto wind = TupleFromVector(-0.01, 0, 0);
-  const auto gravity = TupleFromVector(0, -0.1, 0);
+  const auto wind = Vector(-0.01, 0, 0);
+  const auto gravity = Vector(0, -0.1, 0);
 
   Canvas *canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 

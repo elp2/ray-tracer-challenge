@@ -5,7 +5,7 @@
 #include <math.h>
 
 Sphere::Sphere() {
-  origin_ = TupleFromPoint(0, 0, 0);
+  origin_ = Point(0, 0, 0);
 }
 
 Intersections Sphere::Intersect(Ray original_ray) const {
@@ -41,7 +41,7 @@ Intersections Sphere::Intersect(Ray original_ray) const {
 
 Tuple Sphere::Normal(Tuple world_point) {
   Tuple object_point = transform_.Inverse() * world_point;
-  Tuple object_normal = object_point - TupleFromPoint(0.0, 0.0, 0.0);
+  Tuple object_normal = object_point - Point(0.0, 0.0, 0.0);
   Tuple world_normal = transform_.Inverse().Transpose() * object_normal;
   world_normal.SetW(0.0);
   return world_normal.Normalized();

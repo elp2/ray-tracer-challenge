@@ -15,7 +15,7 @@ class SphereTest : public ::testing::Test {
 };
 
 TEST(SphereTest, IntersectsTwoPointsStraightOn) {
-  Ray r = Ray(TupleFromPoint(0, 0, -5), TupleFromVector(0, 0, 1));
+  Ray r = Ray(Point(0, 0, -5), Vector(0, 0, 1));
   Sphere s = Sphere();
   Intersections xs = s.Intersect(r);
 
@@ -25,7 +25,7 @@ TEST(SphereTest, IntersectsTwoPointsStraightOn) {
 }
 
 TEST(SphereTest, IntersectsAtTangent) {
-  Ray r = Ray(TupleFromPoint(0, 1, -5), TupleFromVector(0, 0, 1));
+  Ray r = Ray(Point(0, 1, -5), Vector(0, 0, 1));
   Sphere s = Sphere();
   Intersections xs = s.Intersect(r);
 
@@ -35,7 +35,7 @@ TEST(SphereTest, IntersectsAtTangent) {
 }
 
 TEST(SphereTest, MissesSphere) {
-  Ray r = Ray(TupleFromPoint(0, 2, -5), TupleFromVector(0, 0, 1));
+  Ray r = Ray(Point(0, 2, -5), Vector(0, 0, 1));
   Sphere s = Sphere();
   Intersections xs = s.Intersect(r);
 
@@ -43,7 +43,7 @@ TEST(SphereTest, MissesSphere) {
 }
 
 TEST(SphereTest, OriginatesInSphere) {
-  Ray r = Ray(TupleFromPoint(0, 0, 0), TupleFromVector(0, 0, 1));
+  Ray r = Ray(Point(0, 0, 0), Vector(0, 0, 1));
   Sphere s = Sphere();
   Intersections xs = s.Intersect(r);
 
@@ -53,7 +53,7 @@ TEST(SphereTest, OriginatesInSphere) {
 }
 
 TEST(SphereTest, SphereBehindRay) {
-  Ray r = Ray(TupleFromPoint(0, 0, 5), TupleFromVector(0, 0, 1));
+  Ray r = Ray(Point(0, 0, 5), Vector(0, 0, 1));
   Sphere s = Sphere();
   Intersections xs = s.Intersect(r);
 
@@ -63,7 +63,7 @@ TEST(SphereTest, SphereBehindRay) {
 }
 
 TEST(SphereTest, ObjectSetOnIntersection) {
-  Ray r = Ray(TupleFromPoint(0, 0, -5), TupleFromVector(0, 0, 1));
+  Ray r = Ray(Point(0, 0, -5), Vector(0, 0, 1));
   Sphere s = Sphere();
   Intersections xs = s.Intersect(r);
 
@@ -80,7 +80,7 @@ TEST(SphereTest, StartsWithIdentity) {
 TEST(SphereTest, IntersectsScaling) {
   Sphere s = Sphere();
   s.SetTransform(Scaling(2, 2, 2));
-  Ray r = Ray(TupleFromPoint(0, 0, -5), TupleFromVector(0, 0, 1));
+  Ray r = Ray(Point(0, 0, -5), Vector(0, 0, 1));
   Intersections xs = s.Intersect(r);
   ASSERT_EQ(xs.Size(), 2);
   ASSERT_FLOAT_EQ(xs[0].T(), 3);
@@ -90,47 +90,47 @@ TEST(SphereTest, IntersectsScaling) {
 TEST(SphereTest, DoesntIntersectTranslation) {
   Sphere s = Sphere();
   s.SetTransform(Translation(5, 0, 0));
-  Ray r = Ray(TupleFromPoint(0, 0, -5), TupleFromVector(0, 0, 1));
+  Ray r = Ray(Point(0, 0, -5), Vector(0, 0, 1));
   Intersections xs = s.Intersect(r);
   ASSERT_EQ(xs.Size(), 0);
 }
 
 TEST(SphereTest, NormalXAxis) {
   Sphere s = Sphere();
-  Tuple n = s.Normal(TupleFromPoint(1, 0, 0));
-  ASSERT_EQ(TupleFromVector(1, 0, 0), n);
+  Tuple n = s.Normal(Point(1, 0, 0));
+  ASSERT_EQ(Vector(1, 0, 0), n);
 }
 
 TEST(SphereTest, NormalYAxis) {
   Sphere s = Sphere();
-  Tuple n = s.Normal(TupleFromPoint(0, 1, 0));
-  ASSERT_EQ(TupleFromVector(0, 1, 0), n);
+  Tuple n = s.Normal(Point(0, 1, 0));
+  ASSERT_EQ(Vector(0, 1, 0), n);
 }
 
 TEST(SphereTest, NormalZAxis) {
   Sphere s = Sphere();
-  Tuple n = s.Normal(TupleFromPoint(0, 0, 1));
-  ASSERT_EQ(TupleFromVector(0, 0, 1), n);
+  Tuple n = s.Normal(Point(0, 0, 1));
+  ASSERT_EQ(Vector(0, 0, 1), n);
 }
 
 TEST(SphereTest, PointIsANormalizedVector) {
   Sphere s = Sphere();
-  Tuple n = s.Normal(TupleFromPoint(sqrt(3) / 3.0, sqrt(3) / 3.0, sqrt(3) / 3.0));
+  Tuple n = s.Normal(Point(sqrt(3) / 3.0, sqrt(3) / 3.0, sqrt(3) / 3.0));
   ASSERT_EQ(n.Normalized(), n);
 }
 
 TEST(SphereTest, TranslatedSphereNormal) {
   Sphere s = Sphere();
   s.SetTransform(Translation(0.0, 1.0, 0.0));
-  Tuple n = s.Normal(TupleFromPoint(0, 1.70711, -0.70711));
-  ASSERT_EQ(TupleFromVector(0, 0.70711, -0.70711), n);
+  Tuple n = s.Normal(Point(0, 1.70711, -0.70711));
+  ASSERT_EQ(Vector(0, 0.70711, -0.70711), n);
 }
 
 TEST(SphereTest, ScaledRotatedSphereNormal) {
   Sphere s = Sphere();
   s.SetTransform(Scaling(1.0, 0.5, 1.0) * RotationZ(M_PI / 5.0));
-  Tuple n = s.Normal(TupleFromPoint(0, sqrt(2.0) / 2.0, -sqrt(2.0) / 2.0));
-  ASSERT_EQ(TupleFromVector(0.0, 0.97014, -0.24254), n);
+  Tuple n = s.Normal(Point(0, sqrt(2.0) / 2.0, -sqrt(2.0) / 2.0));
+  ASSERT_EQ(Vector(0.0, 0.97014, -0.24254), n);
 }
 
 TEST(SphereTest, HasMaterial) {

@@ -15,7 +15,7 @@ class PointLight {
   bool operator==(const PointLight other) const;
 
  private:
-  Tuple position_ = TupleFromPoint(0.0, 0.0, 0.0);
+  Tuple position_ = Point(0.0, 0.0, 0.0);
   Color intensity_ = Color(1.0, 1.0, 1.0);
 };
 

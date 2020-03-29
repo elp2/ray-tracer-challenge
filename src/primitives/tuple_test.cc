@@ -35,14 +35,14 @@ TEST(TupleTest, VectorBasic) {
 }
 
 TEST(TupleTest, CreatePoint) {
-  const auto p = TupleFromPoint(4, -4, 3);
+  const auto p = Point(4, -4, 3);
   const auto point_tuple = Tuple(4, -4, 3, 1);
 
   ASSERT_TRUE(p == point_tuple);
 }
 
 TEST(TupleTest, CreateVector) {
-  const auto v = TupleFromVector(4, -4, 3);
+  const auto v = Vector(4, -4, 3);
   const auto vector_tuple = Tuple(4, -4, 3, 0);
 
   ASSERT_TRUE(v == vector_tuple);
@@ -56,24 +56,24 @@ TEST(TupleTest, AddTwoTuples) {
 }
 
 TEST(TupleTest, SubTwoTuples) {
-  const auto p1 = TupleFromPoint(3, 2, 1);
-  const auto p2 = TupleFromPoint(5, 6, 7);
+  const auto p1 = Point(3, 2, 1);
+  const auto p2 = Point(5, 6, 7);
 
-  ASSERT_TRUE(p1 - p2 == TupleFromVector(-2, -4, -6));
+  ASSERT_TRUE(p1 - p2 == Vector(-2, -4, -6));
 }
 
 TEST(TupleTest, SubTwoVectors) {
-  const auto p1 = TupleFromVector(3, 2, 1);
-  const auto p2 = TupleFromVector(5, 6, 7);
+  const auto p1 = Vector(3, 2, 1);
+  const auto p2 = Vector(5, 6, 7);
 
-  ASSERT_TRUE(p1 - p2 == TupleFromVector(-2, -4, -6));
+  ASSERT_TRUE(p1 - p2 == Vector(-2, -4, -6));
 }
 
 TEST(TupleTest, SubVectorFromZeroVector) {
-  const auto zero = TupleFromVector(0, 0, 0);
-  const auto v = TupleFromVector(1, -2, 3);
+  const auto zero = Vector(0, 0, 0);
+  const auto v = Vector(1, -2, 3);
 
-  ASSERT_TRUE(zero - v == TupleFromVector(-1, 2, -3));
+  ASSERT_TRUE(zero - v == Vector(-1, 2, -3));
 }
 
 TEST(TupleTest, NegateTuple) {
@@ -97,56 +97,56 @@ TEST(TupleTest, DivideTuple) {
 }
 
 TEST(TupleTest, UnitVectorMagnitudes) {
-  auto x = TupleFromVector(1, 0, 0);
-  auto y = TupleFromVector(0, 1, 0);
-  auto z = TupleFromVector(0, 0, 1);
+  auto x = Vector(1, 0, 0);
+  auto y = Vector(0, 1, 0);
+  auto z = Vector(0, 0, 1);
   ASSERT_FLOAT_EQ(x.Magnitude(), 1);
   ASSERT_FLOAT_EQ(y.Magnitude(), 1);
   ASSERT_FLOAT_EQ(z.Magnitude(), 1);
 }
 
 TEST(TupleTest, UnitVectorOpposing) {
-  const auto x = TupleFromVector(1, 2, 3);
-  const auto y = TupleFromVector(-1, -2, -3);
+  const auto x = Vector(1, 2, 3);
+  const auto y = Vector(-1, -2, -3);
   ASSERT_FLOAT_EQ(x.Magnitude(), y.Magnitude());
   ASSERT_FLOAT_EQ(y.Magnitude(), std::sqrt(14));
 }
 
 TEST(TupleTest, Normalized) {
-  const auto x = TupleFromVector(4, 0, 0);
-  ASSERT_TRUE(x.Normalized() == TupleFromVector(1, 0, 0));
+  const auto x = Vector(4, 0, 0);
+  ASSERT_TRUE(x.Normalized() == Vector(1, 0, 0));
 }
 
 TEST(TupleTest, Normalize123) {
-  const auto v = TupleFromVector(1, 2, 3);
-  ASSERT_TRUE(v.Normalized() == TupleFromVector(0.26726, 0.53452, 0.80178));
+  const auto v = Vector(1, 2, 3);
+  ASSERT_TRUE(v.Normalized() == Vector(0.26726, 0.53452, 0.80178));
   ASSERT_FLOAT_EQ(v.Normalized().Magnitude(), 1);
 }
 
 TEST(TupleTest, DotProduct) {
-  const auto a = TupleFromVector(1, 2, 3);
-  const auto b = TupleFromVector(2, 3, 4);
+  const auto a = Vector(1, 2, 3);
+  const auto b = Vector(2, 3, 4);
   ASSERT_FLOAT_EQ(a.Dot(b), 20);
 }
 
 TEST(TupleTest, CrossProduct) {
-  const auto a = TupleFromVector(1, 2, 3);
-  const auto b = TupleFromVector(2, 3, 4);
+  const auto a = Vector(1, 2, 3);
+  const auto b = Vector(2, 3, 4);
 
-  ASSERT_TRUE(a.Cross(b) == TupleFromVector(-1, 2, -1));
-  ASSERT_TRUE(b.Cross(a) == TupleFromVector(1, -2, 1));
+  ASSERT_TRUE(a.Cross(b) == Vector(-1, 2, -1));
+  ASSERT_TRUE(b.Cross(a) == Vector(1, -2, 1));
 }
 
 TEST(TupleTest, Reflect45Degrees) {
-  const auto v = TupleFromVector(1.0, -1.0, 0.0);
-  const auto n = TupleFromVector(0.0, 1.0, 0.0);
+  const auto v = Vector(1.0, -1.0, 0.0);
+  const auto n = Vector(0.0, 1.0, 0.0);
 
-  ASSERT_EQ(TupleFromVector(1.0, 1.0, 0.0), v.Reflect(n));
+  ASSERT_EQ(Vector(1.0, 1.0, 0.0), v.Reflect(n));
 }
 
 TEST(TupleTest, ReflectSlantedSurface) {
-  const auto v = TupleFromVector(0.0, -1.0, 0.0);
-  const auto n = TupleFromVector(sqrt(2.0) / 2.0, sqrt(2.0) / 2.0, 0.0);
+  const auto v = Vector(0.0, -1.0, 0.0);
+  const auto n = Vector(sqrt(2.0) / 2.0, sqrt(2.0) / 2.0, 0.0);
 
-  ASSERT_EQ(TupleFromVector(1.0, 0.0, 0.0), v.Reflect(n));
+  ASSERT_EQ(Vector(1.0, 0.0, 0.0), v.Reflect(n));
 }

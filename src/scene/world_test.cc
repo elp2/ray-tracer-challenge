@@ -21,7 +21,7 @@ TEST(WorldTest, EmptyWorld) {
 
 TEST(WorldTest, IntersectWithRay) {
   World w = DefaultWorld();
-  Ray r = Ray(TupleFromPoint(0.0, 0.0, -5.0), TupleFromVector(0.0, 0.0, 1.0));
+  Ray r = Ray(Point(0.0, 0.0, -5.0), Vector(0.0, 0.0, 1.0));
   Intersections xs = w.Intersect(r);
   ASSERT_EQ(xs.Size(), 4);
   ASSERT_FLOAT_EQ(xs[0].T(), 4.0);

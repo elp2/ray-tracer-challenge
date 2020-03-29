@@ -33,7 +33,7 @@ World DefaultWorld() {
   s2.SetTransform(Scaling(0.5, 0.5, 0.5));
   w.add_object(s2);
 
-  PointLight light = PointLight(TupleFromPoint(-10.0, 10.0, -10.0), Color(1.0, 1.0, 1.0));
+  PointLight light = PointLight(Point(-10.0, 10.0, -10.0), Color(1.0, 1.0, 1.0));
   w.set_light(light);
   return w;
 }

@@ -58,7 +58,7 @@ int main(int argc, char* argv[]) {
 
   Color light_color = Color(1.0, 1.0, 1.0);
 
-  PointLight light = PointLight(TupleFromPoint(-INSET * 10, -INSET*10, SPHERE_RADIUS * 4),
+  PointLight light = PointLight(Point(-INSET * 10, -INSET*10, SPHERE_RADIUS * 4),
     Color(1.0, 1.0, 1.0));
 
   Matrix transform = Scaling(SPHERE_RADIUS, SPHERE_RADIUS, SPHERE_RADIUS);
@@ -66,7 +66,7 @@ int main(int argc, char* argv[]) {
 
   for (int y = -INSET; y < INSET; ++y) {
     for (int x = -INSET; x < INSET; ++x) {
-      Ray r = Ray(TupleFromPoint(x, y, SPHERE_RADIUS * 3), TupleFromVector(0, 0, -1));
+      Ray r = Ray(Point(x, y, SPHERE_RADIUS * 3), Vector(0, 0, -1));
       Intersections xs = s.Intersect(r);
       std::optional<Intersection> hit = xs.Hit();
       if (hit.has_value()) {

@@ -36,7 +36,7 @@ Tuple operator-(const Tuple neg);
 Tuple operator*(const Tuple t, float scalar);
 Tuple operator/(const Tuple t, float div);
 
-Tuple TupleFromPoint(float x, float y, float z);
-Tuple TupleFromVector(float x, float y, float z);
+Tuple Point(float x, float y, float z);
+Tuple Vector(float x, float y, float z);
 
 #endif    // RTC_PRIMITIVES_TUPLE_H_

@@ -25,8 +25,8 @@ int main(int argc, char* argv[]) {
 
   Canvas *canvas = new Canvas(CANVAS_DIMENSION, CANVAS_DIMENSION);
 
-  Tuple line_start = TupleFromPoint(0.0, LINE_INSET, 0.0);
-  Tuple line_end = TupleFromPoint(0.0, LINE_INSET + LINE_LENGTH, 0.0);
+  Tuple line_start = Point(0.0, LINE_INSET, 0.0);
+  Tuple line_end = Point(0.0, LINE_INSET + LINE_LENGTH, 0.0);
 
   Matrix tick_rotation = RotationZ(2.0 * M_PI / 12.0);
   for (int hour = 0; hour < 12; ++hour) {
