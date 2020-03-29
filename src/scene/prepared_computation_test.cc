@@ -45,7 +45,6 @@ TEST(PreparedComputationTest, Inside) {
   Intersection i = hit.value();
 
   PreparedComputation pc = PreparedComputation(i, r);
-  pc.point().Debug();
   ASSERT_EQ(pc.point(), Point(0.0, 0.0, 1.0));
   ASSERT_EQ(pc.eye_vector(), Vector(0.0, 0.0, -1.0));
   ASSERT_TRUE(pc.inside());

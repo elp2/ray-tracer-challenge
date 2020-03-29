@@ -66,7 +66,6 @@ TEST(MaterialTest, LightingInReflectionPathOfEye) {
   PointLight light = PointLight(Point(0.0, 10.0, -10.0), Color(1.0, 1.0, 1.0));
 
   Tuple result = m.Lighting(light, position, eye_vector, normal_vector);
-  result.Debug();
   ASSERT_EQ(Color(1.63639, 1.63639, 1.63639), result);
 }
 
