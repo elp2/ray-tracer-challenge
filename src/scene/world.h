@@ -8,6 +8,7 @@ class Ray;
 
 #include "lights/point_light.h"
 #include "shapes/sphere.h"
+#include "scene/prepared_computation.h"
 
 class World {
  public:
@@ -15,6 +16,8 @@ class World {
   ~World() = default;
 
   Intersections Intersect(Ray r);
+  Color ShadeHit(PreparedComputation pc);
+  Color ColorAt(Ray r);
 
   std::vector<Sphere> objects() const { return objects_; };
   void add_object(Sphere s) { objects_.push_back(s); };

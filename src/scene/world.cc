@@ -18,6 +18,23 @@ Intersections World::Intersect(Ray r) {
   return xs;
 }
 
+Color World::ShadeHit(PreparedComputation pc) {
+  // TODO: Iterate through all light sources and add colors.
+  Sphere *s = (Sphere *)pc.object();
+  return s->material().Lighting(light_, pc.point(), pc.eye_vector(), pc.normal_vector());
+}
+
+Color World::ColorAt(Ray r) {
+  Intersections xs = Intersect(r);
+  std::optional<Intersection> i = xs.Hit();
+  if (!i.has_value()) {
+    return Color(0.0, 0.0, 0.0);
+  }
+
+  PreparedComputation pc = PreparedComputation(i.value(), r);
+  return ShadeHit(pc);
+}
+
 World DefaultWorld() {
   World w = World();
 
