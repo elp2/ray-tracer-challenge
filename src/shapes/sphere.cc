@@ -8,7 +8,7 @@ Sphere::Sphere() {
   origin_ = TupleFromPoint(0, 0, 0);
 }
 
-Intersections Sphere::Intersect(Ray original_ray) {
+Intersections Sphere::Intersect(Ray original_ray) const {
   Ray ray = original_ray.Transform(transform_.Inverse());
 
   Tuple sphere_to_ray = ray.Origin() - origin_;
@@ -28,8 +28,13 @@ Intersections Sphere::Intersect(Ray original_ray) {
   Intersection t2 = Intersection((-b + sqrt_discriminant) / two_a, this);
 
   std::vector<Intersection> intersections;
-  intersections.push_back(t1);
-  intersections.push_back(t2);
+  if (t1.T() > t2.T()) {
+    intersections.push_back(t2);
+    intersections.push_back(t1);
+  } else {
+    intersections.push_back(t1);
+    intersections.push_back(t2);
+  }
 
   return Intersections(intersections);
 }
@@ -40,4 +45,8 @@ Tuple Sphere::Normal(Tuple world_point) {
   Tuple world_normal = transform_.Inverse().Transpose() * object_normal;
   world_normal.SetW(0.0);
   return world_normal.Normalized();
+}
+
+bool Sphere::operator==(const Sphere o) const {
+  return o.material() == material_ && o.Transform() == transform_ && o.origin() == origin_;
 }

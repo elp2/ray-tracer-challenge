@@ -3,16 +3,16 @@
 
 class Intersection {
  public:
-  Intersection(float t, void *object);
+  Intersection(float t, const void *object);
   ~Intersection() = default;
 
   float T() const { return t_; };
-  void *Object() const { return object_; };
+  const void *Object() const { return object_; };
   bool operator==(Intersection other) const { return object_ == other.Object() && t_ == other.T(); };
 
  private:
   float t_;
-  void *object_;
+  const void *object_;
 };
 
 #endif    // RTC_PRIMITIVES_INTERSECTION_H

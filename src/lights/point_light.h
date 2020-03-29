@@ -6,15 +6,17 @@
 
 class PointLight {
  public:
+  PointLight() {};
   PointLight(Tuple position, Color intensity) { position_ = position; intensity_ = intensity; };
   ~PointLight() = default;
 
-  Tuple position() { return position_; };
-  Color intensity() { return intensity_; };
+  Tuple position() const { return position_; };
+  Color intensity() const { return intensity_; };
+  bool operator==(const PointLight other) const;
 
  private:
-  Tuple position_;
-  Color intensity_;
+  Tuple position_ = TupleFromPoint(0.0, 0.0, 0.0);
+  Color intensity_ = Color(1.0, 1.0, 1.0);
 };
 
 #endif    // RTC_LIGHTS_POINT_LIGHT_H

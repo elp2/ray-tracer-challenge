@@ -15,7 +15,9 @@ class Intersections {
   std::size_t Size() const { return intersections_.size(); };
   Intersection operator[](int);
 
- private:
+  void Merge(Intersections xs);
+
+ protected:
   std::vector<Intersection> intersections_;
 };
 

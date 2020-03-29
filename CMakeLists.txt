@@ -32,9 +32,17 @@ target_include_directories(lights PUBLIC ${PROJECT_SOURCE_DIR}/src)
 add_library (shapes
     src/shapes/material.cc
     src/shapes/sphere.cc)
-target_link_libraries(shapes primitives)
 target_link_libraries(shapes lights)
+target_link_libraries(shapes primitives)
 target_include_directories(shapes PUBLIC ${PROJECT_SOURCE_DIR}/src)
+
+add_library (scene
+    src/scene/camera.cc
+    src/scene/world.cc)
+target_link_libraries(scene lights)
+target_link_libraries(scene primitives)
+target_link_libraries(scene shapes)
+target_include_directories(scene PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
 add_executable(rtc WIN32
     src/exe/main.cc)
@@ -100,6 +108,8 @@ add_executable(tests
     src/primitives/ray_test.cc
     src/primitives/transformation_test.cc
     src/primitives/tuple_test.cc
+    src/scene/world_test.cc
+    src/scene/camera_test.cc
     src/shapes/material_test.cc
     src/shapes/sphere_test.cc)
 target_include_directories(tests PUBLIC ${PROJECT_SOURCE_DIR}/include)
@@ -108,5 +118,6 @@ target_link_libraries(tests gmock)
 target_link_libraries(tests display)
 target_link_libraries(tests lights)
 target_link_libraries(tests primitives)
+target_link_libraries(tests scene)
 target_link_libraries(tests shapes)
 add_test(NAME basic_tests COMMAND tests)

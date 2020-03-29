@@ -14,14 +14,18 @@ class Sphere {
   Sphere();
   ~Sphere() = default;
 
-  Intersections Intersect(Ray r);
+  Intersections Intersect(Ray r) const;
 
   void SetTransform(Matrix m) { transform_ = m; };
-  Matrix Transform() { return transform_; };
+  Matrix Transform() const { return transform_; };
   Tuple Normal(Tuple p);
 
   void set_material(Material material) { material_ = material; };
   Material material() { return material_; };
+  bool operator==(const Sphere o) const;
+
+  Tuple origin() const { return origin_; };
+  Material material() const { return material_; };
 
  private:
   Tuple origin_;

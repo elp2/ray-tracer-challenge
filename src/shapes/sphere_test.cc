@@ -145,3 +145,21 @@ TEST(SphereTest, SetsMaterial) {
   s.set_material(m);
   ASSERT_EQ(s.material(), m);
 }
+
+TEST(SphereTest, Equals) {
+  Sphere s1 = Sphere();
+  Material m1 = Material();
+  m1.set_color(Color(0.8, 1.0, 0.6));
+  m1.set_diffuse(0.7);
+  m1.set_specular(0.2);
+  s1.set_material(m1);
+
+  Sphere s2 = Sphere();
+  Material m2 = Material();
+  m2.set_color(Color(0.8, 1.0, 0.6));
+  m2.set_diffuse(0.7);
+  m2.set_specular(0.2);
+  s2.set_material(m2);
+
+  ASSERT_EQ(s1, s2);
+}
