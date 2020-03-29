@@ -38,6 +38,7 @@ target_include_directories(shapes PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
 add_library (scene
     src/scene/camera.cc
+    src/scene/prepared_computation.cc
     src/scene/world.cc)
 target_link_libraries(scene lights)
 target_link_libraries(scene primitives)
@@ -108,8 +109,9 @@ add_executable(tests
     src/primitives/ray_test.cc
     src/primitives/transformation_test.cc
     src/primitives/tuple_test.cc
-    src/scene/world_test.cc
     src/scene/camera_test.cc
+    src/scene/prepared_computation_test.cc
+    src/scene/world_test.cc
     src/shapes/material_test.cc
     src/shapes/sphere_test.cc)
 target_include_directories(tests PUBLIC ${PROJECT_SOURCE_DIR}/include)
