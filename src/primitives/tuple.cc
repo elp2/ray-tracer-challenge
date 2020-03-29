@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include <iostream>
+#include <sstream>
 
 Tuple::Tuple(float x, float y, float z, float w) {
   x_ = x;
@@ -52,7 +53,14 @@ Tuple Vector(float x, float y, float z) {
 }
 
 void Tuple::Debug() const {
-  std::cout << "Tuple: " << this->x() << ", " << this->y() << ", " << this->z() << ", " << this->w() << std::endl;
+  std::cout << DebugString() << std::endl;
+}
+
+std::string Tuple::DebugString() const {
+  std::stringstream stream;
+
+  stream << "(" << this->x() << ", " << this->y() << ", " << this->z() << ", " << this->w() << ")" << std::endl;
+  return stream.str();
 }
 
 bool operator==(const Tuple lhs, const Tuple rhs) {

@@ -1,6 +1,8 @@
 #ifndef RTC_PRIMITIVES_TUPLE_H_
 #define RTC_PRIMITIVES_TUPLE_H_
 
+#include <string>
+
 class Tuple {
  public:
   Tuple() {};
@@ -23,7 +25,10 @@ class Tuple {
   Tuple Cross(Tuple other) const;
   Tuple Reflect(Tuple normal) const;
 
+  // Debug Printing for Tests.
   void Debug() const;
+  std::string DebugString() const;
+  friend void PrintTo(const Tuple& tuple, std::ostream* os) { *os << tuple.DebugString(); };
 
  private:
   float x_, y_, z_, w_;
