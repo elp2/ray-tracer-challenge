@@ -3,6 +3,8 @@
 #include <cassert>
 #include <cstdlib>
 #include <iostream>
+#include <sstream>
+#include <string>
 #include <vector>
 
 #include "primitives/math.h"
@@ -158,4 +160,24 @@ Matrix Matrix::Inverse() const {
     }
   }
   return inverse;
+}
+
+void Matrix::Debug() {
+  std::cout << DebugString() << std::endl;
+}
+
+std::string Matrix::DebugString() const {
+  std::stringstream stream;
+  for (int y = 0; y < h_; ++y) {
+    for (int x = 0; x < w_; ++x) {
+      stream << operator()(y, x);
+      if (x == w_ - 1) {
+        stream << "\n";
+      } else {
+        stream << " ";
+      }
+    }
+  }
+
+  return stream.str();
 }

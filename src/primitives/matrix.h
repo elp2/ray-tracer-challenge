@@ -1,6 +1,8 @@
 #ifndef RTC_PRIMITIVES_MATRIX_H_
 #define RTC_PRIMITIVES_MATRIX_H_
 
+#include <ostream>
+#include <string>
 #include <vector>
 
 class Tuple;
@@ -26,6 +28,11 @@ class Matrix {
 
   bool Invertible() const;
   Matrix Inverse() const;
+
+  // Debug Printing for Tests.
+  void Debug();
+  std::string DebugString() const;
+  friend void PrintTo(const Matrix& matrix, std::ostream* os) { *os << matrix.DebugString(); };
 
  private:
   int w_, h_;
