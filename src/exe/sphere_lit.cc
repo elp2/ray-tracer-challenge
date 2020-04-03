@@ -21,7 +21,7 @@ void DrawHit(Canvas *canvas, Ray r, Intersection hit, PointLight light) {
   Sphere *s = (Sphere *)hit.Object();
   Tuple normal = s->Normal(hit_point);
   Tuple eye = -r.Direction();
-  Color color = s->material().Lighting(light, hit_point, eye, normal);
+  Color color = s->material().Lighting(light, hit_point, eye, normal, false);
 
   // std::cout << "Ray ";
   // r.Origin().Debug();

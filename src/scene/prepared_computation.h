@@ -14,6 +14,7 @@ class PreparedComputation {
   float t() { return t_; };
   const void *object() { return object_; };
   Tuple point() const { return point_; };
+  Tuple over_point() const { return over_point_; };
   Tuple eye_vector() const { return eye_vector_; };
   Tuple normal_vector() const { return normal_vector_; };
   bool inside() const { return inside_; };
@@ -22,6 +23,8 @@ class PreparedComputation {
   float t_;
   const void *object_;
   Tuple point_;
+  // Slightly up the normal from point_.
+  Tuple over_point_;
   Tuple eye_vector_;
   Tuple normal_vector_;
   bool inside_;

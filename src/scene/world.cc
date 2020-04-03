@@ -19,9 +19,11 @@ Intersections World::Intersect(Ray r) {
 }
 
 Color World::ShadeHit(PreparedComputation pc) {
+  bool is_shadowed = IsShadowed(pc.over_point());
+
   // TODO: Iterate through all light sources and add colors.
   Sphere *s = (Sphere *)pc.object();
-  return s->material().Lighting(light_, pc.point(), pc.eye_vector(), pc.normal_vector());
+  return s->material().Lighting(light_, pc.point(), pc.eye_vector(), pc.normal_vector(), is_shadowed);
 }
 
 Color World::ColorAt(Ray r) {
@@ -53,4 +55,19 @@ World DefaultWorld() {
   PointLight light = PointLight(Point(-10.0, 10.0, -10.0), Color(1.0, 1.0, 1.0));
   w.set_light(light);
   return w;
+}
+
+bool World::IsShadowed(Tuple p) {
+  Tuple v = light_.position() - p;
+  Tuple direction = v.Normalized();
+  Ray r = Ray(p, direction);
+
+  Intersections xs = Intersect(r);
+  if (!xs.Hit().has_value()) {
+    return false;
+  }
+  Intersection hit = xs.Hit().value();
+  float light_distance = v.Magnitude();
+  bool first_hit_closer = hit.T() < light_distance;
+  return first_hit_closer;
 }

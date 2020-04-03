@@ -1,6 +1,7 @@
 #include "scene/prepared_computation.h"
 
 #include "primitives/intersection.h"
+#include "primitives/math.h"
 #include "primitives/ray.h"
 #include "shapes/sphere.h"
 
@@ -17,4 +18,5 @@ PreparedComputation::PreparedComputation(Intersection i, Ray r) {
   } else {
     inside_ = false;
   }
+  over_point_ = point_ + normal_vector_ * EPSILON;
 }

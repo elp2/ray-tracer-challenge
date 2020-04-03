@@ -29,7 +29,7 @@ TEST(MaterialTest, EyeBetweenLightAndSurface) {
   Tuple normal_vector = Vector(0.0, 0.0, -1.0);
   PointLight light = PointLight(Point(0.0, 0.0, -10.0), Color(1.0, 1.0, 1.0));
 
-  Tuple result = m.Lighting(light, position, eye_vector, normal_vector);
+  Tuple result = m.Lighting(light, position, eye_vector, normal_vector, false);
   ASSERT_EQ(Color(1.9, 1.9, 1.9), result);
 }
 
@@ -41,7 +41,7 @@ TEST(MaterialTest, EyeOffset45BetweenLightAndSurface) {
   Tuple normal_vector = Vector(0.0, 0.0, -1.0);
   PointLight light = PointLight(Point(0.0, 0.0, -10.0), Color(1.0, 1.0, 1.0));
 
-  Tuple result = m.Lighting(light, position, eye_vector, normal_vector);
+  Tuple result = m.Lighting(light, position, eye_vector, normal_vector, false);
   ASSERT_EQ(Color(1.0, 1.0, 1.0), result);
 }
 
@@ -53,7 +53,7 @@ TEST(MaterialTest, LightOffset45EyeOppositeSurface) {
   Tuple normal_vector = Vector(0.0, 0.0, -1.0);
   PointLight light = PointLight(Point(0.0, 10.0, -10.0), Color(1.0, 1.0, 1.0));
 
-  Tuple result = m.Lighting(light, position, eye_vector, normal_vector);
+  Tuple result = m.Lighting(light, position, eye_vector, normal_vector, false);
   ASSERT_EQ(Color(0.7364, 0.7364, 0.7364), result);
 }
 
@@ -65,7 +65,7 @@ TEST(MaterialTest, LightingInReflectionPathOfEye) {
   Tuple normal_vector = Vector(0.0, 0.0, -1.0);
   PointLight light = PointLight(Point(0.0, 10.0, -10.0), Color(1.0, 1.0, 1.0));
 
-  Tuple result = m.Lighting(light, position, eye_vector, normal_vector);
+  Tuple result = m.Lighting(light, position, eye_vector, normal_vector, false);
   ASSERT_EQ(Color(1.63639, 1.63639, 1.63639), result);
 }
 
@@ -77,8 +77,21 @@ TEST(MaterialTest, LightBehindSurface) {
   Tuple normal_vector = Vector(0.0, 0.0, -1.0);
   PointLight light = PointLight(Point(0.0, 0.0, 10.0), Color(1.0, 1.0, 1.0));
 
-  Tuple result = m.Lighting(light, position, eye_vector, normal_vector);
+  Tuple result = m.Lighting(light, position, eye_vector, normal_vector, false);
 
   ASSERT_EQ(Color(0.1, 0.1, 0.1), result);
   ASSERT_EQ(Color(m.ambient(), m.ambient(), m.ambient()), result);
+}
+
+TEST(MaterialTest, LightingInShadow) {
+  Material m = Material();
+  Tuple position = Point(0.0, 0.0, 0.0);
+
+  Tuple eye_vector = Point(0.0, 0.0, -1.0);
+  Tuple normal_vector = Vector(0.0, 0.0, -1.0);
+  PointLight light = PointLight(Point(0.0, 0.0, -10.0), Color(1.0, 1.0, 1.0));
+
+  Tuple result = m.Lighting(light, position, eye_vector, normal_vector, true);
+
+  ASSERT_EQ(Color(0.1, 0.1, 0.1), result);
 }

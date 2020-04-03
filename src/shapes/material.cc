@@ -19,10 +19,13 @@ bool Material::operator==(Material other) const {
 }
 
 Color Material::Lighting(PointLight light, Tuple position, Tuple eye_vector,
-  Tuple normal_vector) {
+  Tuple normal_vector, bool in_shadow) {
   Color effective_color = color_ * light.intensity();
   Tuple light_vector = (light.position() - position).Normalized();
   Color ambient_color = effective_color * ambient_;
+  if (in_shadow) {
+    return ambient_color;
+  }
 
   float light_dot_normal = light_vector.Dot(normal_vector);
   Color diffuse_color;

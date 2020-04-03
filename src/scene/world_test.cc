@@ -98,3 +98,31 @@ TEST(WorldTest, ColorForIntersectionBehindRay) {
   Color c = w.ColorAt(r);
   ASSERT_EQ(inner.material().color(), c);
 }
+
+TEST(WorldTest, NothingColiniarWithPointAndLight) {
+  World w = DefaultWorld();
+
+  Tuple p = Point(0.0, 10.0, 0.0);
+  ASSERT_FALSE(w.IsShadowed(p));
+}
+
+TEST(WorldTest, ObjectBetweenPointAndLight) {
+  World w = DefaultWorld();
+
+  Tuple p = Point(10.0, -10.0, 10.0);
+  ASSERT_TRUE(w.IsShadowed(p));
+}
+
+TEST(WorldTest, NoShadowBeforeObject) {
+  World w = DefaultWorld();
+
+  Tuple p = Point(-20.0, 20.0, -20.0);
+  ASSERT_FALSE(w.IsShadowed(p));
+}
+
+TEST(WorldTest, NoShadowBehindLight) {
+  World w = DefaultWorld();
+
+  Tuple p = Point(-2.0, 2.0, -2.0);
+  ASSERT_FALSE(w.IsShadowed(p));
+}

@@ -18,6 +18,7 @@ class World {
   Intersections Intersect(Ray r);
   Color ShadeHit(PreparedComputation pc);
   Color ColorAt(Ray r);
+  bool IsShadowed(Tuple p);
 
   std::vector<Sphere> objects() const { return objects_; };
   void add_object(Sphere s) { objects_.push_back(s); };

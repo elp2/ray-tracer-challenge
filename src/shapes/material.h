@@ -10,7 +10,7 @@ class Material {
   Material();
   ~Material() = default;
 
-  Color Lighting(PointLight light, Tuple position, Tuple eye_vector, Tuple normal_vector);
+  Color Lighting(PointLight light, Tuple position, Tuple eye_vector, Tuple normal_vector, bool in_shadow);
 
   Color color() { return color_; };
   void set_color(Color color) { color_ = color; };
