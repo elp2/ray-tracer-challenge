@@ -15,15 +15,19 @@ class Material {
   Color color() { return color_; };
   void set_color(Color color) { color_ = color; };
 
+  // 0.0 - 1.0.
   float ambient() { return ambient_; };
   void set_ambient(float ambient) { ambient_ = ambient; };  
 
+  // 0.0 - 1.0.
   float diffuse() { return diffuse_; };
   void set_diffuse(float diffuse) { diffuse_ = diffuse; };
 
+  // 0.0 - 1.0.
   float specular() { return specular_; };
   void set_specular(float specular) { specular_ = specular; };
 
+  // 10.0 - 200.0..
   float shininess() { return shininess_; };
   void set_shininess(float shininess) { shininess_ = shininess; };
 
