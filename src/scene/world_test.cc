@@ -126,3 +126,21 @@ TEST(WorldTest, NoShadowBehindLight) {
   Tuple p = Point(-2.0, 2.0, -2.0);
   ASSERT_FALSE(w.IsShadowed(p));
 }
+
+
+TEST(WorldTest, ShadeHitOnShadowedLocation) {
+  World w = World();
+  w.set_light(PointLight(Point(0.0, 0.0, -10.0), Color(1.0, 1.0, 1.0)));
+  Sphere s1 = Sphere();
+  w.add_object(s1);
+  Sphere s2 = Sphere();
+  s2.SetTransform(Translation(0.0, 0.0, 10.0));
+  w.add_object(s2);
+
+  Ray r = Ray(Point(0.0, 0.0, 5.0), Vector(0.0, 0.0, 1.0));
+  Intersections xs = w.Intersect(r);
+  PreparedComputation pc = PreparedComputation(xs.Hit().value(), r);
+
+  Color c = w.ShadeHit(pc);
+  ASSERT_EQ(Color(0.1, 0.1, 0.1), c);
+}

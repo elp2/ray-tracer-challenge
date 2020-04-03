@@ -1,5 +1,7 @@
 #include "gtest/gtest.h"
 
+#include "primitives/math.h"
+#include "primitives/ray.h"
 #include "scene/prepared_computation.h"
 #include "shapes/sphere.h"
 
@@ -50,4 +52,13 @@ TEST(PreparedComputationTest, Inside) {
   ASSERT_TRUE(pc.inside());
   // Inverted because inside.
   ASSERT_EQ(pc.normal_vector(), Vector(0.0, 0.0, -1.0));
+}
+
+TEST(PreparedComputationTest, HitOffsetsPoint) {
+  Ray r = Ray(Point(0.0, 0.0, -5.0), Vector(0.0, 0.0, 1.0));
+  Sphere s = Sphere();
+  Intersection i = s.Intersect(r).Hit().value();
+  PreparedComputation pc = PreparedComputation(i, r);
+  ASSERT_LT(pc.over_point().z(), -EPSILON / 2.0);
+  ASSERT_GT(pc.point().z(), pc.over_point().z());
 }
