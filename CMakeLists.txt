@@ -29,12 +29,18 @@ add_library (lights
 target_link_libraries(lights primitives)
 target_include_directories(lights PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
+add_library (patterns
+    src/patterns/striped_pattern.cc)
+target_link_libraries(patterns primitives)
+target_include_directories(patterns PUBLIC ${PROJECT_SOURCE_DIR}/src)
+
 add_library (shapes
     src/shapes/material.cc
     src/shapes/plane.cc
     src/shapes/shape.cc
     src/shapes/sphere.cc)
 target_link_libraries(shapes lights)
+target_link_libraries(shapes patterns)
 target_link_libraries(shapes primitives)
 target_include_directories(shapes PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
@@ -118,6 +124,7 @@ add_executable(tests
     src/display/canvas_test.cc
     src/display/ppm_writer_test.cc
     src/lights/point_light_test.cc
+    src/patterns/striped_pattern_test.cc
     src/primitives/color_test.cc
     src/primitives/intersection_test.cc
     src/primitives/matrix_test.cc
