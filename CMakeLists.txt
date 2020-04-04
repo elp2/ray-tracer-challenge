@@ -31,6 +31,7 @@ target_include_directories(lights PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
 add_library (shapes
     src/shapes/material.cc
+    src/shapes/plane.cc
     src/shapes/shape.cc
     src/shapes/sphere.cc)
 target_link_libraries(shapes lights)
@@ -124,6 +125,7 @@ add_executable(tests
     src/scene/view_transformation_test.cc
     src/scene/world_test.cc
     src/shapes/material_test.cc
+    src/shapes/plane_test.cc
     src/shapes/shape_test.cc
     src/shapes/sphere_test.cc)
 target_include_directories(tests PUBLIC ${PROJECT_SOURCE_DIR}/include)
