@@ -22,7 +22,7 @@ class Shape {
   void set_material(Material material) { material_ = material; };
   Material material() const { return material_; };
 
-  bool operator==(const Shape *o) const;
+  bool operator==(const Shape &o) const;
 
  protected:
   virtual const Intersections ObjectIntersect(const Ray object_ray) const = 0;

@@ -23,5 +23,5 @@ const Tuple Plane::ObjectNormal(const Tuple world_point) const {
 }
 
 bool Plane::operator==(const Plane o) const {
-  return Shape::operator==(&o);
+  return Shape::operator==(o);
 }

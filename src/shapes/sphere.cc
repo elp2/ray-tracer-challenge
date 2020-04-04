@@ -42,5 +42,5 @@ const Tuple Sphere::ObjectNormal(const Tuple object_point) const {
 }
 
 bool Sphere::operator==(const Sphere o) const {
-  return Shape::operator==(&o) && o.origin() == origin_;
+  return Shape::operator==(o) && o.origin() == origin_;
 }

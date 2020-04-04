@@ -18,6 +18,6 @@ const Tuple Shape::Normal(const Tuple world_point) const {
 }
 
 
-bool Shape::operator==(const Shape *o) const {
-  return o->material() == material_ && o->Transform() == transform_;
+bool Shape::operator==(const Shape &o) const {
+  return o.material() == material_ && o.Transform() == transform_;
 }
