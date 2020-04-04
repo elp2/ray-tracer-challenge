@@ -8,12 +8,10 @@ Sphere::Sphere() {
   origin_ = Point(0, 0, 0);
 }
 
-Intersections Sphere::Intersect(Ray original_ray) const {
-  Ray ray = original_ray.Transform(transform_.Inverse());
-
-  Tuple sphere_to_ray = ray.Origin() - origin_;
-  float a = ray.Direction().Dot(ray.Direction());
-  float b = 2 * ray.Direction().Dot(sphere_to_ray);
+Intersections Sphere::ObjectIntersect(Ray object_ray) const {
+  Tuple sphere_to_ray = object_ray.Origin() - origin_;
+  float a = object_ray.Direction().Dot(object_ray.Direction());
+  float b = 2 * object_ray.Direction().Dot(sphere_to_ray);
   float c = sphere_to_ray.Dot(sphere_to_ray) - 1;
 
   float discriminant = b * b - 4 * a * c;
@@ -39,14 +37,10 @@ Intersections Sphere::Intersect(Ray original_ray) const {
   return Intersections(intersections);
 }
 
-Tuple Sphere::Normal(Tuple world_point) {
-  Tuple object_point = transform_.Inverse() * world_point;
-  Tuple object_normal = object_point - Point(0.0, 0.0, 0.0);
-  Tuple world_normal = transform_.Inverse().Transpose() * object_normal;
-  world_normal.SetW(0.0);
-  return world_normal.Normalized();
+Tuple Sphere::ObjectNormal(Tuple object_point) {
+  return object_point - Point(0.0, 0.0, 0.0);
 }
 
 bool Sphere::operator==(const Sphere o) const {
-  return o.material() == material_ && o.Transform() == transform_ && o.origin() == origin_;
+  return Shape::operator==(&o) && o.origin() == origin_;
 }

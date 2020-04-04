@@ -15,7 +15,7 @@ class World {
   World();
   ~World() = default;
 
-  Intersections Intersect(Ray r);
+  Intersections Intersect(const Ray r);
   Color ShadeHit(PreparedComputation pc);
   Color ColorAt(Ray r);
   bool IsShadowed(Tuple p);

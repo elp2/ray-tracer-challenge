@@ -7,15 +7,17 @@ class Matrix;
 
 class Ray {
  public:
+  Ray();
   Ray(Tuple origin, Tuple direction);
   ~Ray() = default;
 
-  Tuple Origin() { return origin_; };
-  Tuple Direction() { return direction_; };
-  Tuple Position(float t);
+  Tuple Origin() const { return origin_; };
+  Tuple Direction() const { return direction_; };
+  Tuple Position(float t) const;
 
-  Ray Transform(Matrix m);
+  const Ray Transform(const Matrix m) const;
 
+  bool operator==(const Ray r) const;
  private:
   Tuple origin_, direction_;
 };

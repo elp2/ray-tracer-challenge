@@ -8,7 +8,7 @@ World::World() {
   light_ = PointLight();
 }
 
-Intersections World::Intersect(Ray r) {
+Intersections World::Intersect(const Ray r) {
   Intersections xs = Intersections(std::vector<Intersection> {});
 
   for (std::vector<Sphere>::const_iterator i = objects_.begin(); i < objects_.end(); ++i) {
