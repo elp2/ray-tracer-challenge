@@ -8,7 +8,7 @@ Sphere::Sphere() {
   origin_ = Point(0, 0, 0);
 }
 
-Intersections Sphere::ObjectIntersect(Ray object_ray) const {
+const Intersections Sphere::ObjectIntersect(const Ray object_ray) const {
   Tuple sphere_to_ray = object_ray.Origin() - origin_;
   float a = object_ray.Direction().Dot(object_ray.Direction());
   float b = 2 * object_ray.Direction().Dot(sphere_to_ray);
@@ -37,7 +37,7 @@ Intersections Sphere::ObjectIntersect(Ray object_ray) const {
   return Intersections(intersections);
 }
 
-Tuple Sphere::ObjectNormal(Tuple object_point) {
+const Tuple Sphere::ObjectNormal(const Tuple object_point) const {
   return object_point - Point(0.0, 0.0, 0.0);
 }
 

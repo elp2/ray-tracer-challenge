@@ -3,6 +3,7 @@
 
 class Intersection;
 class Ray;
+class Shape;
 
 #include "primitives/tuple.h"
 
@@ -12,7 +13,7 @@ class PreparedComputation {
   ~PreparedComputation() = default;
 
   float t() { return t_; };
-  const void *object() { return object_; };
+  const Shape *object() { return object_; };
   Tuple point() const { return point_; };
   Tuple over_point() const { return over_point_; };
   Tuple eye_vector() const { return eye_vector_; };
@@ -21,7 +22,7 @@ class PreparedComputation {
 
  private:
   float t_;
-  const void *object_;
+  const Shape *object_;
   Tuple point_;
   // Slightly up the normal from point_.
   Tuple over_point_;

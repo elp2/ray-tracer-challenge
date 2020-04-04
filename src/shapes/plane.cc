@@ -7,7 +7,7 @@
 #include "primitives/ray.h"
 #include "primitives/tuple.h"
 
-Intersections Plane::ObjectIntersect(const Ray object_ray) const {
+const Intersections Plane::ObjectIntersect(const Ray object_ray) const {
   if (fabs(object_ray.Direction().y()) < EPSILON) {
     // Parallel to xz plane after translation. No intersections.
     return Intersections(std::vector<Intersection> {});
@@ -18,7 +18,7 @@ Intersections Plane::ObjectIntersect(const Ray object_ray) const {
   return Intersections(std::vector<Intersection> {x});
 }
 
-Tuple Plane::ObjectNormal(Tuple world_point) {
+const Tuple Plane::ObjectNormal(const Tuple world_point) const {
   return Vector(0.0, 1.0, 0.0);
 }
 

@@ -24,31 +24,22 @@ Camera get_camera() {
   return c;
 }
 
-Sphere get_wall(Color c) {
-  Sphere wall = Sphere();
-  Material m = Material();
-  m.set_color(c);
-  m.set_specular(0.0);
-  wall.set_material(m);
-  return wall;
-}
-
 World get_world() {
   World w = World();
   w.set_light(PointLight(Point(20.0, 16.0, 0.0), Color(1.0, 1.0, 1.0)));
 
-  Sphere earth = Sphere();
+  auto earth = new Sphere();
   Material em = Material();
   em.set_color(Color(0.0, 0.0, 1.0));
-  earth.set_material(em);
+  earth->set_material(em);
   w.add_object(earth);
 
-  Sphere moon = Sphere();
-  moon.SetTransform(Translation(1.25, 1.25, 0.0) * Scaling(0.25, 0.25, 0.25));
+  auto moon = new Sphere();
+  moon->SetTransform(Translation(1.25, 1.25, 0.0) * Scaling(0.25, 0.25, 0.25));
   Material mm = Material();
   mm.set_color(Color(0.8, 0.8, 0.8));
   mm.set_shininess(10.0);
-  moon.set_material(mm);
+  moon->set_material(mm);
   w.add_object(moon);
 
   return w;

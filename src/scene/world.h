@@ -7,7 +7,7 @@ class Ray;
 #include <vector>
 
 #include "lights/point_light.h"
-#include "shapes/sphere.h"
+#include "shapes/shape.h"
 #include "scene/prepared_computation.h"
 
 class World {
@@ -20,14 +20,14 @@ class World {
   Color ColorAt(Ray r);
   bool IsShadowed(Tuple p);
 
-  std::vector<Sphere> objects() const { return objects_; };
-  void add_object(Sphere s) { objects_.push_back(s); };
+  std::vector<Shape *> objects() const { return objects_; };
+  void add_object(Shape *s) { objects_.push_back(s); };
 
   PointLight light() const { return light_; };
   void set_light(PointLight light) { light_ = light; };
 
  private:
-  std::vector<Sphere> objects_;
+  std::vector<Shape *> objects_;
   PointLight light_;
 };
 

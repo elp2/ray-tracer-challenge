@@ -3,14 +3,14 @@
 #include "primitives/intersection.h"
 #include "primitives/math.h"
 #include "primitives/ray.h"
-#include "shapes/sphere.h"
+#include "shapes/shape.h"
 
 PreparedComputation::PreparedComputation(Intersection i, Ray r) {
   t_ = i.T();
-  object_ = i.Object();
+  object_ = (Shape *)i.Object();
   point_ = r.Position(t_);
   eye_vector_ = -r.Direction();
-  normal_vector_ = ((Sphere *)object_)->Normal(point_);
+  normal_vector_ = object_->Normal(point_);
 
   if (normal_vector_.Dot(eye_vector_) < 0) {
     inside_ = true;

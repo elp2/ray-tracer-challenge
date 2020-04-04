@@ -15,12 +15,12 @@ class Sphere : public Shape {
   Sphere();
   ~Sphere() = default;
 
-  Intersections ObjectIntersect(Ray object_ray) const;
-  Tuple ObjectNormal(Tuple p);
+  const Intersections ObjectIntersect(const Ray object_ray) const;
+  const Tuple ObjectNormal(const Tuple p) const;
 
   bool operator==(const Sphere o) const;
 
-  Tuple origin() const { return origin_; };
+  const Tuple origin() const { return origin_; };
 
  private:
   Tuple origin_;

@@ -14,8 +14,8 @@ class Plane : public Shape {
   Plane() {};
   ~Plane() = default;
 
-  Intersections ObjectIntersect(const Ray object_ray) const;
-  Tuple ObjectNormal(Tuple world_point);
+  const Intersections ObjectIntersect(const Ray object_ray) const;
+  const Tuple ObjectNormal(const Tuple world_point) const;
 
   bool operator==(const Plane o) const;
 };

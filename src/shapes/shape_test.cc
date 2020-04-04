@@ -8,8 +8,8 @@
 
 class ShapeMock : public Shape {
  public:
-  MOCK_METHOD(Intersections, ObjectIntersect, (const Ray object_ray), (const, override));
-  Tuple ObjectNormal(Tuple object_point) {
+  MOCK_METHOD(const Intersections, ObjectIntersect, (const Ray object_ray), (const, override));
+  const Tuple ObjectNormal(const Tuple object_point) const {
     return Vector(object_point.x(), object_point.y(), object_point.z());
   };
 };

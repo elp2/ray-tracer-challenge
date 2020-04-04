@@ -9,7 +9,7 @@ Intersections Shape::Intersect(const Ray r) const {
   return ObjectIntersect(object_ray);
 }
 
-Tuple Shape::Normal(Tuple world_point) {
+const Tuple Shape::Normal(const Tuple world_point) const {
   Tuple object_point = transform_.Inverse() * world_point;
   Tuple object_normal = ObjectNormal(object_point);
   Tuple world_normal = transform_.Inverse().Transpose() * object_normal;
