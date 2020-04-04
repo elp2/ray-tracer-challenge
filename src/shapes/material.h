@@ -2,6 +2,7 @@
 #define RTC_SHAPES_MATERIAL_H_
 
 #include "lights/point_light.h"
+#include "patterns/pattern.h"
 #include "primitives/color.h"
 #include "primitives/tuple.h"
 
@@ -31,6 +32,10 @@ class Material {
   float shininess() { return shininess_; };
   void set_shininess(float shininess) { shininess_ = shininess; };
 
+  // When not set, uses the color.
+  void set_pattern(Pattern *pattern) { pattern_ = pattern; };
+  Pattern *pattern() const { return pattern_; };
+
   bool operator==(Material other) const;
 
  private:
@@ -39,6 +44,7 @@ class Material {
   float diffuse_;
   float specular_;
   float shininess_;
+  Pattern *pattern_ = nullptr;
 };
 
 #endif    // RTC_SHAPES_MATERIAL_H_

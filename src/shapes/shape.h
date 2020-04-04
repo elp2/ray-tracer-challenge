@@ -22,6 +22,8 @@ class Shape {
   void set_material(Material material) { material_ = material; };
   Material material() const { return material_; };
 
+  Color PatternAt(const Tuple& world_point) const;
+
   bool operator==(const Shape &o) const;
 
  protected:

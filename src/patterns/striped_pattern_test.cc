@@ -3,7 +3,9 @@
 #include "patterns/striped_pattern.h"
 
 #include "primitives/color.h"
+#include "primitives/transformation.h"
 #include "primitives/tuple.h"
+#include "shapes/sphere.h"
 
 class StripedPatternTest : public ::testing::Test {
  protected:
@@ -45,4 +47,39 @@ TEST_F(StripedPatternTest, AlternatesOnX) {
 
   ASSERT_EQ(sp.ColorAt(Point(2.0, 0, 0)), white_);
   ASSERT_EQ(sp.ColorAt(Point(2.5, 0, 0)), white_);
+}
+
+TEST_F(StripedPatternTest, StripesOnTransformedObject) {
+  Sphere object = Sphere();
+  object.SetTransform(Scaling(2, 2, 2));
+  StripedPattern *sp = new StripedPattern(white_, black_);
+  Material m = Material();
+  m.set_pattern(sp);
+  object.set_material(m);
+
+  ASSERT_EQ(object.PatternAt(Point(1.5, 0, 0)), white_);
+}
+
+TEST_F(StripedPatternTest, StripesOnPatternTransform) {
+  Sphere object = Sphere();
+  object.SetTransform(Scaling(2, 2, 2));
+  StripedPattern *sp = new StripedPattern(white_, black_);
+  sp->set_transform(Scaling(2, 2, 2));
+  Material m = Material();
+  m.set_pattern(sp);
+  object.set_material(m);
+
+  ASSERT_EQ(object.PatternAt(Point(1.5, 0, 0)), white_);
+}
+
+TEST_F(StripedPatternTest, StripesOnTransformedObjectAndPattern) {
+  Sphere object = Sphere();
+  object.SetTransform(Scaling(2, 2, 2));
+  StripedPattern *sp = new StripedPattern(white_, black_);
+  sp->set_transform(Translation(0.5, 0, 0));
+  Material m = Material();
+  m.set_pattern(sp);
+  object.set_material(m);
+
+  ASSERT_EQ(object.PatternAt(Point(2.5, 0, 0)), white_);
 }

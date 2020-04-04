@@ -7,9 +7,10 @@ StripedPattern::StripedPattern(Color a, Color b) {
   color_b_ = b;
 }
 
+const Color StripedPattern::ColorAt(const Tuple &object_point) const {
+  Tuple pattern_point = transform_.Inverse() * object_point;
 
-const Color StripedPattern::ColorAt(const Tuple &p) const {
-  if ((int)floor(p.x()) % 2 == 0) {
+  if ((int)floor(pattern_point.x()) % 2 == 0) {
     return color_a_;
   } else {
     return color_b_;

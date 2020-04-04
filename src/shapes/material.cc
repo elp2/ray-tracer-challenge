@@ -20,7 +20,8 @@ bool Material::operator==(Material other) const {
 
 Color Material::Lighting(PointLight light, Tuple position, Tuple eye_vector,
   Tuple normal_vector, bool in_shadow) {
-  Color effective_color = color_ * light.intensity();
+  Color point_color = pattern_ == nullptr ? color_ : pattern_->ColorAt(position);
+  Color effective_color = point_color * light.intensity();
   Tuple light_vector = (light.position() - position).Normalized();
   Color ambient_color = effective_color * ambient_;
   if (in_shadow) {

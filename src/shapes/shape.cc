@@ -1,6 +1,7 @@
 #include "shapes/shape.h"
 
 #include "primitives/intersection.h"
+#include "patterns/pattern.h"
 
 #include <math.h>
 
@@ -17,6 +18,10 @@ const Tuple Shape::Normal(const Tuple world_point) const {
   return world_normal.Normalized();
 }
 
+Color Shape::PatternAt(const Tuple& world_point) const {
+  Tuple object_point = transform_.Inverse() * world_point;
+  return material_.pattern()->ColorAt(object_point);
+}
 
 bool Shape::operator==(const Shape &o) const {
   return o.material() == material_ && o.Transform() == transform_;
