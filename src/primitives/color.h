@@ -12,6 +12,10 @@ class Color : public Tuple {
   float r() const { return this->x(); }
   float g() const { return this->y(); }
   float b() const { return this->z(); }
+
+  // Debug Printing for Tests.
+  std::string DebugString() const;
+  friend void PrintTo(const Color& color, std::ostream* os) { *os << color.DebugString(); };
 };
 
 // Hadmard Product.

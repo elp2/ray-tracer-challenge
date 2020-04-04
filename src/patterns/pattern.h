@@ -10,12 +10,14 @@ class Pattern {
  public:
   ~Pattern() = default;
 
-  virtual const Color ColorAt(const Tuple &object_point) const = 0;
+  const Color ColorAt(const Tuple &object_point) const;
 
   Matrix transform() const { return transform_; };
   void set_transform(const Matrix transform) { transform_ = transform; };
 
  protected:
+  virtual const Color PatternColorAt(const Tuple &pattern_point) const = 0;
+
   Matrix transform_ = IdentityMatrix(4);
 };
 

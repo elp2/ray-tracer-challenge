@@ -30,6 +30,7 @@ target_link_libraries(lights primitives)
 target_include_directories(lights PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
 add_library (patterns
+    src/patterns/pattern.cc
     src/patterns/striped_pattern.cc)
 target_link_libraries(patterns primitives)
 target_include_directories(patterns PUBLIC ${PROJECT_SOURCE_DIR}/src)
@@ -124,6 +125,7 @@ add_executable(tests
     src/display/canvas_test.cc
     src/display/ppm_writer_test.cc
     src/lights/point_light_test.cc
+    src/patterns/pattern_test.cc
     src/patterns/striped_pattern_test.cc
     src/primitives/color_test.cc
     src/primitives/intersection_test.cc

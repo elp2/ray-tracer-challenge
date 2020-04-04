@@ -11,10 +11,12 @@ class StripedPattern : public Pattern {
   StripedPattern(Color a, Color b);
   ~StripedPattern() = default;
 
-  const Color ColorAt(const Tuple &object_point) const;
-
   const Color color_a() const { return color_a_; };
   const Color color_b() const { return color_b_; };
+
+ protected:
+  const Color PatternColorAt(const Tuple &pattern_point) const;
+
  private:
   Color color_a_, color_b_;
 };
