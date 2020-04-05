@@ -33,6 +33,7 @@ add_library (patterns
     src/patterns/gradient_pattern.cc
     src/patterns/pattern.cc
     src/patterns/ring_pattern.cc
+    src/patterns/perturbed_pattern.cc
     src/patterns/striped_pattern.cc
     src/patterns/three_d_pattern.cc)
 target_link_libraries(patterns primitives)
@@ -89,6 +90,10 @@ target_link_libraries(chapter8_shadows primitives display shapes lights scene)
 add_executable(chapter9_plane WIN32
     src/exe/chapter9_plane.cc)
 target_link_libraries(chapter9_plane primitives display shapes lights scene)
+
+add_executable(chapter10_patterns WIN32
+    src/exe/chapter10_patterns.cc)
+target_link_libraries(chapter10_patterns patterns primitives display shapes lights scene)
 
 # Below is from googletest README.md.
 # Download and unpack googletest at configure time.
