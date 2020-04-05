@@ -163,3 +163,9 @@ TEST(SphereTest, Equals) {
 
   ASSERT_EQ(s1, s2);
 }
+
+TEST(SphereTest, GlassySphere) {
+  auto sphere = GlassySphere();
+  ASSERT_FLOAT_EQ(sphere->material().transparency(), 1.0);
+  ASSERT_FLOAT_EQ(sphere->material().refractive_index(), 1.5);
+}

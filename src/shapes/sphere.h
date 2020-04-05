@@ -26,4 +26,6 @@ class Sphere : public Shape {
   Tuple origin_;
 };
 
+Sphere *GlassySphere();
+
 #endif    // RTC_SHAPES_SPHERE_H

@@ -9,8 +9,10 @@ Material::Material() {
   ambient_ = 0.1;
   diffuse_ = 0.9;
   reflective_ = 0.0;
+  refractive_index_ = 0.0;
   specular_ = 0.9;
   shininess_ = 200.0;
+  transparency_ = 0.0;
 }
 
 bool Material::operator==(Material other) const {

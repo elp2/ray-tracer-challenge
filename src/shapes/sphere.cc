@@ -44,3 +44,12 @@ const Tuple Sphere::ObjectNormal(const Tuple object_point) const {
 bool Sphere::operator==(const Sphere o) const {
   return Shape::operator==(o) && o.origin() == origin_;
 }
+
+Sphere *GlassySphere() {
+  auto sphere = new Sphere();
+  auto glass = Material();
+  glass.set_transparency(1.0);
+  glass.set_refractive_index(REFRACTIVE_INDEX_GLASS);
+  sphere->set_material(glass);
+  return sphere;
+}
