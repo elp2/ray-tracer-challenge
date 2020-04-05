@@ -5,6 +5,8 @@
 #include "primitives/intersections.h"
 #include "shapes/sphere.h"
 
+const int MAX_REFLECTIONS = 5;
+
 World::World() {
   light_ = PointLight();
 }
@@ -19,16 +21,20 @@ Intersections World::Intersect(const Ray r) {
   return xs;
 }
 
-Color World::ShadeHit(PreparedComputation pc) {
+Color World::ShadeHit(PreparedComputation pc, const int &reflections) {
   bool is_shadowed = IsShadowed(pc.over_point());
 
   const Shape *s = pc.object();
   Color surface = s->material().Lighting(light_, pc.point(), pc.eye_vector(), pc.normal_vector(), is_shadowed);
-  Color reflected = ReflectedColor(pc);
+  Color reflected = ReflectedColor(pc, reflections);
   return surface + reflected;
 }
 
 Color World::ColorAt(Ray r) {
+  return ColorAt(r, 0);
+}
+
+Color World::ColorAt(Ray r, const int &reflections) {
   Intersections xs = Intersect(r);
   std::optional<Intersection> i = xs.Hit();
   if (!i.has_value()) {
@@ -36,7 +42,7 @@ Color World::ColorAt(Ray r) {
   }
 
   PreparedComputation pc = PreparedComputation(i.value(), r);
-  return ShadeHit(pc);
+  return ShadeHit(pc, reflections);
 }
 
 World DefaultWorld() {
@@ -74,11 +80,11 @@ bool World::IsShadowed(Tuple p) {
   return first_hit_closer;
 }
 
-Color World::ReflectedColor(PreparedComputation pc) {
-  if (pc.object()->material().reflective() == 0.0) {
+Color World::ReflectedColor(PreparedComputation pc, const int &reflections) {
+  if (reflections == MAX_REFLECTIONS || pc.object()->material().reflective() == 0.0) {
     return Color(0, 0, 0);
   }
   Ray reflected_ray = Ray(pc.over_point(), pc.reflect_vector());
-  Color reflected_color = ColorAt(reflected_ray);
+  Color reflected_color = ColorAt(reflected_ray, reflections + 1);
   return reflected_color * pc.object()->material().reflective();
 }

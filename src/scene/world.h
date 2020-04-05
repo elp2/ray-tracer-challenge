@@ -16,10 +16,10 @@ class World {
   ~World() = default;
 
   Intersections Intersect(const Ray r);
-  Color ShadeHit(PreparedComputation pc);
+  Color ShadeHit(PreparedComputation pc, const int &reflections);
   Color ColorAt(Ray r);
   bool IsShadowed(Tuple p);
-  Color ReflectedColor(PreparedComputation pc);
+  Color ReflectedColor(PreparedComputation pc, const int &reflections);
 
   std::vector<Shape *> objects() const { return objects_; };
   void add_object(Shape *s) { objects_.push_back(s); };
@@ -28,6 +28,8 @@ class World {
   void set_light(PointLight light) { light_ = light; };
 
  private:
+  Color ColorAt(Ray r, const int &reflections);
+
   std::vector<Shape *> objects_;
   PointLight light_;
 };

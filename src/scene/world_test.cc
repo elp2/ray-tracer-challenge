@@ -41,7 +41,7 @@ TEST(WorldTest, ShadingIntersection) {
   Intersection i = xs.Hit().value();
 
   PreparedComputation pc = PreparedComputation(i, r);
-  Color c = w.ShadeHit(pc);
+  Color c = w.ShadeHit(pc, 0);
   ASSERT_EQ(c, Color(0.38066, 0.47583, 0.2855));
 }
 
@@ -57,7 +57,7 @@ TEST(WorldTest, ShadingIntersectionFromInside) {
   Intersection i = xs.Hit().value();
 
   PreparedComputation pc = PreparedComputation(i, r);
-  Color c = w.ShadeHit(pc);
+  Color c = w.ShadeHit(pc, 0);
   ASSERT_EQ(c, Color(0.90498, 0.90498, 0.90498));
 }
 
@@ -140,7 +140,7 @@ TEST(WorldTest, ShadeHitOnShadowedLocation) {
   Intersections xs = w.Intersect(r);
   PreparedComputation pc = PreparedComputation(xs.Hit().value(), r);
 
-  Color c = w.ShadeHit(pc);
+  Color c = w.ShadeHit(pc, 0);
   ASSERT_EQ(Color(0.1, 0.1, 0.1), c);
 }
 
@@ -153,7 +153,7 @@ TEST(WorldTest, NonReflectiveMaterialReflectsBlack) {
 
   Intersections xs = w.Intersect(r);
   PreparedComputation pc = PreparedComputation(xs.Hit().value(), r);
-  ASSERT_EQ(w.ReflectedColor(pc), Color(0, 0, 0));
+  ASSERT_EQ(w.ReflectedColor(pc, 0), Color(0, 0, 0));
 }
 
 TEST(WorldTest, ReflectiveMaterialColor) {
@@ -168,7 +168,7 @@ TEST(WorldTest, ReflectiveMaterialColor) {
   Ray r = Ray(Point(0, 0, -3), Vector(0, -sqrt(2.0) / 2.0, sqrt(2.0) / 2.0));
   Intersections xs = w.Intersect(r);
   PreparedComputation pc = PreparedComputation(xs.Hit().value(), r);
-  ASSERT_EQ(w.ReflectedColor(pc), Color(0.190332, 0.237915, 0.142749));
+  ASSERT_EQ(w.ReflectedColor(pc, 0), Color(0.190332, 0.237915, 0.142749));
 }
 
 TEST(WorldTest, ReflectShadeHit) {
@@ -183,5 +183,40 @@ TEST(WorldTest, ReflectShadeHit) {
   Ray r = Ray(Point(0, 0, -3), Vector(0, -sqrt(2.0) / 2.0, sqrt(2.0) / 2.0));
   Intersections xs = w.Intersect(r);
   PreparedComputation pc = PreparedComputation(xs.Hit().value(), r);
-  ASSERT_EQ(w.ShadeHit(pc), Color(0.876758, 0.924341, 0.829175));
+  ASSERT_EQ(w.ShadeHit(pc, 0), Color(0.876758, 0.924341, 0.829175));
+}
+
+TEST(WorldTest, ReflectiveSurfaces) {
+  World w = World();
+  w.set_light(PointLight(Point(0, 0, 0), Color(1, 1, 1)));
+  auto lower = new Plane();
+  auto reflective = Material();
+  reflective.set_reflective(1.0);
+  lower->set_material(reflective);
+  lower->SetTransform(Translation(0, -1, 0));
+  w.add_object(lower);
+  auto upper = new Plane();
+  upper->set_material(reflective);
+  upper->SetTransform(Translation(0, 1, 0));
+  w.add_object(upper);
+
+  Ray r = Ray(Point(0, 0, 0), Vector(0, 1, 0));
+  Color unused = w.ColorAt(r);
+  ASSERT_TRUE(true);
+}
+
+TEST(WorldTest, MaximumRecursionRefletedColor) {
+  World w = DefaultWorld();
+  auto lower = new Plane();
+  auto reflective = Material();
+  reflective.set_reflective(1.0);
+  lower->set_material(reflective);
+  lower->SetTransform(Translation(0, -1, 0));
+  w.add_object(lower);
+
+  Ray r = Ray(Point(0, 0, -3), Vector(0, -sqrt(2.0) / 2.0, sqrt(2.0) / 2.0));
+  Intersections xs = w.Intersect(r);
+  PreparedComputation pc = PreparedComputation(xs.Hit().value(), r);
+  Color reflected = w.ReflectedColor(pc, 0);
+  ASSERT_EQ(Color(0, 0, 0), reflected);
 }

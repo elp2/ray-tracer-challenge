@@ -29,6 +29,6 @@ Color operator-(const Color &c, const Color &o) {
 std::string Color::DebugString() const {
   std::stringstream stream;
 
-  stream << "(r: " << this->x() << ", " << this->y() << ", g: " << this->z() << ", b: " << this->w() << ")" << std::endl;
+  stream << "(r: " << this->r() << ", g: " << this->g() << ", b: " << this->b() << ")" << std::endl;
   return stream.str();
 }
