@@ -30,8 +30,11 @@ target_link_libraries(lights primitives)
 target_include_directories(lights PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
 add_library (patterns
+    src/patterns/gradient_pattern.cc
     src/patterns/pattern.cc
-    src/patterns/striped_pattern.cc)
+    src/patterns/ring_pattern.cc
+    src/patterns/striped_pattern.cc
+    src/patterns/three_d_pattern.cc)
 target_link_libraries(patterns primitives)
 target_include_directories(patterns PUBLIC ${PROJECT_SOURCE_DIR}/src)
 

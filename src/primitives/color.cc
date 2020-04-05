@@ -16,6 +16,10 @@ Color operator+(const Color c, const Color o) {
   return Color(c.r() + o.r(), c.g() + o.g(), c.b() + o.b());
 }
 
+Color operator-(const Color &c, const Color &o) {
+  return Color(c.r() - o.r(), c.g() - o.g(), c.b() - o.b());
+}
+
 std::string Color::DebugString() const {
   std::stringstream stream;
 
