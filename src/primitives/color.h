@@ -13,6 +13,8 @@ class Color : public Tuple {
   float g() const { return this->y(); }
   float b() const { return this->z(); }
 
+  const Color Blend(const Color &color) const;
+
   // Debug Printing for Tests.
   std::string DebugString() const;
   friend void PrintTo(const Color& color, std::ostream* os) { *os << color.DebugString(); };

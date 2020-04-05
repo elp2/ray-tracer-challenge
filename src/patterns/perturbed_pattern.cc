@@ -47,10 +47,10 @@ const Color PerturbedPattern::PatternColorAt(const Tuple &pattern_point) const {
   return pattern_->ColorAt(PerturbedPoint(pattern_point));
 }
 
-const Tuple PerturbedPattern::PerturbedPoint(const Tuple &pattern_point)const {
+const Tuple PerturbedPattern::PerturbedPoint(const Tuple &pattern_point) const {
   float x_jitter = PerlinValue(pattern_point);
-  float y_jitter = PerlinValue(pattern_point + Point(0.1, 0.2, 0.3));
-  float z_jitter = PerlinValue(pattern_point + Point(0.5, 0.1, 0.7));
+  float y_jitter = PerlinValue(pattern_point + Point(-0.5, 0.2, 0.1));
+  float z_jitter = PerlinValue(pattern_point + Point(0.3, 0.4, -0.4));
 
   return pattern_point + Point(x_jitter, y_jitter, z_jitter);
 }
@@ -85,7 +85,7 @@ const float PerturbedPattern::PerlinValue(const Tuple &point) const {
 
   float c = c0 * (1 - zd) + c1 * zd;
 
-  const float DAMPER = 0.3;
+  const float DAMPER = 0.4;
   return DAMPER * c;
 }
 

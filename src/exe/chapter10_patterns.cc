@@ -1,8 +1,10 @@
 #include "display/canvas.h"
 #include "display/ppm_writer.h"
+#include "patterns/blended_pattern.h"
 #include "patterns/gradient_pattern.h"
 #include "patterns/perturbed_pattern.h"
 #include "patterns/ring_pattern.h"
+#include "patterns/striped_pattern.h"
 #include "primitives/math.h"
 #include "primitives/matrix.h"
 #include "primitives/transformation.h"
@@ -17,7 +19,7 @@
 #include <cmath>
 #include <iostream>
 
-const int CAMERA_DIMENSION = 200;
+const int CAMERA_DIMENSION = 300;
 
 Camera get_camera() {
   Camera c = Camera(CAMERA_DIMENSION, CAMERA_DIMENSION, M_PI / 4.0);
@@ -30,10 +32,18 @@ Camera get_camera() {
 
 World get_world() {
   World w = World();
-  w.set_light(PointLight(Point(-2.0, 5.0, 1.0), Color(1.0, 1.0, 1.0)));
+  w.set_light(PointLight(Point(6.0, 5.0, 1.0), Color(1.0, 1.0, 1.0)));
 
   auto p = new Plane();
   p->SetTransform(RotationX(M_PI / 2.0));
+  auto stripe1 = new StripedPattern(Color(1, 1, 1), Color(1, 0, 0));
+  auto stripe2 = new StripedPattern(Color(1, 1, 1), Color(0, 0, 1));
+  stripe2->set_transform(RotationZ(M_PI / 2.0));
+  auto blended = new BlendedPattern(stripe1, stripe2);
+  auto pm1 = Material();
+  auto perturbed_plane = new PerturbedPattern(blended);
+  pm1.set_pattern(perturbed_plane);
+  p->set_material(pm1);
   w.add_object(p);
 
   auto s1 = new Sphere();
