@@ -10,6 +10,8 @@ class Ray;
 #include "shapes/shape.h"
 #include "scene/prepared_computation.h"
 
+static const int MAX_REFLECTIONS = 5;
+
 class World {
  public:
   World();

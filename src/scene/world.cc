@@ -5,8 +5,6 @@
 #include "primitives/intersections.h"
 #include "shapes/sphere.h"
 
-const int MAX_REFLECTIONS = 5;
-
 World::World() {
   light_ = PointLight();
 }

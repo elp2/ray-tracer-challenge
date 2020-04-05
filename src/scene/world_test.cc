@@ -217,6 +217,6 @@ TEST(WorldTest, MaximumRecursionRefletedColor) {
   Ray r = Ray(Point(0, 0, -3), Vector(0, -sqrt(2.0) / 2.0, sqrt(2.0) / 2.0));
   Intersections xs = w.Intersect(r);
   PreparedComputation pc = PreparedComputation(xs.Hit().value(), r);
-  Color reflected = w.ReflectedColor(pc, 0);
+  Color reflected = w.ReflectedColor(pc, MAX_REFLECTIONS);
   ASSERT_EQ(Color(0, 0, 0), reflected);
 }
