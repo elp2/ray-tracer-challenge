@@ -118,3 +118,8 @@ TEST(MaterialTest, LightingWithPattern) {
   Tuple p2 = Point(1.9, 0.0, 0.0);
   ASSERT_EQ(blue, m.Lighting(light, p2, eye_vector, normal_vector, false));
 }
+
+TEST(MaterialTest, ReflectivityOfDefaultMaterial) {
+  Material m = Material();
+  ASSERT_FLOAT_EQ(m.reflective(), 0);
+}

@@ -3,7 +3,10 @@
 #include "primitives/math.h"
 #include "primitives/ray.h"
 #include "scene/prepared_computation.h"
+#include "shapes/plane.h"
 #include "shapes/sphere.h"
+
+#include <math.h>
 
 class PreparedComputationTest : public ::testing::Test {
  protected:
@@ -61,4 +64,12 @@ TEST(PreparedComputationTest, HitOffsetsPoint) {
   PreparedComputation pc = PreparedComputation(i, r);
   ASSERT_LT(pc.over_point().z(), -EPSILON / 2.0);
   ASSERT_GT(pc.point().z(), pc.over_point().z());
+}
+
+TEST(PreparedComputationTest, PreparesReflectionVector) {
+  Ray r = Ray(Point(0, 1, -1), Vector(0, -sqrt(2) / 2.0, sqrt(2) / 2.0));
+  Plane s = Plane();
+  Intersection i = s.Intersect(r).Hit().value();
+  PreparedComputation pc = PreparedComputation(i, r);
+  ASSERT_EQ(Vector(0, sqrt(2.0) / 2.0, sqrt(2.0) / 2.0), pc.reflect_vector());
 }

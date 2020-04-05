@@ -23,7 +23,9 @@ Color World::ShadeHit(PreparedComputation pc) {
   bool is_shadowed = IsShadowed(pc.over_point());
 
   const Shape *s = pc.object();
-  return s->material().Lighting(light_, pc.point(), pc.eye_vector(), pc.normal_vector(), is_shadowed);
+  Color surface = s->material().Lighting(light_, pc.point(), pc.eye_vector(), pc.normal_vector(), is_shadowed);
+  Color reflected = ReflectedColor(pc);
+  return surface + reflected;
 }
 
 Color World::ColorAt(Ray r) {
@@ -70,4 +72,13 @@ bool World::IsShadowed(Tuple p) {
   float light_distance = v.Magnitude();
   bool first_hit_closer = hit.T() < light_distance;
   return first_hit_closer;
+}
+
+Color World::ReflectedColor(PreparedComputation pc) {
+  if (pc.object()->material().reflective() == 0.0) {
+    return Color(0, 0, 0);
+  }
+  Ray reflected_ray = Ray(pc.over_point(), pc.reflect_vector());
+  Color reflected_color = ColorAt(reflected_ray);
+  return reflected_color * pc.object()->material().reflective();
 }

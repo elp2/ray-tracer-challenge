@@ -19,6 +19,7 @@ class World {
   Color ShadeHit(PreparedComputation pc);
   Color ColorAt(Ray r);
   bool IsShadowed(Tuple p);
+  Color ReflectedColor(PreparedComputation pc);
 
   std::vector<Shape *> objects() const { return objects_; };
   void add_object(Shape *s) { objects_.push_back(s); };

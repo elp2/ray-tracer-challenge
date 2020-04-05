@@ -19,4 +19,5 @@ PreparedComputation::PreparedComputation(Intersection i, Ray r) {
     inside_ = false;
   }
   over_point_ = point_ + normal_vector_ * EPSILON;
+  reflect_vector_ = r.Direction().Reflect(normal_vector_);
 }

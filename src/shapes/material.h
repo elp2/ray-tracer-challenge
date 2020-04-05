@@ -36,12 +36,17 @@ class Material {
   void set_pattern(Pattern *pattern) { pattern_ = pattern; };
   Pattern *pattern() const { return pattern_; };
 
+  // 1.0 = mirror, 0.0 = completely unreflective.
+  void set_reflective(float reflective) { reflective_ = reflective; };
+  float reflective() const { return reflective_; };
+
   bool operator==(Material other) const;
 
  private:
   Color color_;
   float ambient_;
   float diffuse_;
+  float reflective_;
   float specular_;
   float shininess_;
   Pattern *pattern_ = nullptr;

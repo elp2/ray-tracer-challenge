@@ -8,6 +8,7 @@ Material::Material() {
   color_ = Color(1.0, 1.0, 1.0);
   ambient_ = 0.1;
   diffuse_ = 0.9;
+  reflective_ = 0.0;
   specular_ = 0.9;
   shininess_ = 200.0;
 }

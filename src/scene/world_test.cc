@@ -4,6 +4,7 @@
 #include <math.h>
 
 #include "primitives/transformation.h"
+#include "shapes/plane.h"
 #include "shapes/sphere.h"
 #include "scene/world.h"
 
@@ -126,7 +127,6 @@ TEST(WorldTest, NoShadowBehindLight) {
   ASSERT_FALSE(w.IsShadowed(p));
 }
 
-
 TEST(WorldTest, ShadeHitOnShadowedLocation) {
   World w = World();
   w.set_light(PointLight(Point(0.0, 0.0, -10.0), Color(1.0, 1.0, 1.0)));
@@ -142,4 +142,46 @@ TEST(WorldTest, ShadeHitOnShadowedLocation) {
 
   Color c = w.ShadeHit(pc);
   ASSERT_EQ(Color(0.1, 0.1, 0.1), c);
+}
+
+TEST(WorldTest, NonReflectiveMaterialReflectsBlack) {
+  World w = DefaultWorld();
+  Ray r = Ray(Point(0, 0, 0), Vector(0, 0, 1));
+  Shape *s = w.objects()[1];
+  Material m = s->material();
+  m.set_ambient(1.0);
+
+  Intersections xs = w.Intersect(r);
+  PreparedComputation pc = PreparedComputation(xs.Hit().value(), r);
+  ASSERT_EQ(w.ReflectedColor(pc), Color(0, 0, 0));
+}
+
+TEST(WorldTest, ReflectiveMaterialColor) {
+  World w = DefaultWorld();
+  auto p = new Plane();
+  p->SetTransform(Translation(0, -1, 0));
+  Material m = Material();
+  m.set_reflective(0.5);
+  p->set_material(m);
+  w.add_object(p);
+
+  Ray r = Ray(Point(0, 0, -3), Vector(0, -sqrt(2.0) / 2.0, sqrt(2.0) / 2.0));
+  Intersections xs = w.Intersect(r);
+  PreparedComputation pc = PreparedComputation(xs.Hit().value(), r);
+  ASSERT_EQ(w.ReflectedColor(pc), Color(0.190332, 0.237915, 0.142749));
+}
+
+TEST(WorldTest, ReflectShadeHit) {
+  World w = DefaultWorld();
+  auto p = new Plane();
+  p->SetTransform(Translation(0, -1, 0));
+  Material m = Material();
+  m.set_reflective(0.5);
+  p->set_material(m);
+  w.add_object(p);
+
+  Ray r = Ray(Point(0, 0, -3), Vector(0, -sqrt(2.0) / 2.0, sqrt(2.0) / 2.0));
+  Intersections xs = w.Intersect(r);
+  PreparedComputation pc = PreparedComputation(xs.Hit().value(), r);
+  ASSERT_EQ(w.ShadeHit(pc), Color(0.876758, 0.924341, 0.829175));
 }

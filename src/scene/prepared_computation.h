@@ -18,6 +18,7 @@ class PreparedComputation {
   Tuple over_point() const { return over_point_; };
   Tuple eye_vector() const { return eye_vector_; };
   Tuple normal_vector() const { return normal_vector_; };
+  Tuple reflect_vector() const { return reflect_vector_; };
   bool inside() const { return inside_; };
 
  private:
@@ -28,6 +29,7 @@ class PreparedComputation {
   Tuple over_point_;
   Tuple eye_vector_;
   Tuple normal_vector_;
+  Tuple reflect_vector_;
   bool inside_;
 };
 
