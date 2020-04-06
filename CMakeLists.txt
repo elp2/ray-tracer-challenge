@@ -58,6 +58,8 @@ add_library (scene
 target_link_libraries(scene lights)
 target_link_libraries(scene primitives)
 target_link_libraries(scene shapes)
+find_package (Threads)
+target_link_libraries (scene Threads::Threads)
 target_include_directories(scene PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
 add_executable(rtc WIN32

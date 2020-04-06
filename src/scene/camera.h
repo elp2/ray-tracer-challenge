@@ -31,6 +31,8 @@ class Camera {
   float pixel_size_ = 0.0;
   float half_width_ = 0.0;
   float half_height_ = 0.0;
+
+  void RenderThread(Canvas *canvas, World *w, const int &mod);
 };
 
 #endif    // RTC_SCENE_CAMERA_H

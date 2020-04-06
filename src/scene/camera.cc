@@ -1,7 +1,9 @@
 #include "scene/camera.h"
 
 #include <cassert>
+#include <iostream>
 #include <math.h>
+#include <thread>
 
 #include "display/canvas.h"
 #include "primitives/ray.h"
@@ -45,15 +47,29 @@ Ray Camera::RayForPixel(int x, int y) {
 }
 
 Canvas Camera::Render(World w) {
+  std::cout << "Rendering with " << std::thread::hardware_concurrency()
+    << " threads." << std::endl;
   Canvas canvas = Canvas(width_, height_);
+  std::vector<std::thread> threads;
+  for (int i = 0; i < std::thread::hardware_concurrency(); ++i) {
+    std::thread thread (&Camera::RenderThread, this, &canvas, &w, i);
+    threads.push_back(std::move(thread));
+  }
+  for (auto &thread : threads) {
+    thread.join();
+  }
+  return canvas;
+}
 
+void Camera::RenderThread(Canvas *canvas, World *w, const int &mod) {
   for (int y = 0; y < height_; ++y) {
+    if (y % std::thread::hardware_concurrency() != mod) {
+      continue;
+    }
     for (int x = 0; x < width_; ++x){
       Ray r = RayForPixel(x, y);
-      Color c = w.ColorAt(r);
-      canvas.WritePixel(c, x, y);
+      Color c = w->ColorAt(r);
+      canvas->WritePixel(c, x, y);
     }
   }
-
-  return canvas;
 }
