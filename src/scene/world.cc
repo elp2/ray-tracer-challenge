@@ -39,7 +39,7 @@ Color World::ColorAt(Ray r, const int &reflections) {
     return Color(0.0, 0.0, 0.0);
   }
 
-  PreparedComputation pc = PreparedComputation(i.value(), r);
+  PreparedComputation pc = PreparedComputation(i.value(), r, xs);
   return ShadeHit(pc, reflections);
 }
 
