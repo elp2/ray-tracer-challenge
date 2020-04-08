@@ -19,7 +19,7 @@
 #include <cmath>
 #include <iostream>
 
-const int CAMERA_DIMENSION = 300;
+const int CAMERA_DIMENSION = 200;
 
 Camera get_camera() {
   Camera c = Camera(CAMERA_DIMENSION, CAMERA_DIMENSION, M_PI / 4.0);
