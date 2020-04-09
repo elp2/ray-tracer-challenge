@@ -1,5 +1,7 @@
 #include "scene/world.h"
 
+#include <math.h>
+
 #include "primitives/transformation.h"
 #include "primitives/intersection.h"
 #include "primitives/intersections.h"
@@ -25,7 +27,8 @@ Color World::ShadeHit(PreparedComputation pc, const int &reflections) {
   const Shape *s = pc.object();
   Color surface = s->material().Lighting(light_, pc.point(), pc.eye_vector(), pc.normal_vector(), is_shadowed);
   Color reflected = ReflectedColor(pc, reflections);
-  return surface + reflected;
+  Color refracted = RefractedColor(pc, reflections);
+  return surface + reflected + refracted;
 }
 
 Color World::ColorAt(Ray r) {
@@ -78,11 +81,37 @@ bool World::IsShadowed(Tuple p) {
   return first_hit_closer;
 }
 
-Color World::ReflectedColor(PreparedComputation pc, const int &reflections) {
-  if (reflections == MAX_REFLECTIONS || pc.object()->material().reflective() == 0.0) {
+Color World::ReflectedColor(PreparedComputation &pc, const int &reflections) {
+  if (reflections == MAX_REFLECTIONS) {
+    return Color(0, 0, 0);
+  }
+  if (pc.object()->material().reflective() == 0.0) {
     return Color(0, 0, 0);
   }
   Ray reflected_ray = Ray(pc.over_point(), pc.reflect_vector());
   Color reflected_color = ColorAt(reflected_ray, reflections + 1);
   return reflected_color * pc.object()->material().reflective();
+}
+
+Color World::RefractedColor(PreparedComputation &pc, const int &refractions) {
+  if (refractions == MAX_REFRACTIONS) {
+    return Color(0, 0, 0);
+  }
+  if (pc.object()->material().transparency() == 0.0) {
+    return Color(0, 0, 0);
+  }
+  float n_ratio = pc.n1() / pc.n2();
+  float cos_i = pc.eye_vector().Dot(pc.normal_vector());
+  float sin2_t = n_ratio * n_ratio * (1 - cos_i * cos_i);
+  if (sin2_t > 1) {
+    // Total internal refraction.
+    return Color(0, 0, 0);
+  }
+
+  float cos_t = sqrt(1.0 - sin2_t);
+  Tuple refracted_direction = pc.normal_vector() * (n_ratio * cos_i - cos_t) -
+    pc.eye_vector() * n_ratio;
+  Ray refracted_ray = Ray(pc.under_point(), refracted_direction);
+
+  return ColorAt(refracted_ray, refractions + 1) * pc.object()->material().transparency();
 }

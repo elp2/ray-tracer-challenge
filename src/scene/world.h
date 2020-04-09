@@ -11,6 +11,7 @@ class Ray;
 #include "scene/prepared_computation.h"
 
 static const int MAX_REFLECTIONS = 5;
+static const int MAX_REFRACTIONS = 5;
 
 class World {
  public:
@@ -21,7 +22,8 @@ class World {
   Color ShadeHit(PreparedComputation pc, const int &reflections);
   Color ColorAt(Ray r);
   bool IsShadowed(Tuple p);
-  Color ReflectedColor(PreparedComputation pc, const int &reflections);
+  Color ReflectedColor(PreparedComputation &pc, const int &reflections);
+  Color RefractedColor(PreparedComputation &pc, const int &refractions);
 
   std::vector<Shape *> objects() const { return objects_; };
   void add_object(Shape *s) { objects_.push_back(s); };

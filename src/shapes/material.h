@@ -46,7 +46,7 @@ class Material {
   void set_reflective(float reflective) { reflective_ = reflective; };
   float reflective() const { return reflective_; };
 
-  // 1.0 = mirror, 0.0 = completely unreflective.
+  // 1.0 = vacuum.
   void set_refractive_index(const float refractive_index) { refractive_index_ = refractive_index; };
   float refractive_index() const { return refractive_index_; };
 

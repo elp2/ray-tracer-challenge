@@ -8,6 +8,14 @@
 #include "shapes/sphere.h"
 #include "scene/world.h"
 
+
+class PatternMock : public Pattern {
+ public:
+  const Color PatternColorAt(const Tuple &object_point) const {
+    return Color(object_point.x(), object_point.y(), object_point.z());
+  }
+};
+
 class WorldTest : public ::testing::Test {
  protected:
   WorldTest() {};
@@ -219,4 +227,126 @@ TEST(WorldTest, MaximumRecursionRefletedColor) {
   PreparedComputation pc = PreparedComputation(xs.Hit().value(), r, xs);
   Color reflected = w.ReflectedColor(pc, MAX_REFLECTIONS);
   ASSERT_EQ(Color(0, 0, 0), reflected);
+}
+
+
+TEST(WorldTest, RefractedColorOpaqueSurface) {
+  auto w = DefaultWorld();
+  auto shape = w.objects()[0];
+  Ray r = Ray(Point(0, 0, -5), Vector(0, 0, 1));
+  auto allxs = w.Intersect(r);
+  std::vector<Intersection> shape_xs;
+  for (int i = 0; i < allxs.Size(); ++i) {
+    if (shape == allxs[i].Object()) {
+      shape_xs.push_back(allxs[i]);
+    }
+  }
+  auto xs = Intersections(shape_xs);
+  auto pc = PreparedComputation(xs[0], r, xs);
+  auto c = w.RefractedColor(pc, 0);
+  ASSERT_EQ(Color(0, 0, 0), c);
+}
+
+TEST(WorldTest, MaxRefractedDepth) {
+  auto dw = DefaultWorld();
+  auto shape = dw.objects()[0];
+  Material m = shape->material();
+  m.set_transparency(1.0);
+  m.set_refractive_index(REFRACTIVE_INDEX_GLASS);
+  shape->set_material(m);
+
+  World w = World();
+  w.add_object(shape);
+  w.add_object(dw.objects()[1]);
+
+  Ray r = Ray(Point(0, 0, -5), Vector(0, 0, 1));
+  auto allxs = w.Intersect(r);
+  std::vector<Intersection> shape_xs;
+  for (int i = 0; i < allxs.Size(); ++i) {
+    if (shape == allxs[i].Object()) {
+      shape_xs.push_back(allxs[i]);
+    }
+  }
+  auto xs = Intersections(shape_xs);
+  auto pc = PreparedComputation(xs[0], r, xs);
+  auto c = w.RefractedColor(pc, MAX_REFRACTIONS);
+  ASSERT_EQ(Color(0, 0, 0), c);
+}
+
+TEST(WorldTest, TotalInternalRefractionColor) {
+  auto dw = DefaultWorld();
+  auto shape = dw.objects()[0];
+  Material m = shape->material();
+  m.set_transparency(1.0);
+  m.set_refractive_index(REFRACTIVE_INDEX_GLASS);
+  shape->set_material(m);
+
+  World w = World();
+  w.add_object(shape);
+  w.add_object(dw.objects()[1]);
+
+  Ray r = Ray(Point(0, 0, sqrt(2.0) / 2.0), Vector(0, 1, 0));
+  auto allxs = w.Intersect(r);
+  std::vector<Intersection> shape_xs;
+  for (int i = 0; i < allxs.Size(); ++i) {
+    if (shape == allxs[i].Object()) {
+      shape_xs.push_back(allxs[i]);
+    }
+  }
+  auto xs = Intersections(shape_xs);
+  auto pc = PreparedComputation(xs[1], r, xs);
+  auto c = w.RefractedColor(pc, 0);
+  ASSERT_EQ(Color(0, 0, 0), c);
+}
+
+TEST(WorldTest, RefractedColor) {
+  auto dw = DefaultWorld();
+  auto a = dw.objects()[0];
+  Material ma = a->material();
+  ma.set_ambient(1.0);
+  ma.set_pattern(new PatternMock());
+  a->set_material(ma);
+
+  auto b = dw.objects()[1];
+  Material mb = Material();
+  mb.set_transparency(1.0);
+  mb.set_refractive_index(REFRACTIVE_INDEX_GLASS);
+  b->set_material(mb);
+
+  World w = World();
+  w.add_object(a);
+  w.add_object(b);
+
+  Ray r = Ray(Point(0, 0, 0.1), Vector(0, 1, 0));
+  Intersections xs = w.Intersect(r);
+  auto pc = PreparedComputation(xs[2], r, xs);
+  auto c = w.RefractedColor(pc, 0);
+  ASSERT_EQ(c, Color(0, 0.9988885, 0.047219));
+}
+
+TEST(WorldTest, ShadeHitTransparency) {
+  auto w = DefaultWorld();
+  auto floor = new Plane();
+  floor->SetTransform(Translation(0, -1, 0));
+  auto floorm = Material();
+  floorm.set_transparency(0.5);
+  floorm.set_refractive_index(1.5);
+  floor->set_material(floorm);
+  w.add_object(floor);
+
+  auto ball = new Sphere();
+  ball-> SetTransform(Translation(0, -3.5, -0.5));
+  auto ballm = Material();
+  ballm.set_color(Color(1, 0, 0));
+  ballm.set_ambient(0.5);
+  ball->set_material(ballm);
+  w.add_object(ball);
+
+  Ray r = Ray(Point(0, 0, -3), Vector(0, -sqrt(2.0) / 2.0, sqrt(2.0) / 2.0));
+  Intersections xs = w.Intersect(r);
+  ASSERT_EQ(xs[0].Object(), floor);
+
+  auto pc = PreparedComputation(xs[0], r, xs);
+  auto c = w.ShadeHit(pc, 0);
+  ASSERT_EQ(c, Color(0.93642, 0.68642, 0.68642));
 }
