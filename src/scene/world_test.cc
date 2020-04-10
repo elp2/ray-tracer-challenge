@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <math.h>
 
+#include "primitives/intersections.h"
 #include "primitives/transformation.h"
 #include "shapes/plane.h"
 #include "shapes/sphere.h"
@@ -349,4 +350,65 @@ TEST(WorldTest, ShadeHitTransparency) {
   auto pc = PreparedComputation(xs[0], r, xs);
   auto c = w.ShadeHit(pc, 0);
   ASSERT_EQ(c, Color(0.93642, 0.68642, 0.68642));
+}
+
+TEST(WorldTest, SchlickTotalInternalRefraction) {
+  auto shape = GlassySphere();
+  Ray r = Ray(Point(0, 0, sqrt(2.0) / 2.0), Vector(0, 1, 0));
+  Intersections xs = Intersections(std::vector<Intersection> {
+    Intersection(-sqrt(2.0) / 2.0, shape),
+    Intersection(sqrt(2.0 ) / 2.0, shape)
+  });
+  auto pc = PreparedComputation(xs[1], r, xs);
+  ASSERT_FLOAT_EQ(pc.schlick(), 1.0);
+}
+
+TEST(WorldTest, SchlickPerpendicular) {
+  auto shape = GlassySphere();
+  Ray r = Ray(Point(0, 0, 0), Vector(0, 1, 0));
+  Intersections xs = Intersections(std::vector<Intersection> {
+    Intersection(-1, shape),
+    Intersection(1, shape)
+  });
+  auto pc = PreparedComputation(xs[1], r, xs);
+  ASSERT_FLOAT_EQ(pc.schlick(), 0.040000003);
+}
+
+TEST(WorldTest, SchlickSmallAngleN2gtN1) {
+  auto shape = GlassySphere();
+  Ray r = Ray(Point(0, 0.99, -2), Vector(0, 0, 1));
+  Intersections xs = Intersections(std::vector<Intersection> {
+    Intersection(1.8589, shape),
+  });
+  auto pc = PreparedComputation(xs[0], r, xs);
+  ASSERT_FLOAT_EQ(pc.schlick(), 0.4887307);
+}
+
+
+TEST(WorldTest, ShadeHitTransparentReflective) {
+  auto w = DefaultWorld();
+  auto floor = new Plane();
+  floor->SetTransform(Translation(0, -1, 0));
+  auto floorm = Material();
+  floorm.set_reflective(0.5);
+  floorm.set_transparency(0.5);
+  floorm.set_refractive_index(1.5);
+  floor->set_material(floorm);
+  w.add_object(floor);
+
+  auto ball = new Sphere();
+  ball-> SetTransform(Translation(0, -3.5, -0.5));
+  auto ballm = Material();
+  ballm.set_color(Color(1, 0, 0));
+  ballm.set_ambient(0.5);
+  ball->set_material(ballm);
+  w.add_object(ball);
+
+  Ray r = Ray(Point(0, 0, -3), Vector(0, -sqrt(2.0) / 2.0, sqrt(2.0) / 2.0));
+  Intersections xs = w.Intersect(r);
+  ASSERT_EQ(xs[0].Object(), floor);
+
+  auto pc = PreparedComputation(xs[0], r, xs);
+  auto c = w.ShadeHit(pc, 0);
+  ASSERT_EQ(c, Color(0.933915, 0.696434, 0.692431));
 }

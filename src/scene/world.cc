@@ -28,6 +28,13 @@ Color World::ShadeHit(PreparedComputation pc, const int &reflections) {
   Color surface = s->material().Lighting(light_, pc.point(), pc.eye_vector(), pc.normal_vector(), is_shadowed);
   Color reflected = ReflectedColor(pc, reflections);
   Color refracted = RefractedColor(pc, reflections);
+
+  Material hit_material = pc.object()->material();
+  if (hit_material.reflective() > 0 && hit_material.transparency() > 0) {
+    float reflectance = pc.schlick();
+    return surface + reflected * reflectance + refracted * (1 - reflectance);
+  }
+
   return surface + reflected + refracted;
 }
 

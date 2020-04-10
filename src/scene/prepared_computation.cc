@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <math.h>
 
 #include "primitives/intersection.h"
 #include "primitives/math.h"
@@ -61,4 +62,23 @@ void PreparedComputation::CalculateN1N2(Intersections &xs, Intersection &hit) {
     }
   }
   assert(false); // Shouldn't happen.
+}
+
+float PreparedComputation::schlick() {
+  float cos = eye_vector_.Dot(normal_vector_);
+
+  if (n1_ > n2_) {
+    float n = n1_ / n2_;
+    float sin2_t = n * n * (1.0 - cos * cos);
+    if (sin2_t > 1.0) {
+      // Total Internal reflection happened.
+      return 1.0;
+    }
+
+    float cos_t = sqrt(1.0 - sin2_t);
+    cos = cos_t;
+  }
+
+  float r0 = pow(((n1_ - n2_) / (n1_ + n2_)), 2);
+  return r0 + (1 - r0) * pow(1 - cos, 5);
 }

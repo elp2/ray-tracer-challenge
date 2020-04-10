@@ -24,6 +24,7 @@ class PreparedComputation {
   bool inside() const { return inside_; };
   float n1() const { return n1_; };
   float n2() const { return n2_; };
+  float schlick();
 
  private:
   float t_;
