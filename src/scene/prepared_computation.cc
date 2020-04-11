@@ -22,8 +22,9 @@ PreparedComputation::PreparedComputation(Intersection hit, Ray &r, Intersections
   } else {
     inside_ = false;
   }
-  over_point_ = point_ + normal_vector_ * EPSILON;
-  under_point_ = point_ - normal_vector_ * EPSILON;
+  const float POINT_FACTOR = 1;
+  over_point_ = point_ + normal_vector_ * EPSILON * POINT_FACTOR;
+  under_point_ = point_ - normal_vector_ * EPSILON * POINT_FACTOR;
 
   reflect_vector_ = r.Direction().Reflect(normal_vector_);
   CalculateN1N2(xs, hit);

@@ -32,3 +32,15 @@ std::string Color::DebugString() const {
   stream << "(r: " << this->r() << ", g: " << this->g() << ", b: " << this->b() << ")" << std::endl;
   return stream.str();
 }
+
+Color SilverColor() {
+  return Color(0.666, 0.6627, 0.6784);
+}
+
+Color WhiteColor() {
+  return Color(1, 1, 1);
+}
+
+Color BlackColor() {
+  return Color(0, 0, 0);
+}

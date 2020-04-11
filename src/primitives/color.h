@@ -26,4 +26,8 @@ Color operator*(const Color c, const float factor);
 Color operator+(const Color c, const Color o);
 Color operator-(const Color &c, const Color &o);
 
+Color SilverColor();
+Color WhiteColor();
+Color BlackColor();
+
 #endif    // RTC_PRIMITIVES_COLOR_H_

@@ -5,6 +5,7 @@
 #include "patterns/perturbed_pattern.h"
 #include "patterns/ring_pattern.h"
 #include "patterns/striped_pattern.h"
+#include "patterns/three_d_pattern.h"
 #include "primitives/math.h"
 #include "primitives/matrix.h"
 #include "primitives/transformation.h"
@@ -19,7 +20,7 @@
 #include <cmath>
 #include <iostream>
 
-const int CAMERA_DIMENSION = 200;
+const int CAMERA_DIMENSION = 300;
 
 Camera get_camera1() {
   Camera c = Camera(CAMERA_DIMENSION, CAMERA_DIMENSION, M_PI / 4.0);
@@ -87,9 +88,9 @@ World get_world1() {
 
 Camera get_camera2() {
   Camera c = Camera(CAMERA_DIMENSION, CAMERA_DIMENSION, M_PI / 4.0);
-  Tuple from = Point(-5, 1, 0);
+  Tuple from = Point(10, 2, 0);
   Tuple to = Point(0.0, 0.0, 0.0);
-  Tuple up = Vector(0.0, 0.0, 1.0);
+  Tuple up = Vector(0.0, 1.0, 0.0);
   c.set_transform(ViewTransformation(from, to, up));
   return c;
 }
@@ -98,6 +99,7 @@ Sphere *CrystalBall() {
   auto sphere = new Sphere();
   auto material = Material();
   material.set_transparency(0.8);
+  material.set_refractive_index(REFRACTIVE_INDEX_GLASS);
   material.set_color(Color(0.3, 0.3, 0.3));
   sphere->set_material(material);
   return sphere;
@@ -105,11 +107,73 @@ Sphere *CrystalBall() {
 
 World get_world2() {
   World w = World();
-  w.set_light(PointLight(Point(-1, 5.0, 0), Color(1.0, 1.0, 1.0)));
+  w.set_light(PointLight(Point(-1, 10.0, 0), Color(1.0, 0.2, 0.2)));
 
-  Sphere *s4 = CrystalBall();
-  s4->SetTransform(Translation(3, 2, 1));
-  w.add_object(s4);
+  auto p = new Plane();
+  auto pm = Material();
+  pm.set_reflective(0.8);
+  pm.set_color(Color(0.3, 0, 0));
+  w.add_object(p);
+
+  for (int x = -1; x < 2; x += 2) {
+    for (int y = 1; y < 4; y += 2) {
+      for (int z = -1; z < 2; z += 2) {
+        Sphere *sphere = CrystalBall();
+        sphere->SetTransform(Translation(x, y, z));
+        auto material = Material();
+        material.set_transparency(0.2 * y);
+        material.set_color(Color(0.3 * y, 0.3 * y, 0.3));
+        sphere->set_material(material);
+
+        w.add_object(sphere);
+      }
+    }
+  }
+
+  return w;
+}
+
+Camera get_camera3() {
+  Camera c = Camera(CAMERA_DIMENSION, CAMERA_DIMENSION, M_PI / 4.0);
+  Tuple from = Point(10, 10, 0);
+  Tuple to = Point(0.0, 0.0, 0.0);
+  Tuple up = Vector(0.0, 1.0, 0.0);
+  c.set_transform(ViewTransformation(from, to, up));
+  return c;
+}
+
+World get_world3() {
+  World w = World();
+  w.set_light(PointLight(Point(-1, 10.0, 0), WhiteColor() * 1));
+
+  auto p = new Plane();
+  auto pm1 = Material();
+  auto grid = new ThreeDPattern(WhiteColor(), BlackColor());
+  pm1.set_pattern(grid);
+  pm1.set_reflective(0.2);
+  pm1.set_shininess(30);
+  p->set_material(pm1);
+  w.add_object(p);
+
+  auto back_wall = new Plane();
+  back_wall->set_material(pm1);
+  back_wall->SetTransform(Translation(-3, 0, 0) *  RotationZ(M_PI / 2.0));
+  w.add_object(back_wall);
+
+  // Sphere *sphere = GlassySphere();
+  // sphere->SetTransform(Scaling(5, 5, 5));
+  // w.add_object(sphere);
+
+  // const int NUM_SPHERES = 1;
+  // for (int i = 0; i < NUM_SPHERES; ++i) {
+  //   const float DISPERSION = 10;
+  //   float radius = 0.1 * rand() / (float)RAND_MAX + 0.5;
+  //   float x = DISPERSION * rand() / (float)RAND_MAX - DISPERSION / 2.0;
+  //   float z = DISPERSION * rand() / (float)RAND_MAX - DISPERSION / 2.0;
+  //   Sphere *sphere = GlassySphere();
+  //   sphere->SetTransform(Translation(x, radius, z) * Scaling(radius, radius, radius));
+  //   w.add_object(sphere);
+  // }
 
   return w;
 }
@@ -122,9 +186,13 @@ int main(int argc, char* argv[]) {
   // PPMWriter ppm_writer1 = PPMWriter(&canvas1);
   // ppm_writer1.WriteFile("chapter11_1.ppm");
 
-  Canvas canvas2 = get_camera2().Render(get_world2());
-  PPMWriter ppm_writer2 = PPMWriter(&canvas2);
-  ppm_writer2.WriteFile("chapter11_2.ppm");
+  // Canvas canvas2 = get_camera2().Render(get_world2());
+  // PPMWriter ppm_writer2 = PPMWriter(&canvas2);
+  // ppm_writer2.WriteFile("chapter11_2.ppm");
+
+  Canvas canvas3 = get_camera3().Render(get_world3());
+  PPMWriter ppm_writer3 = PPMWriter(&canvas3);
+  ppm_writer3.WriteFile("chapter11_3.ppm");
 
   return 0;
 }
