@@ -322,7 +322,7 @@ TEST(WorldTest, RefractedColor) {
   Intersections xs = w.Intersect(r);
   auto pc = PreparedComputation(xs[2], r, xs);
   auto c = w.RefractedColor(pc, 0);
-  ASSERT_EQ(c, Color(0, 0.9988885, 0.047219));
+  ASSERT_EQ(c, Color(0, 0.998875, 0.0472185));
 }
 
 TEST(WorldTest, ShadeHitTransparency) {
@@ -383,7 +383,6 @@ TEST(WorldTest, SchlickSmallAngleN2gtN1) {
   auto pc = PreparedComputation(xs[0], r, xs);
   ASSERT_FLOAT_EQ(pc.schlick(), 0.4887307);
 }
-
 
 TEST(WorldTest, ShadeHitTransparentReflective) {
   auto w = DefaultWorld();

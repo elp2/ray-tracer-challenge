@@ -25,7 +25,7 @@ Color World::ShadeHit(PreparedComputation pc, const int &reflections) {
   bool is_shadowed = IsShadowed(pc.over_point());
 
   const Shape *s = pc.object();
-  Color surface = s->material().Lighting(light_, pc.point(), pc.eye_vector(), pc.normal_vector(), is_shadowed);
+  Color surface = s->material().Lighting(light_, pc.over_point(), pc.eye_vector(), pc.normal_vector(), is_shadowed);
   Color reflected = ReflectedColor(pc, reflections);
   Color refracted = RefractedColor(pc, reflections);
 
