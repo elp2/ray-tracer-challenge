@@ -60,11 +60,11 @@ Tuple UnitPointIfy(const Tuple &point) {
   float y = point.y() - floor(point.y());
   float z = point.z() - floor(point.z());
   assert(x >= 0);
-  assert(x < 1);
+  assert(x <= 1);
   assert(y >= 0);
-  assert(y < 1);
+  assert(y <= 1);
   assert(z >= 0);
-  assert(z < 1);
+  assert(z <= 1);
   return Point(x, y, z);
 }
 

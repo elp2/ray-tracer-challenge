@@ -29,5 +29,9 @@ Color operator-(const Color &c, const Color &o);
 Color SilverColor();
 Color WhiteColor();
 Color BlackColor();
+Color ElectricBlueColor();
+Color YellowColor();
+Color PinkColor();
+Color OrangeColor();
 
 #endif    // RTC_PRIMITIVES_COLOR_H_

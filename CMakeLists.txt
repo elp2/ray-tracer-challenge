@@ -103,6 +103,10 @@ add_executable(chapter11 WIN32
     src/exe/chapter11.cc)
 target_link_libraries(chapter11 patterns primitives display shapes lights scene)
 
+add_executable(chapter12 WIN32
+    src/exe/chapter12.cc)
+target_link_libraries(chapter12 patterns primitives display shapes lights scene)
+
 # Below is from googletest README.md.
 # Download and unpack googletest at configure time.
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)

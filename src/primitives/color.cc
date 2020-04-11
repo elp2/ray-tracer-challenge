@@ -44,3 +44,19 @@ Color WhiteColor() {
 Color BlackColor() {
   return Color(0, 0, 0);
 }
+
+Color ElectricBlueColor() {
+  return Color(0.031, 0.573, 0.816);
+}
+
+Color YellowColor() {
+  return Color(1, 1, 0);
+}
+
+Color PinkColor() {
+  return Color(1, 0.753, 0.796);
+}
+
+Color OrangeColor() {
+  return Color(1, 0.647, 0);
+}
