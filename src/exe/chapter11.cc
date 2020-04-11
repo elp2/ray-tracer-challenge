@@ -177,6 +177,60 @@ World get_world3() {
   return w;
 }
 
+Camera get_camera4() {
+  Camera c = Camera(CAMERA_DIMENSION, CAMERA_DIMENSION, M_PI / 4.0);
+  Tuple from = Point(10, 3, 0);
+  Tuple to = Point(0.0, 0.0, 0.0);
+  Tuple up = Vector(0.0, 1.0, 0.0);
+  c.set_transform(ViewTransformation(from, to, up));
+  return c;
+}
+
+World get_world4() {
+  World w = World();
+  w.set_light(PointLight(Point(6, 20.0, 0), WhiteColor() * 1));
+
+  auto p = new Plane();
+  auto pm1 = Material();
+  auto grid = new ThreeDPattern(WhiteColor(), BlackColor());
+  pm1.set_pattern(grid);
+  // When the background is too reflective, it means more reflected light
+  // off of the spheres, making them seem weird.
+  pm1.set_reflective(0.00);
+  pm1.set_shininess(30);
+  p->set_material(pm1);
+  w.add_object(p);
+
+  auto back_wall = new Plane();
+  back_wall->set_material(pm1);
+  back_wall->SetTransform(Translation(-3, 0, 0) *  RotationZ(M_PI / 2.0));
+  w.add_object(back_wall);
+
+  auto water_plane = new Plane();
+  auto water_material = Material();
+  water_material.set_color(Color(0, 0, 1));
+  water_material.set_transparency(0.9);
+  water_material.set_reflective(0.3);
+  water_material.set_casts_shadow(false);
+  water_plane->set_material(water_material);
+  water_plane->SetTransform(Translation(0, 3, 0));
+  w.add_object(water_plane);
+
+  Sphere *sphere = CrystalBall();
+  sphere->SetTransform(Translation(3, 1, 0) * Scaling(1, 1, 1));
+  w.add_object(sphere);
+
+  Sphere *red = new Sphere();
+  red->SetTransform(Translation(-1.5, 1, 1));
+  Material redm = Material();
+  redm.set_color(Color(1, 0, 0));
+  red->set_material(redm);
+  w.add_object(red);
+
+  return w;
+}
+
+
 int main(int argc, char* argv[]) {
   (void)argc;
   (void)argv;
@@ -191,10 +245,16 @@ int main(int argc, char* argv[]) {
   // PPMWriter ppm_writer2 = PPMWriter(&canvas2);
   // ppm_writer2.WriteFile("chapter11_2.ppm");
 
-  std::cout << "Rendering chapter11_3.ppm." << std::endl;
-  Canvas canvas3 = get_camera3().Render(get_world3());
-  PPMWriter ppm_writer3 = PPMWriter(&canvas3);
-  ppm_writer3.WriteFile("chapter11_3.ppm");
+  // std::cout << "Rendering chapter11_3.ppm." << std::endl;
+  // Canvas canvas3 = get_camera3().Render(get_world3());
+  // PPMWriter ppm_writer3 = PPMWriter(&canvas3);
+  // ppm_writer3.WriteFile("chapter11_3.ppm");
+
+  std::cout << "Rendering chapter11_4.ppm." << std::endl;
+  Canvas canvas4 = get_camera4().Render(get_world4());
+  PPMWriter ppm_writer4 = PPMWriter(&canvas4);
+  ppm_writer4.WriteFile("chapter11_4.ppm");
+
 
   return 0;
 }

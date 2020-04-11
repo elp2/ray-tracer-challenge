@@ -54,6 +54,9 @@ class Material {
   void set_transparency(const float transparency) { transparency_ = transparency; };
   float transparency() const { return transparency_; };
 
+  void set_casts_shadow(const bool casts_shadow) { casts_shadow_ = casts_shadow; };
+  bool casts_shadow() const { return casts_shadow_; };
+
   bool operator==(Material other) const;
 
  private:
@@ -65,6 +68,7 @@ class Material {
   float specular_;
   float shininess_;
   float transparency_;
+  bool casts_shadow_ = true;
   Pattern *pattern_ = nullptr;
 };
 

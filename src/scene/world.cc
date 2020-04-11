@@ -83,6 +83,11 @@ bool World::IsShadowed(Tuple p) {
     return false;
   }
   Intersection hit = xs.Hit().value();
+  Shape *s = (Shape *)xs.Hit()->Object();
+  if (!s->material().casts_shadow()) {
+    return false;
+  }
+
   float light_distance = v.Magnitude();
   bool first_hit_closer = hit.T() < light_distance;
   return first_hit_closer;
