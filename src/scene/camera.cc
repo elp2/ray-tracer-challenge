@@ -50,6 +50,7 @@ Canvas Camera::Render(World w) {
   std::cout << "Rendering with " << std::thread::hardware_concurrency()
     << " threads." << std::endl;
   Canvas canvas = Canvas(width_, height_);
+  canvas.set_report_render_progress(true);
   std::vector<std::thread> threads;
   for (int i = 0; i < std::thread::hardware_concurrency(); ++i) {
     std::thread thread (&Camera::RenderThread, this, &canvas, &w, i);

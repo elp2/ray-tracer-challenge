@@ -2,6 +2,7 @@
 
 #include <cassert>
 #include <cstdlib>
+#include <iostream>
 
 Canvas::Canvas(int w, int h) {
   w_ = w;
@@ -28,5 +29,14 @@ Color Canvas::PixelAt(int x, int y) {
 }
 
 void Canvas::WritePixel(Color c, int x, int y) {
+  if (report_render_progress_) {
+    ++rendered_;
+    float progress = 100.0 * (float)rendered_ / (float)(w_ * h_);
+    if (progress > rendered_reported_) {
+      std::cout << "Rendered " << rendered_ << " pixels: " << progress
+          << "%" << std::endl;
+      rendered_reported_ = progress + 5.0;
+    }
+  }
   pixels_[PixelIndex(x, y)] = c;
 }
