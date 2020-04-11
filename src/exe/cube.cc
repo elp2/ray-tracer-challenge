@@ -21,7 +21,7 @@
 #include <cmath>
 #include <iostream>
 
-const int CAMERA_DIMENSION = 350;
+const int CAMERA_DIMENSION = 100;
 
 Camera get_camera1() {
   Camera c = Camera(CAMERA_DIMENSION, CAMERA_DIMENSION, M_PI / 4.0);
@@ -64,24 +64,6 @@ World get_world1() {
   w.add_object(p);
 
   w.add_object(Domino(YellowColor(), 0, 0));
-  w.add_object(Domino(YellowColor(), 1, 0));
-  w.add_object(Domino(YellowColor(), 2, 0));
-  w.add_object(Domino(YellowColor(), 0, 1));
-
-  w.add_object(Domino(ElectricBlueColor(), 0, 2));
-  w.add_object(Domino(ElectricBlueColor(), 1, 2));
-  w.add_object(Domino(ElectricBlueColor(), 2, 2));
-  w.add_object(Domino(ElectricBlueColor(), 1, 1));
-
-  w.add_object(Domino(PinkColor(), 0, 3));
-  w.add_object(Domino(PinkColor(), 1, 3));
-  w.add_object(Domino(PinkColor(), 2, 3));
-  w.add_object(Domino(PinkColor(), 3, 3));
-
-  w.add_object(Domino(OrangeColor(), 4, 0));
-  w.add_object(Domino(OrangeColor(), 4, 1));
-  w.add_object(Domino(OrangeColor(), 4, 2));
-  w.add_object(Domino(OrangeColor(), 3, 1));
 
   return w;
 }
@@ -90,10 +72,10 @@ int main(int argc, char* argv[]) {
   (void)argc;
   (void)argv;
 
-  std::cout << "Rendering chapter12_1.ppm." << std::endl;
+  std::cout << "Rendering cube.ppm." << std::endl;
   Canvas canvas1 = get_camera1().Render(get_world1());
   PPMWriter ppm_writer1 = PPMWriter(&canvas1);
-  ppm_writer1.WriteFile("chapter12_1.ppm");
+  ppm_writer1.WriteFile("cube.ppm");
 
   return 0;
 }

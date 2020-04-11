@@ -2,6 +2,7 @@
 
 #include <cassert>
 #include <cstdlib>
+#include <cstring>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -16,7 +17,11 @@ Matrix::Matrix(int w, int h) {
   matrix_ = (float *)calloc(w * h, sizeof(float));
 }
 
-Matrix::Matrix(int w, int h, std::vector<float> values) {
+Matrix::~Matrix() {
+  free(matrix_);
+}
+
+Matrix::Matrix(const int w, const int h, std::vector<float> values) {
   w_ = h;
   h_ = h;
   matrix_ = (float *)calloc(w * h, sizeof(float));
@@ -26,17 +31,39 @@ Matrix::Matrix(int w, int h, std::vector<float> values) {
   }
 }
 
-inline int Matrix::MatrixIndex(const int row, const int col) const {
-  assert(col >= 0 && col < w_);
-  assert(row >= 0 && row < h_);
+Matrix &Matrix::operator=(const Matrix &matrix) {
+  if (this != &matrix) {
+    if (w_ == matrix.w_ && h_ == matrix.h_) {
+      memcpy(matrix_, matrix.matrix_, w_ * h_ * sizeof(float));
+    } else {
+      w_ = matrix.w_;
+      h_ = matrix.h_;
+      free(matrix_);
+      matrix_ = (float *)malloc(w_ * h_ * sizeof(float));
+      memcpy(matrix_, matrix.matrix_, w_ * h_ * sizeof(float));
+    }
+  }
+  return *this;
+}
+
+Matrix::Matrix(const Matrix &matrix) {
+  w_ = matrix.w();
+  h_ = matrix.h();
+  matrix_ = (float *)malloc(w_ * h_ * sizeof(float));
+  memcpy(matrix_, matrix.matrix_, w_ * h_ * sizeof(float));
+}
+
+const inline int Matrix::MatrixIndex(const int &row, const int &col) const {
+  // assert(col >= 0 && col < w_);
+  // assert(row >= 0 && row < h_);
   return col + row * h_;
 }
 
-const float Matrix::operator()(int row, int col) const {
+const float Matrix::operator()(const int &row, const int &col) const {
   return matrix_[MatrixIndex(row, col)];
 }
 
-void Matrix::Set(float value, int row, int col) {
+void Matrix::Set(float value, const int &row, const int &col) {
   matrix_[MatrixIndex(row, col)] = value;
 }
 

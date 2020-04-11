@@ -11,13 +11,16 @@ class Matrix {
  public:
   Matrix(int w, int h);
   Matrix(int w, int h, std::vector<float> values);
-  ~Matrix() = default;
+  ~Matrix();
 
-  const float operator()(int row, int col) const;
-  void Set(float value, int row, int col);
+  Matrix(const Matrix &matrix);
+  Matrix &operator=(const Matrix &matrix);
 
-  int w() const { return w_; };
-  int h() const { return h_; };
+  const float operator()(const int &row, const int &col) const;
+  void Set(float value, const int &row, const int &col);
+
+  inline const int w() const { return w_; };
+  inline const int h() const { return h_; };
 
   Matrix Transpose();
   float Determinant() const;
@@ -37,7 +40,7 @@ class Matrix {
  private:
   int w_, h_;
   float *matrix_;
-  inline int MatrixIndex(const int row, const int col) const;
+  const inline int MatrixIndex(const int &row, const int &col) const;
 };
 
 const bool operator==(const Matrix lhs, const Matrix rhs);
