@@ -39,6 +39,7 @@ Ray Camera::RayForPixel(int x, int y) {
   float world_x = half_width_ - x_offset;
   float world_y = half_height_ - y_offset;
 
+  assert(transform_.Invertible() && "Impossible combination of up/from/to.");
   Tuple pixel = transform_.Inverse() * Point(world_x, world_y, -1.0);
   Tuple origin = transform_.Inverse() * Point(0.0, 0.0, 0.0);
   Tuple direction = (pixel - origin).Normalized();
