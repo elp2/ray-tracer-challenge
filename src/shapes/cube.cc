@@ -33,9 +33,9 @@ const Intersections Cube::ObjectIntersect(const Ray object_ray) const {
 const Tuple Cube::ObjectNormal(const Tuple object_point) const {
   float max_component = std::fmax(fabs(object_point.x()),
     std::fmax(fabs(object_point.y()), fabs(object_point.z())));
-  if (max_component == abs(object_point.x())) {
+  if (max_component == fabs(object_point.x())) {
     return Vector(object_point.x(), 0, 0);
-  } else if (max_component == abs(object_point.y())) {
+  } else if (max_component == fabs(object_point.y())) {
     return Vector(0, object_point.y(), 0);
   }
   return Vector(0, 0, object_point.z());
