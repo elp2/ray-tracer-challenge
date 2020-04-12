@@ -5,6 +5,7 @@
 
 #include <algorithm>
 #include <math.h>
+#include <utility>
 
 Cube::Cube() {
 }
@@ -56,8 +57,6 @@ const void Cube::CheckAxis(const float &origin, const float &direction, float *t
     *tmax = tmax_numerator * INFINITY;
   }
   if (*tmin > *tmax) {
-    int tmp = *tmin;
-    *tmin = *tmax;
-    *tmax = tmp;
+    std::swap(*tmax, *tmin);
   }
 }
