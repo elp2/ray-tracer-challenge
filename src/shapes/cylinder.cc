@@ -9,13 +9,16 @@
 Cylinder::Cylinder() {
 }
 
+Cylinder::Cylinder(float maximum, float minimum, bool closed) {
+  maximum_ = maximum;
+  minimum_ = minimum;
+  closed_ = closed;
+}
+
 const Intersections Cylinder::ObjectIntersect(const Ray object_ray) const {
   float a = pow(object_ray.Direction().x(), 2.0) + pow(object_ray.Direction().z(), 2.0);
-
-  if (fabs(a) < EPSILON) {
-    // Ray is parallel to y axis so could not intersect.
-    return Intersections(std::vector<Intersection> {});
-  }
+  // If a~= 0 Ray is parallel to y axis so could not intersect.
+  // However, we still need to see if a cap could intersect at the end.
 
   float b = 2 * object_ray.Origin().x() * object_ray.Direction().x() +
       2 * object_ray.Origin().z() * object_ray.Direction().z();
@@ -29,17 +32,57 @@ const Intersections Cylinder::ObjectIntersect(const Ray object_ray) const {
   float sqrt_disc = sqrt(discriminant);
   float t0 = (-b - sqrt_disc) / (2.0 * a);
   float t1 = (-b + sqrt_disc) / (2.0 * a);
+  if (t0 > t1) {
+    std::swap(t0, t1);
+  }
 
-  return Intersections(std::vector<Intersection> {
-    Intersection(t0, this),
-    Intersection(t1, this),
-  });
+  std::vector<Intersection> xs;
+  float y0 = object_ray.Origin().y() + t0 * object_ray.Direction().y();
+  if (minimum_ < y0 && y0 < maximum_) {
+    xs.push_back(Intersection(t0, this));
+  }
+  float y1 = object_ray.Origin().y() + t1 * object_ray.Direction().y();
+  if (minimum_ < y1 && y1 < maximum_) {
+    xs.push_back(Intersection(t1, this));
+  }
+
+  CapIntersections(object_ray, &xs);
+  return Intersections(std::vector<Intersection> { xs });
 }
 
 const Tuple Cylinder::ObjectNormal(const Tuple object_point) const {
+  float dist = pow(object_point.x(), 2.0) + pow(object_point.y(), 2.0);
+  if (dist <= 1 && object_point.y() >= maximum_ - EPSILON) {
+    return Vector(0, 1, 0);
+  }
+  if (dist <= 1 && object_point.y() <= minimum_ + EPSILON) {
+    return Vector(0, -1, 0);
+  }
   return Vector(object_point.x(), 0, object_point.z());
 }
 
 bool Cylinder::operator==(const Cylinder o) const {
   return Shape::operator==(o);
+}
+
+const bool Cylinder::IntersectsCap(const Ray &r, const float &t) const {
+  float x = r.Origin().x() + t * r.Direction().x();
+  float z = r.Origin().z() + t * r.Direction().z();
+
+  return (pow(x, 2) + pow(z, 2)) <= 1.0;
+}
+
+const void Cylinder::CapIntersections(const Ray &r, std::vector<Intersection> *xs) const {
+  if (!closed_ || fabs(r.Direction().y()) < EPSILON) {
+    return;
+  }
+
+  float t = (minimum_ - r.Origin().y()) / r.Direction().y();
+  if (IntersectsCap(r, t)) {
+    xs->push_back(Intersection(t, this));
+  }
+  t = (maximum_ - r.Origin().y()) / r.Direction().y();
+  if (IntersectsCap(r, t)) {
+    xs->push_back(Intersection(t, this));
+  }
 }

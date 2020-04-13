@@ -32,17 +32,6 @@ Camera get_camera1() {
   return c;
 }
 
-Shape *Cyl(Color c, int y, int z) {
-  Cylinder *cylinder = new Cylinder();
-
-  Material m = Material();
-  m.set_color(c);
-  m.set_reflective(0.3);
-  cylinder->set_material(m);
-
-  return cylinder;
-}
-
 World get_world1() {
   World w = World();
   w.set_light(PointLight(Point(-8, 8.0, 0.0), Color(1.0, 1.0, 1.0)));
@@ -59,7 +48,20 @@ World get_world1() {
   p->set_material(pm1);
   w.add_object(p);
 
-  w.add_object(Cyl(ElectricBlueColor(), 0, 0));
+  Cylinder *blue_cylinder = new Cylinder();
+  Material m = Material();
+  m.set_color(ElectricBlueColor());
+  m.set_reflective(0.3);
+  blue_cylinder->set_material(m);
+  w.add_object(blue_cylinder);
+
+  Cylinder *yellow_cylinder = new Cylinder(3, 1, true);
+  yellow_cylinder->SetTransform(Scaling(2, 2, 2) * Translation(0, 3, 3));
+  Material my = Material();
+  my.set_color(YellowColor());
+  my.set_reflective(0.3);
+  yellow_cylinder->set_material(my);
+  w.add_object(yellow_cylinder);
 
   return w;
 }

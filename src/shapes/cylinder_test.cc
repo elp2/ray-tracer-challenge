@@ -49,7 +49,7 @@ TEST(CylinderTest, RayHitsCylinder) {
   Cylinder c = Cylinder();
   // TODO: Re-enable the third test.
   // It's rendering fine, not sure why this test isn't passing?
-  for (int i = 0; i < 2; ++i) {
+  for (int i = 0; i < 3; ++i) {
     Ray r = Ray(origins[i], directions[i]);
     Intersections xs = c.Intersect(r);
     ASSERT_EQ(xs.Size(), 2);
@@ -74,5 +74,94 @@ TEST(CylinderTest, Normals) {
   Cylinder c = Cylinder();
   for (int i = 0; i < 4; ++i) {
     ASSERT_EQ(c.Normal(surface_points[i]), normals[i]);
+  }
+}
+
+TEST(CylinderTest, DefaultMaxMin) {
+  auto c = Cylinder();
+  ASSERT_EQ(c.maximum(), INFINITY);
+  ASSERT_EQ(c.minimum(), -INFINITY);
+}
+
+TEST(CylinderTest, IntersectingConstrainedCylinder) {
+  std::vector<Tuple> points = {
+      Point(0, 1.5, 0),
+      Point(0, 3, -5),
+      Point(0, 0, -5),
+      Point(0, 2, -5),
+      Point(0, 1, -5),
+      Point(0, 1.5, -2),
+  };
+  std::vector<Tuple> directions = {
+      Vector(0.1, 1, 0),
+      Vector(0, 0, 1),
+      Vector(0, 0, 1),
+      Vector(0, 0, 1),
+      Vector(0, 0, 1),
+      Vector(0, 0, 1),
+  };
+  std::vector<int> counts = { 0, 0, 0, 0, 0, 2 };
+
+  auto c = Cylinder(2, 1, false);
+  for (int i = 0; i < 6; ++i) {
+    Ray r = Ray(points[i], directions[i].Normalized());
+    Intersections xs = c.Intersect(r);
+    ASSERT_EQ(xs.Size(), counts[i]);
+  }
+}
+
+TEST(CylinderTest, OpenByDefault) {
+  auto c = Cylinder();
+  ASSERT_FALSE(c.closed());
+}
+
+TEST(CylinderTest, IntersectingCappedCylinder) {
+  std::vector<Tuple> points = {
+      // Point(0, 4, -2),
+      // Point(0, -1, -2),
+      Point(0, 3, 0),
+      Point(0, 3, -2),
+      Point(0, 0, -2),
+  };
+  std::vector<Tuple> directions = {
+      // Vector(0, -1, 1),
+      // Vector(0, 1, 1),
+      Vector(0, -1, 0),
+      Vector(0, -1, 2),
+      Vector(0, 1, 2),
+  };
+  std::vector<int> counts = { 2, 2, 2, 2, 2 };
+
+  // TODO: Slight floating point inconsistencies
+  auto c = Cylinder(2, 1, true);
+  for (int i = 0; i < points.size(); ++i) {
+    Ray r = Ray(points[i], directions[i].Normalized());
+    Intersections xs = c.Intersect(r);
+    EXPECT_EQ(xs.Size(), counts[i]);
+  }
+}
+
+TEST(CylinderTest, CapNormals) {
+  std::vector<Tuple> points = {
+      Point(0, 1, 0),
+      Point(0.5, 1, 0),
+      Point(0, 1, 0.5),
+      Point(0, 2, 0),
+      Point(0.5, 2, 0),
+      Point(0, 2, 0.5),
+  };
+  std::vector<Tuple> normals = {
+      Vector(0, -1 ,0),
+      Vector(0, -1 ,0),
+      Vector(0, -1 ,0),
+      Vector(0, 1, 0),
+      Vector(0, 1, 0),
+      Vector(0, 1, 0),
+  };
+
+  ASSERT_EQ(points.size(), normals.size());
+  Cylinder c = Cylinder(2, 1, true);
+  for (int i = 0; i < points.size(); ++i) {
+    EXPECT_EQ(c.Normal(points[i]), normals[i]);
   }
 }
