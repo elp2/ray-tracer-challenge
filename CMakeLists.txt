@@ -108,6 +108,10 @@ add_executable(chapter12 WIN32
     src/exe/chapter12.cc)
 target_link_libraries(chapter12 patterns primitives display shapes lights scene)
 
+add_executable(chapter14 WIN32
+    src/exe/chapter14.cc)
+target_link_libraries(chapter14 patterns primitives display shapes lights scene)
+
 add_executable(cube WIN32
     src/exe/cube.cc)
 target_link_libraries(cube patterns primitives display shapes lights scene)
