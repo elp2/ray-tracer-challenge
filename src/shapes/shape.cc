@@ -11,11 +11,9 @@ Intersections Shape::Intersect(const Ray r) const {
 }
 
 const Tuple Shape::Normal(const Tuple world_point) const {
-  Tuple object_point = transform_.Inverse() * world_point;
+  Tuple object_point = WorldPointToObject(world_point);
   Tuple object_normal = ObjectNormal(object_point);
-  Tuple world_normal = transform_.Inverse().Transpose() * object_normal;
-  world_normal.SetW(0.0);
-  return world_normal.Normalized();
+  return ObjectNormalToWorld(object_normal);
 }
 
 Color Shape::PatternAt(const Tuple& world_point) const {
@@ -25,4 +23,24 @@ Color Shape::PatternAt(const Tuple& world_point) const {
 
 bool Shape::operator==(const Shape &o) const {
   return o.material() == material_ && o.Transform() == transform_;
+}
+
+const Tuple Shape::WorldPointToObject(const Tuple &world_point) const {
+  Tuple point = world_point;
+  if (parent_ != nullptr) {
+    point = parent_->WorldPointToObject(world_point);
+  }
+  return transform_.Inverse() * point;
+}
+
+const Tuple Shape::ObjectNormalToWorld(const Tuple &normal_vector) const {
+  Tuple vector = transform_.Inverse().Transpose() * normal_vector;
+  vector.SetW(0);
+  vector = vector.Normalized();
+
+  if (parent_ != nullptr) {
+    vector = parent_->ObjectNormalToWorld(vector);
+  }
+
+  return vector;
 }

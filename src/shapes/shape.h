@@ -26,12 +26,19 @@ class Shape {
 
   bool operator==(const Shape &o) const;
 
+  const void set_parent(Shape *parent) { parent_ = parent; };
+  const Shape *parent() { return parent_; };
+
+  const Tuple WorldPointToObject(const Tuple &world_point) const;
+  const Tuple ObjectNormalToWorld(const Tuple &normal_vector) const;
+
  protected:
   virtual const Intersections ObjectIntersect(const Ray object_ray) const = 0;
   virtual const Tuple ObjectNormal(const Tuple world_point) const = 0;
 
   Matrix transform_ = IdentityMatrix(4);
   Material material_ = Material();
+  Shape *parent_ = nullptr;
 };
 
 #endif    // RTC_SHAPES_SHAPE_H
