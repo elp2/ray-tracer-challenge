@@ -31,7 +31,6 @@ TEST(ShapeTest, AssignsTransformation) {
   ASSERT_EQ(sm.Transform(), Translation(2.0, 3.0, 4.0));
 };
 
-
 TEST(ShapeTest, DefaultMaterial) {
   ShapeMock sm = ShapeMock();
   ASSERT_EQ(sm.material(), Material());

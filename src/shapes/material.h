@@ -12,12 +12,15 @@ static const float REFRACTIVE_INDEX_WATER = 1.333;
 static const float REFRACTIVE_INDEX_GLASS = 1.5;
 static const float REFRACTIVE_INDEX_DIAMOND = 2.417;
 
+class Shape;
+
 class Material {
  public:
   Material();
   ~Material() = default;
 
-  Color Lighting(PointLight light, Tuple position, Tuple eye_vector, Tuple normal_vector, bool in_shadow);
+  Color Lighting(const PointLight &light, const Tuple &position,
+      const Tuple &eye_vector, const Tuple &normal_vector, bool in_shadow, const Shape *shape) const;
 
   Color color() { return color_; };
   void set_color(Color color) { color_ = color; };
