@@ -44,3 +44,8 @@ const Tuple Shape::ObjectNormalToWorld(const Tuple &normal_vector) const {
 
   return vector;
 }
+
+const Color Shape::Lighting(PointLight light, Tuple position, Tuple eye_vector,
+    Tuple normal_vector, bool in_shadow) const {
+  return material_.Lighting(light, position, eye_vector, normal_vector, in_shadow, this);
+}

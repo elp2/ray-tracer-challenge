@@ -1,6 +1,7 @@
 #include "primitives/color.h"
 
 #include "shapes/material.h"
+#include "shapes/shape.h"
 
 #include <math.h>
 
@@ -21,9 +22,10 @@ bool Material::operator==(Material other) const {
     other.shininess() == shininess_;
 }
 
-Color Material::Lighting(PointLight light, Tuple position, Tuple eye_vector,
-  Tuple normal_vector, bool in_shadow) {
-  Color point_color = pattern_ == nullptr ? color_ : pattern_->ColorAt(position);
+Color Material::Lighting(const PointLight &light, const Tuple &position,
+    const Tuple &eye_vector, const Tuple &normal_vector, bool in_shadow, const Shape *shape) const {
+  Tuple color_point = shape == nullptr ? position : shape->WorldPointToObject(position);
+  Color point_color = pattern_ == nullptr ? color_ : pattern_->ColorAt(color_point);
   Color effective_color = point_color * light.intensity();
   Tuple light_vector = (light.position() - position).Normalized();
   Color ambient_color = effective_color * ambient_;

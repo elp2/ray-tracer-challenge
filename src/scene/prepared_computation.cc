@@ -64,7 +64,7 @@ void PreparedComputation::CalculateN1N2(Intersections &xs, Intersection &hit) {
   assert(false); // Shouldn't happen.
 }
 
-float PreparedComputation::schlick() {
+const float PreparedComputation::schlick() const {
   float cos = eye_vector_.Dot(normal_vector_);
 
   if (n1_ > n2_) {

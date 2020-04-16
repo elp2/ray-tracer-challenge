@@ -6,6 +6,7 @@
 
 #include "patterns/striped_pattern.h"
 #include "shapes/material.h"
+#include "shapes/sphere.h"
 
 class MaterialTest : public ::testing::Test {
  protected:
@@ -30,7 +31,7 @@ TEST(MaterialTest, EyeBetweenLightAndSurface) {
   Tuple normal_vector = Vector(0.0, 0.0, -1.0);
   PointLight light = PointLight(Point(0.0, 0.0, -10.0), Color(1.0, 1.0, 1.0));
 
-  Tuple result = m.Lighting(light, position, eye_vector, normal_vector, false);
+  Tuple result = m.Lighting(light, position, eye_vector, normal_vector, false, new Sphere());
   ASSERT_EQ(Color(1.9, 1.9, 1.9), result);
 }
 
@@ -42,7 +43,7 @@ TEST(MaterialTest, EyeOffset45BetweenLightAndSurface) {
   Tuple normal_vector = Vector(0.0, 0.0, -1.0);
   PointLight light = PointLight(Point(0.0, 0.0, -10.0), Color(1.0, 1.0, 1.0));
 
-  Tuple result = m.Lighting(light, position, eye_vector, normal_vector, false);
+  Tuple result = m.Lighting(light, position, eye_vector, normal_vector, false, new Sphere());
   ASSERT_EQ(Color(1.0, 1.0, 1.0), result);
 }
 
@@ -54,7 +55,7 @@ TEST(MaterialTest, LightOffset45EyeOppositeSurface) {
   Tuple normal_vector = Vector(0.0, 0.0, -1.0);
   PointLight light = PointLight(Point(0.0, 10.0, -10.0), Color(1.0, 1.0, 1.0));
 
-  Tuple result = m.Lighting(light, position, eye_vector, normal_vector, false);
+  Tuple result = m.Lighting(light, position, eye_vector, normal_vector, false, new Sphere());
   ASSERT_EQ(Color(0.7364, 0.7364, 0.7364), result);
 }
 
@@ -66,7 +67,7 @@ TEST(MaterialTest, LightingInReflectionPathOfEye) {
   Tuple normal_vector = Vector(0.0, 0.0, -1.0);
   PointLight light = PointLight(Point(0.0, 10.0, -10.0), Color(1.0, 1.0, 1.0));
 
-  Tuple result = m.Lighting(light, position, eye_vector, normal_vector, false);
+  Tuple result = m.Lighting(light, position, eye_vector, normal_vector, false, new Sphere());
   ASSERT_EQ(Color(1.63639, 1.63639, 1.63639), result);
 }
 
@@ -78,7 +79,7 @@ TEST(MaterialTest, LightBehindSurface) {
   Tuple normal_vector = Vector(0.0, 0.0, -1.0);
   PointLight light = PointLight(Point(0.0, 0.0, 10.0), Color(1.0, 1.0, 1.0));
 
-  Tuple result = m.Lighting(light, position, eye_vector, normal_vector, false);
+  Tuple result = m.Lighting(light, position, eye_vector, normal_vector, false, new Sphere());
 
   ASSERT_EQ(Color(0.1, 0.1, 0.1), result);
   ASSERT_EQ(Color(m.ambient(), m.ambient(), m.ambient()), result);
@@ -92,7 +93,7 @@ TEST(MaterialTest, LightingInShadow) {
   Tuple normal_vector = Vector(0.0, 0.0, -1.0);
   PointLight light = PointLight(Point(0.0, 0.0, -10.0), Color(1.0, 1.0, 1.0));
 
-  Tuple result = m.Lighting(light, position, eye_vector, normal_vector, true);
+  Tuple result = m.Lighting(light, position, eye_vector, normal_vector, true, new Sphere());
 
   ASSERT_EQ(Color(0.1, 0.1, 0.1), result);
 }
@@ -113,10 +114,10 @@ TEST(MaterialTest, LightingWithPattern) {
   PointLight light = PointLight(Point(0.0, 0.0, -10.0), Color(1.0, 1.0, 1.0));
 
   Tuple p1 = Point(0.9, 0.0, 0.0);
-  ASSERT_EQ(red, m.Lighting(light, p1, eye_vector, normal_vector, false));
+  ASSERT_EQ(red, m.Lighting(light, p1, eye_vector, normal_vector, false, new Sphere()));
 
   Tuple p2 = Point(1.9, 0.0, 0.0);
-  ASSERT_EQ(blue, m.Lighting(light, p2, eye_vector, normal_vector, false));
+  ASSERT_EQ(blue, m.Lighting(light, p2, eye_vector, normal_vector, false, new Sphere()));
 }
 
 TEST(MaterialTest, ReflectivityOfDefaultMaterial) {
