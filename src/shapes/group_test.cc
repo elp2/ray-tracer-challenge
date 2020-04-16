@@ -21,7 +21,6 @@ TEST(GroupTest, ChildrenEmptyOnInit) {
   ASSERT_EQ(g.size(), 0);
 }
 
-
 TEST(GroupTest, ShapesHaveNoDefaultParent) {
   auto s = new Sphere();
   ASSERT_EQ(s->parent(), nullptr);

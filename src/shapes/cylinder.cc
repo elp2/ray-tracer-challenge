@@ -51,7 +51,7 @@ const Intersections Cylinder::ObjectIntersect(const Ray object_ray) const {
 }
 
 const Tuple Cylinder::ObjectNormal(const Tuple object_point) const {
-  float dist = pow(object_point.x(), 2.0) + pow(object_point.y(), 2.0);
+  float dist = pow(object_point.x(), 2.0) + pow(object_point.z(), 2.0);
   if (dist <= 1 && object_point.y() >= maximum_ - EPSILON) {
     return Vector(0, 1, 0);
   }
@@ -69,7 +69,7 @@ const bool Cylinder::IntersectsCap(const Ray &r, const float &t) const {
   float x = r.Origin().x() + t * r.Direction().x();
   float z = r.Origin().z() + t * r.Direction().z();
 
-  return (pow(x, 2) + pow(z, 2)) <= 1.0;
+  return (pow(x, 2) + pow(z, 2)) <= 1.0 + EPSILON;
 }
 
 const void Cylinder::CapIntersections(const Ray &r, std::vector<Intersection> *xs) const {

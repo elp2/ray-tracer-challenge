@@ -28,7 +28,7 @@ TEST(CylinderTest, RayMissesCylinder) {
   Cylinder c = Cylinder();
   for (int i = 0; i < 3; ++i) {
     Ray r = Ray(origins[i], directions[i]);
-    Intersections xs = c.Intersect(r);
+    Intersections xs = c.ObjectIntersect(r);
     ASSERT_EQ(xs.Size(), 0);
   }
 }
@@ -44,14 +44,13 @@ TEST(CylinderTest, RayHitsCylinder) {
     Vector(0, 0, 1),
     Vector(0.1, 1, 1),
   };
-  std::vector<float> t0s = { 5, 4, 6.80798 };
-  std::vector<float> t1s = { 5, 6, 7.08872 };
+  std::vector<float> t0s = { 5, 4, 6.8079939 };
+  std::vector<float> t1s = { 5, 6, 7.0887103 };
+  // BOOK DIFF: 6.80798, 7.08872
   Cylinder c = Cylinder();
-  // TODO: Re-enable the third test.
-  // It's rendering fine, not sure why this test isn't passing?
   for (int i = 0; i < 3; ++i) {
-    Ray r = Ray(origins[i], directions[i]);
-    Intersections xs = c.Intersect(r);
+    Ray r = Ray(origins[i], directions[i].Normalized());
+    Intersections xs = c.ObjectIntersect(r);
     ASSERT_EQ(xs.Size(), 2);
     EXPECT_FLOAT_EQ(xs[0].T(), t0s[i]);
     EXPECT_FLOAT_EQ(xs[1].T(), t1s[i]);
@@ -117,26 +116,25 @@ TEST(CylinderTest, OpenByDefault) {
 
 TEST(CylinderTest, IntersectingCappedCylinder) {
   std::vector<Tuple> points = {
-      // Point(0, 4, -2),
-      // Point(0, -1, -2),
+      Point(0, 4, -2),
+      Point(0, -1, -2),
       Point(0, 3, 0),
       Point(0, 3, -2),
       Point(0, 0, -2),
   };
   std::vector<Tuple> directions = {
-      // Vector(0, -1, 1),
-      // Vector(0, 1, 1),
+      Vector(0, -1, 1),
+      Vector(0, 1, 1),
       Vector(0, -1, 0),
       Vector(0, -1, 2),
       Vector(0, 1, 2),
   };
   std::vector<int> counts = { 2, 2, 2, 2, 2 };
 
-  // TODO: Slight floating point inconsistencies
   auto c = Cylinder(2, 1, true);
   for (int i = 0; i < points.size(); ++i) {
     Ray r = Ray(points[i], directions[i].Normalized());
-    Intersections xs = c.Intersect(r);
+    Intersections xs = c.ObjectIntersect(r);
     EXPECT_EQ(xs.Size(), counts[i]);
   }
 }
@@ -162,6 +160,6 @@ TEST(CylinderTest, CapNormals) {
   ASSERT_EQ(points.size(), normals.size());
   Cylinder c = Cylinder(2, 1, true);
   for (int i = 0; i < points.size(); ++i) {
-    EXPECT_EQ(c.Normal(points[i]), normals[i]);
+    EXPECT_EQ(c.ObjectNormal(points[i]), normals[i]);
   }
 }
