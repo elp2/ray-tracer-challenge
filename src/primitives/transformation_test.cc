@@ -154,3 +154,9 @@ TEST(TransformationTest, TransformationSequenceInverse) {
 
   ASSERT_EQ(t * p, Point(15, 0, 7));
 }
+
+TEST(TransformationTest, CubeEdgesTransformation) {
+  Matrix t = Translation(2, 0, 0);
+  EXPECT_EQ(t * Point(-1, -1, -1), Point(1, -1, -1));
+  EXPECT_EQ(t * Point(1, 1, 1), Point(3, 1, 1));
+}

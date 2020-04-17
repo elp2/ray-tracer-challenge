@@ -122,3 +122,27 @@ TEST(GroupTest, ChildNormal) {
 
   ASSERT_EQ(s->Normal(normal_point), Vector(0.285704, 0.428543, -0.857161));
 }
+
+TEST(GroupTest, EmptyBounds) {
+  auto g = new Group();
+  EXPECT_EQ(g->UnitBounds().maximum(), Point(0, 0, 0));
+  EXPECT_EQ(g->UnitBounds().minimum(), Point(0, 0, 0));
+}
+
+TEST(GroupTest, UntransformedSphere) {
+  auto g = new Group();
+  auto s = new Sphere();
+  g->AddChild(s);
+  EXPECT_EQ(g->UnitBounds().maximum(), Point(1, 1, 1));
+  EXPECT_EQ(g->UnitBounds().minimum(), Point(-1, -1, -1));
+}
+
+TEST(GroupTest, TransformedSphere) {
+  auto g = new Group();
+  auto s = new Sphere();
+  s->SetTransform(Translation(2, 0, 0) * Scaling(2, 2, 2));
+  g->AddChild(s);
+
+  EXPECT_EQ(g->UnitBounds().maximum(), Point(4, 2, 2));
+  EXPECT_EQ(g->UnitBounds().minimum(), Point(0, -2, -2));
+}

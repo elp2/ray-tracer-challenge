@@ -5,6 +5,7 @@
 #include "primitives/matrix.h"
 #include "primitives/tuple.h"
 #include "primitives/ray.h"
+#include "shapes/bounds.h"
 #include "shapes/material.h"
 
 #include <vector>
@@ -34,6 +35,8 @@ class Shape {
 
   const Color Lighting(PointLight light, Tuple position, Tuple eye_vector,
       Tuple normal_vector, bool in_shadow) const;
+
+  virtual const Bounds UnitBounds() const = 0;
 
  protected:
   virtual const Intersections ObjectIntersect(const Ray object_ray) const = 0;

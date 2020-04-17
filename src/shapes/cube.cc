@@ -60,3 +60,7 @@ const void Cube::CheckAxis(const float &origin, const float &direction, float *t
     std::swap(*tmax, *tmin);
   }
 }
+
+const Bounds Cube::UnitBounds() const {
+  return Bounds(Point(-1, -1, -1), Point(1, 1, 1));
+}

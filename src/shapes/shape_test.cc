@@ -12,6 +12,9 @@ class ShapeMock : public Shape {
   const Tuple ObjectNormal(const Tuple object_point) const {
     return Vector(object_point.x(), object_point.y(), object_point.z());
   };
+
+  const Bounds UnitBounds() const { return Bounds(Point(0, 0, 0), Point(1, 1, 1)); };
+
 };
 
 class ShapeTest : public ::testing::Test {

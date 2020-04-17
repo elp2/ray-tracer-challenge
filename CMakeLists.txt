@@ -41,6 +41,7 @@ target_link_libraries(patterns primitives)
 target_include_directories(patterns PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
 add_library (shapes
+    src/shapes/bounds.cc
     src/shapes/cube.cc
     src/shapes/group.cc
     src/shapes/material.cc
@@ -166,6 +167,7 @@ add_executable(tests
     src/scene/prepared_computation_test.cc
     src/scene/view_transformation_test.cc
     src/scene/world_test.cc
+    src/shapes/bounds_test.cc
     src/shapes/cube_test.cc
     src/shapes/group_test.cc
     src/shapes/material_test.cc
