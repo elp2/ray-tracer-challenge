@@ -1,6 +1,10 @@
 #include "shapes/group.h"
 
+#include "primitives/math.h"
 #include "primitives/tuple.h"
+
+#include <algorithm>
+#include <math.h>
 
 Group::Group() {
   children_ = new std::vector<Shape *>();
@@ -39,11 +43,45 @@ void Group::AddChild(Shape *child) {
 }
 
 const Intersections Group::ObjectIntersect(const Ray object_ray) const {
+  float xtmin, xtmax, ytmin, ytmax, ztmin, ztmax;
+
+  CheckAxis(object_ray.Origin().x(), object_ray.Direction().x(), &xtmin, &xtmax,
+      bounds_.minimum().x(), bounds_.maximum().x());
+  CheckAxis(object_ray.Origin().y(), object_ray.Direction().y(), &ytmin, &ytmax,
+      bounds_.minimum().y(), bounds_.maximum().y());
+  CheckAxis(object_ray.Origin().z(), object_ray.Direction().z(), &ztmin, &ztmax,
+      bounds_.minimum().z(), bounds_.maximum().z());
+
+  float tmin = std::fmax(xtmin, std::fmax(ytmin, ztmin));
+  float tmax = std::fmin(xtmax, std::fmin(ytmax, ztmax));
+
+  if (tmin > tmax) {
+    // Did not intersect bounding box.
+    return Intersections(std::vector<Intersection> {});
+  }
+
   auto xs = Intersections(std::vector<Intersection> {});
   for (const Shape* s : (*children_)) {
     xs.Merge(s->Intersect(object_ray));
   }
   return xs;
+}
+
+const void Group::CheckAxis(const float &origin, const float &direction, float *tmin, float *tmax,
+    const float &direction_min, const float &direction_max) const {
+  float tmin_numerator = (direction_min - origin);
+  float tmax_numerator = (direction_max - origin);
+
+  if (fabs(direction) >= EPSILON) {
+    *tmin = tmin_numerator / direction;
+    *tmax = tmax_numerator / direction;
+  } else {
+    *tmin = tmin_numerator * INFINITY;
+    *tmax = tmax_numerator * INFINITY;
+  }
+  if (*tmin > *tmax) {
+    std::swap(*tmax, *tmin);
+  }
 }
 
 const Tuple Group::ObjectNormal(const Tuple object_point) const {
