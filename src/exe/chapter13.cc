@@ -13,6 +13,7 @@
 #include "scene/camera.h"
 #include "scene/view_transformation.h"
 #include "scene/world.h"
+#include "shapes/cone.h"
 #include "shapes/cylinder.h"
 #include "shapes/plane.h"
 #include "shapes/sphere.h"
@@ -62,6 +63,10 @@ World get_world1() {
   my.set_reflective(0.3);
   yellow_cylinder->set_material(my);
   w.add_object(yellow_cylinder);
+
+  Cone *cone = new Cone();
+  cone->SetTransform(Translation(3, 3, 3));
+  w.add_object(cone);
 
   return w;
 }

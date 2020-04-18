@@ -19,6 +19,7 @@ Cone::Cone(float maximum, float minimum, bool closed) {
   assert(maximum_ > minimum_);
 }
 
+// TODO: Lots of acne on cones. See chapter13.cc demo.
 const Intersections Cone::ObjectIntersect(const Ray object_ray) const {
   float a = pow(object_ray.Direction().x(), 2.0)
       - pow(object_ray.Direction().y(), 2.0)
