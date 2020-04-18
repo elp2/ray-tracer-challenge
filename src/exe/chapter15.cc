@@ -55,6 +55,7 @@ World get_world1() {
   Material silver_material = Material();
   silver_material.set_color(SilverColor());
 
+  auto pyramid = new Group();
   Tuple apex = Point(0, 1, 0);
   float s2 = sqrt(2.0) / 2.0;
   auto t1 = new Triangle(Point(-s2, 0, -s2), Point(-s2, 0, s2), apex);
@@ -65,10 +66,11 @@ World get_world1() {
   t3->set_material(teal_material);
   auto t4 = new Triangle(Point(-s2, 0, -s2), Point(s2, 0, -s2), apex);
   t4->set_material(silver_material);
-  w.add_object(t1);
-  w.add_object(t2);
-  w.add_object(t3);
-  w.add_object(t4);
+  pyramid->AddChild(t1);
+  pyramid->AddChild(t2);
+  pyramid->AddChild(t3);
+  pyramid->AddChild(t4);
+  w.add_object(pyramid);
 
   return w;
 }
