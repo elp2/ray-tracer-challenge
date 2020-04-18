@@ -15,6 +15,7 @@ class Bounds {
 
   const Tuple minimum() const { return minimum_; };
   const Tuple maximum() const { return maximum_; };
+  const Tuple center() const;
 
  protected:
   Tuple minimum_;

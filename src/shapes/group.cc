@@ -4,6 +4,8 @@
 #include "primitives/tuple.h"
 
 #include <algorithm>
+#include <cassert>
+#include <iostream>
 #include <math.h>
 
 Group::Group() {
@@ -11,6 +13,11 @@ Group::Group() {
 }
 
 void Group::ExtendBoundsForChild(Shape *child) {
+  Bounds child_bounds = ChildBounds(child);
+  bounds_.MergeWith(child_bounds);
+}
+
+const Bounds Group::ChildBounds(Shape *child) const {
   Bounds unit_bounds = child->UnitBounds();
   float xc = (unit_bounds.maximum().x() + unit_bounds.minimum().x()) / 2.0;
   float yc = (unit_bounds.maximum().y() + unit_bounds.minimum().y()) / 2.0;
@@ -21,8 +28,8 @@ void Group::ExtendBoundsForChild(Shape *child) {
   float zd = unit_bounds.maximum().z() - zc;
 
   Tuple center_point = Point(xc, yc, zc);
-  // TODO Problem is that we need to create a brand new bounds from all these values.
   Bounds child_bounds = Bounds(child->Transform() * center_point, child->Transform() * center_point);
+
   for (float x = -1; x < 2; x += 2) {
     for (float y = -1; y < 2; y += 2) {
       for (float z = -1; z < 2; z += 2) {
@@ -33,8 +40,9 @@ void Group::ExtendBoundsForChild(Shape *child) {
       }
     }
   }
-  bounds_.MergeWith(child_bounds);
+  return child_bounds;
 }
+
 
 void Group::AddChild(Shape *child) {
   ExtendBoundsForChild(child);
@@ -94,4 +102,36 @@ bool Group::operator==(const Group o) const {
 
 const Bounds Group::UnitBounds() const {
   return bounds_;
+}
+
+Group *Group::OptimizedSubgroups(int groups_per_dimension) {
+  std::vector<Group *> subgroups;
+  for (int i = 0; i < groups_per_dimension * groups_per_dimension * groups_per_dimension; ++i) {
+    subgroups.push_back(new Group());
+  }
+
+  Tuple span = bounds_.maximum() - bounds_.minimum();
+
+  for (auto child : (*children_)) {
+    Bounds child_bounds = ChildBounds(child);
+    Tuple center = child_bounds.center();
+    int x = (int)(center.x() - bounds_.minimum().x()) * ((float)groups_per_dimension / span.x());
+    int y = (int)(center.y() - bounds_.minimum().y()) * ((float)groups_per_dimension / span.y());
+    int z = (int)(center.z() - bounds_.minimum().z()) * ((float)groups_per_dimension / span.z());
+
+    int idx = x * groups_per_dimension * groups_per_dimension + y * groups_per_dimension + z;
+    assert(idx >= 0);
+    assert(idx < subgroups.size());
+    subgroups[idx]->AddChild(child);
+  }
+
+  auto ret = new Group();
+  for (auto subgroup : subgroups) {
+    if (subgroup->size() > 0) {
+      std::cout << "Subgroup size: " << subgroup->size() << std::endl;
+      ret->AddChild(subgroup);
+    }
+  }
+
+  return ret;
 }

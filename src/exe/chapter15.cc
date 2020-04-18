@@ -16,16 +16,17 @@
 #include "shapes/cylinder.h"
 #include "shapes/cube.h"
 #include "shapes/group.h"
+#include "shapes/obj_parser.h"
 #include "shapes/plane.h"
 #include "shapes/sphere.h"
 #include "shapes/triangle.h"
 
 #include <cassert>
 #include <cmath>
+#include <fstream>
 #include <iostream>
 
-const int CAMERA_DIMENSION = 1000;
-const float CYLINDER_LENGTH = 4.0;
+const int CAMERA_DIMENSION = 200;
 
 Camera get_camera1() {
   Camera c = Camera(CAMERA_DIMENSION, CAMERA_DIMENSION, M_PI / 4.0);
@@ -75,19 +76,44 @@ World get_world1() {
   return w;
 }
 
+Camera get_camera2() {
+  Camera c = Camera(CAMERA_DIMENSION, CAMERA_DIMENSION, M_PI / 4.0);
+  Tuple from = Point(-6, 6.0, -5);
+  Tuple to = Point(0, 0, 0);
+  Tuple up = Vector(0, 1, 0);
+  c.set_transform(ViewTransformation(from, to, up));
+  return c;
+}
+
+World get_world2() {
+  World w = World();
+  w.set_light(PointLight(Point(-8, 8.0, 0.0), Color(1.0, 1.0, 1.0)));
+
+  std::ifstream model("teapot.obj");
+  assert(model.is_open());
+  std::stringstream ss;
+  ss << model.rdbuf();
+  model.close();
+
+  auto parser = ObjParser(ss);
+  w.add_object(parser.DefaultGroup()->OptimizedSubgroups(5));
+
+  return w;
+}
+
 int main(int argc, char* argv[]) {
   (void)argc;
   (void)argv;
 
-  std::cout << "Rendering chapter15_1.ppm." << std::endl;
-  Canvas canvas1 = get_camera1().Render(get_world1());
-  PPMWriter ppm_writer1 = PPMWriter(&canvas1);
-  ppm_writer1.WriteFile("chapter15_1.ppm");
+  // std::cout << "Rendering chapter15_1.ppm." << std::endl;
+  // Canvas canvas1 = get_camera1().Render(get_world1());
+  // PPMWriter ppm_writer1 = PPMWriter(&canvas1);
+  // ppm_writer1.WriteFile("chapter15_1.ppm");
 
-  // std::cout << "Rendering chapter15_2.ppm." << std::endl;
-  // Canvas canvas2 = get_camera2().Render(get_world2());
-  // PPMWriter ppm_writer2 = PPMWriter(&canvas2);
-  // ppm_writer2.WriteFile("chapter15_2.ppm");
+  std::cout << "Rendering chapter15_2.ppm." << std::endl;
+  Canvas canvas2 = get_camera2().Render(get_world2());
+  PPMWriter ppm_writer2 = PPMWriter(&canvas2);
+  ppm_writer2.WriteFile("chapter15_2.ppm");
 
   return 0;
 }

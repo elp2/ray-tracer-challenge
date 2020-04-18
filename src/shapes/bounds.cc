@@ -33,3 +33,7 @@ void Bounds::MergeWith(const Bounds &other) {
       std::max(other.maximum().y(), maximum_.y()),
       std::max(other.maximum().z(), maximum_.z()));
 }
+
+const Tuple Bounds::center() const {
+  return (maximum_ + minimum_) * 0.5;
+}
