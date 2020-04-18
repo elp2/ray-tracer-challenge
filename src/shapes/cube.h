@@ -18,6 +18,8 @@ class Cube : public Shape {
 
   bool operator==(const Cube o) const;
 
+  const Bounds UnitBounds() const;
+
  private:
   const void CheckAxis(const float &origin, const float &direction, float *tmin, float *tmax) const;
 };

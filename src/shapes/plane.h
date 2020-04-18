@@ -18,6 +18,8 @@ class Plane : public Shape {
   const Tuple ObjectNormal(const Tuple world_point) const;
 
   bool operator==(const Plane o) const;
+
+  const Bounds UnitBounds() const;
 };
 
 #endif    // RTC_SHAPES_PLANE_H

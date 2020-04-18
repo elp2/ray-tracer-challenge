@@ -53,3 +53,7 @@ Sphere *GlassySphere() {
   sphere->set_material(glass);
   return sphere;
 }
+
+const Bounds Sphere::UnitBounds() const {
+  return Bounds(Point(-1, -1, -1), Point(1, 1, 1));
+}

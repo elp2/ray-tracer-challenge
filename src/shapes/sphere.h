@@ -6,6 +6,7 @@
 #include "primitives/tuple.h"
 #include "primitives/ray.h"
 #include "shapes/material.h"
+#include "shapes/bounds.h"
 #include "shapes/shape.h"
 
 #include <vector>
@@ -21,6 +22,7 @@ class Sphere : public Shape {
   bool operator==(const Sphere o) const;
 
   const Tuple origin() const { return origin_; };
+  const Bounds UnitBounds() const;
 
  private:
   Tuple origin_;

@@ -121,3 +121,52 @@ TEST(GroupTest, ChildNormal) {
 
   ASSERT_EQ(s->Normal(normal_point), Vector(0.285704, 0.428543, -0.857161));
 }
+
+TEST(GroupTest, EmptyBounds) {
+  auto g = new Group();
+  EXPECT_EQ(g->UnitBounds().maximum(), Point(0, 0, 0));
+  EXPECT_EQ(g->UnitBounds().minimum(), Point(0, 0, 0));
+}
+
+TEST(GroupTest, UntransformedSphere) {
+  auto g = new Group();
+  auto s = new Sphere();
+  g->AddChild(s);
+  EXPECT_EQ(g->UnitBounds().maximum(), Point(1, 1, 1));
+  EXPECT_EQ(g->UnitBounds().minimum(), Point(-1, -1, -1));
+}
+
+TEST(GroupTest, TransformedSphere) {
+  auto g = new Group();
+  auto s = new Sphere();
+  s->SetTransform(Translation(2, 0, 0) * Scaling(2, 2, 2));
+  g->AddChild(s);
+
+  EXPECT_EQ(g->UnitBounds().maximum(), Point(4, 2, 2));
+  EXPECT_EQ(g->UnitBounds().minimum(), Point(0, -2, -2));
+}
+
+TEST(GroupTest, TransformedGroupCeption) {
+  auto g1 = new Group();
+  auto s = new Sphere();
+  s->SetTransform(Translation(2, 0, 0) * Scaling(2, 2, 2));
+  g1->AddChild(s);
+  g1->SetTransform(RotationY(M_PI));
+  auto g2 = new Group();
+  g2->AddChild(g1);
+
+  EXPECT_EQ(g2->UnitBounds().maximum(), Point(0, 2, 2));
+  EXPECT_EQ(g2->UnitBounds().minimum(), Point(-4, -2, -2));
+}
+
+TEST(GroupTest, TransformedSphereIntersections) {
+  auto g = new Group();
+  auto s = new Sphere();
+  s->SetTransform(Translation(2, 0, 0) * Scaling(2, 2, 2));
+  g->AddChild(s);
+
+  EXPECT_EQ(g->Intersect(Ray(Point(-0.1, 0, 0), Vector(0, 1, 0))).Size(), 0);
+  EXPECT_EQ(g->Intersect(Ray(Point(0.1, 0, 0), Vector(0, 1, 0))).Size(), 2);
+  EXPECT_EQ(g->Intersect(Ray(Point(3.9, 0, 0), Vector(0, 1, 0))).Size(), 2);
+  EXPECT_EQ(g->Intersect(Ray(Point(4.1, 0, 0), Vector(0, 1, 0))).Size(), 0);
+}
