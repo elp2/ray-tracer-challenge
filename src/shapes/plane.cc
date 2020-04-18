@@ -7,9 +7,6 @@
 #include "primitives/ray.h"
 #include "primitives/tuple.h"
 
-// Avoid using infinite so math works.
-const float PLANE_SIZE = 10e6;
-
 const Intersections Plane::ObjectIntersect(const Ray object_ray) const {
   if (fabs(object_ray.Direction().y()) < EPSILON) {
     // Parallel to xz plane after translation. No intersections.
@@ -30,5 +27,6 @@ bool Plane::operator==(const Plane o) const {
 }
 
 const Bounds Plane::UnitBounds() const {
-  return Bounds(Point(-PLANE_SIZE, -0.1, -PLANE_SIZE), Point(PLANE_SIZE, 0.1, PLANE_SIZE));
+  return Bounds(Point(-GROUP_INFINITE_BIGNUM, -0.1, -GROUP_INFINITE_BIGNUM),
+      Point(GROUP_INFINITE_BIGNUM, 0.1, GROUP_INFINITE_BIGNUM));
 }

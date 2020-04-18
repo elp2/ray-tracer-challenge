@@ -3,6 +3,7 @@
 #include "primitives/intersection.h"
 #include "primitives/math.h"
 #include "primitives/ray.h"
+#include "shapes/bounds.h"
 
 #include <cassert>
 #include <math.h>
@@ -108,4 +109,22 @@ const void Cone::CapIntersections(const Ray &r, std::vector<Intersection> *xs) c
   if (IntersectsCap(r, t, fabs(maximum_))) {
     xs->push_back(Intersection(t, this));
   }
+}
+
+const Bounds Cone::UnitBounds() const {
+  float xmax = INFINITY;
+  float ymax = INFINITY;
+  float zmax = INFINITY;
+  if (maximum_ != INFINITY) {
+    xmax = ymax = zmax = maximum_;
+  }
+
+  float xmin = -INFINITY;
+  float ymin = -INFINITY;
+  float zmin = -INFINITY;
+  if (minimum_ != -INFINITY) {
+    xmin = ymin = zmin = minimum_;
+  }
+
+  return Bounds(Point(xmin, ymin, zmin), Point(xmax, ymax, zmax));
 }

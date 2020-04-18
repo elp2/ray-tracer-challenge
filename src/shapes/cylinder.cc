@@ -3,6 +3,7 @@
 #include "primitives/intersection.h"
 #include "primitives/math.h"
 #include "primitives/ray.h"
+#include "shapes/bounds.h"
 
 #include <cassert>
 #include <math.h>
@@ -88,4 +89,22 @@ const void Cylinder::CapIntersections(const Ray &r, std::vector<Intersection> *x
   if (IntersectsCap(r, t)) {
     xs->push_back(Intersection(t, this));
   }
+}
+
+const Bounds Cylinder::UnitBounds() const {
+  float xmax = 1;
+  float ymax = INFINITY;
+  float zmax = 1;
+  if (maximum_ != INFINITY) {
+    ymax = maximum_;
+  }
+
+  float xmin = -1;
+  float ymin = -INFINITY;
+  float zmin = -1;
+  if (minimum_ != -INFINITY) {
+    ymin = minimum_;
+  }
+
+  return Bounds(Point(xmin, ymin, zmin), Point(xmax, ymax, zmax));
 }

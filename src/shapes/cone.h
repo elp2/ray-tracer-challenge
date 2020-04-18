@@ -25,6 +25,8 @@ class Cone : public Shape {
   const float minimum() const { return minimum_; };
   const bool closed() const { return closed_; };
 
+  const Bounds UnitBounds() const;
+
  private:
   float maximum_ = INFINITY;
   float minimum_ = -INFINITY;
