@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 
-const float EPSILON = 0.00001;
+const float EPSILON = 0.00001 * 3;
 
 // Avoid using infinite so math works for groups.
 const float GROUP_INFINITE_BIGNUM = 10e6;
