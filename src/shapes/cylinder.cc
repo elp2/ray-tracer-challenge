@@ -4,6 +4,7 @@
 #include "primitives/math.h"
 #include "primitives/ray.h"
 
+#include <cassert>
 #include <math.h>
 
 Cylinder::Cylinder() {
@@ -13,6 +14,8 @@ Cylinder::Cylinder(float maximum, float minimum, bool closed) {
   maximum_ = maximum;
   minimum_ = minimum;
   closed_ = closed;
+
+  assert(maximum_ > minimum_);
 }
 
 const Intersections Cylinder::ObjectIntersect(const Ray object_ray) const {

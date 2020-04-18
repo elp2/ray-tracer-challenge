@@ -1,5 +1,5 @@
-#ifndef RTC_SHAPES_CYLINDER_H
-#define RTC_SHAPES_CYLINDER_H
+#ifndef RTC_SHAPES_CONE_H
+#define RTC_SHAPES_CONE_H
 
 #include "shapes/shape.h"
 
@@ -9,17 +9,17 @@
 class Ray;
 class Tuple;
 
-class Cylinder : public Shape {
+class Cone : public Shape {
  public:
-  Cylinder();
-  Cylinder(float maximum, float minimum, bool closed);
+  Cone();
+  Cone(float maximum, float minimum, bool closed);
 
-  ~Cylinder() = default;
+  ~Cone() = default;
 
   const Intersections ObjectIntersect(const Ray object_ray) const;
   const Tuple ObjectNormal(const Tuple p) const;
 
-  bool operator==(const Cylinder o) const;
+  bool operator==(const Cone o) const;
 
   const float maximum() const { return maximum_; };
   const float minimum() const { return minimum_; };
@@ -30,8 +30,8 @@ class Cylinder : public Shape {
   float minimum_ = -INFINITY;
   bool closed_ = false;
 
-  const bool IntersectsCap(const Ray &r, const float &t) const;
+  const bool IntersectsCap(const Ray &r, const float &t, const float &cap_radius) const;
   const void CapIntersections(const Ray &r, std::vector<Intersection> *xs) const;
 };
 
-#endif    // RTC_SHAPES_CYLINDER_H
+#endif    // RTC_SHAPES_CONE_H
