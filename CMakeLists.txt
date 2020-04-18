@@ -49,7 +49,8 @@ add_library (shapes
     src/shapes/material.cc
     src/shapes/plane.cc
     src/shapes/shape.cc
-    src/shapes/sphere.cc)
+    src/shapes/sphere.cc
+    src/shapes/triangle.cc)
 target_link_libraries(shapes lights)
 target_link_libraries(shapes patterns)
 target_link_libraries(shapes primitives)
@@ -119,6 +120,10 @@ add_executable(chapter14 WIN32
     src/exe/chapter14.cc)
 target_link_libraries(chapter14 patterns primitives display shapes lights scene)
 
+add_executable(chapter15 WIN32
+    src/exe/chapter15.cc)
+target_link_libraries(chapter15 patterns primitives display shapes lights scene)
+
 # Below is from googletest README.md.
 # Download and unpack googletest at configure time.
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
@@ -177,7 +182,8 @@ add_executable(tests
     src/shapes/material_test.cc
     src/shapes/plane_test.cc
     src/shapes/shape_test.cc
-    src/shapes/sphere_test.cc)
+    src/shapes/sphere_test.cc
+    src/shapes/triangle_test.cc)
 target_include_directories(tests PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_link_libraries(tests gtest_main)
 target_link_libraries(tests gmock)

@@ -33,5 +33,6 @@ Color ElectricBlueColor();
 Color YellowColor();
 Color PinkColor();
 Color OrangeColor();
+Color TealColor();
 
 #endif    // RTC_PRIMITIVES_COLOR_H_

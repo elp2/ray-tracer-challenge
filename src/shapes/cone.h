@@ -4,7 +4,6 @@
 #include "shapes/shape.h"
 
 #include <math.h>
-#include <vector>
 
 class Ray;
 class Tuple;

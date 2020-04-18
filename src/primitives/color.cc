@@ -60,3 +60,7 @@ Color PinkColor() {
 Color OrangeColor() {
   return Color(1, 0.647, 0);
 }
+
+Color TealColor() {
+   return Color(0, 0.502, 0.502);
+}
