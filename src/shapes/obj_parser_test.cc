@@ -1,6 +1,8 @@
 #include "gtest/gtest.h"
 
 #include "shapes/obj_parser.h"
+#include "shapes/smooth_triangle.h"
+#include "shapes/triangle.h"
 
 class ObjParserTest : public ::testing::Test {
  protected:
@@ -92,4 +94,43 @@ TEST(ObjParserTest, SuperGroup) {
 
   Group *group = parser.SuperGroup();
   ASSERT_EQ(group->children()->size(), 2); // First, Second only (Default empty).
+}
+
+TEST(ObjParserTest, VertexNormals) {
+  auto s = "vn 0 0 1\nvn 0.707 0 -0.707\nvn 1 2 3\n";
+  auto ss = std::stringstream(s);
+  ObjParser parser = ObjParser(ss);
+
+  EXPECT_EQ(parser.VertexNormal(1), Vector(0, 0, 1));
+  EXPECT_EQ(parser.VertexNormal(2), Vector(0.707, 0, -0.707));
+  EXPECT_EQ(parser.VertexNormal(3), Vector(1, 2, 3));
+}
+
+TEST(ObjParserTest, HandlesSpaces) {
+  auto s = "vn 0   0 1\nvn 0.707 0   -0.707\nvn 1 2 3\n";
+  auto ss = std::stringstream(s);
+  ObjParser parser = ObjParser(ss);
+
+  EXPECT_EQ(parser.VertexNormal(1), Vector(0, 0, 1));
+  EXPECT_EQ(parser.VertexNormal(2), Vector(0.707, 0, -0.707));
+  EXPECT_EQ(parser.VertexNormal(3), Vector(1, 2, 3));
+}
+
+
+TEST(ObjParserTest, NormalVectorFaces) {
+  auto s = "v 0 1 0\nv -1 0 0\nv 1 0 0\nvn -1 0 0\nvn 1 0 0\nvn 0 1 0\nf 1//3 2//1 3//2\nf 1/0/3 2/102/1 3/14/2\n";
+  auto ss = std::stringstream(s);
+  ObjParser parser = ObjParser(ss);
+
+  Group *group = parser.DefaultGroup();
+  ASSERT_EQ(group->children()->size(), 2);
+  SmoothTriangle *t1 = (SmoothTriangle *)(*group->children())[0];
+  SmoothTriangle *t2 = (SmoothTriangle *)(*group->children())[1];
+
+  EXPECT_EQ(t1->p1(), parser.Vertex(1));
+  EXPECT_EQ(t1->p2(), parser.Vertex(2));
+  EXPECT_EQ(t1->p3(), parser.Vertex(3));
+  EXPECT_EQ(t1->n1(), parser.VertexNormal(3));
+  EXPECT_EQ(t1->n2(), parser.VertexNormal(1));
+  EXPECT_EQ(t1->n3(), parser.VertexNormal(2));
 }

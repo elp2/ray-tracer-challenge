@@ -17,12 +17,19 @@ class ObjGroup {
 
   Group *ToGroup() const;
 
-  void AddFace(Triangle *face);
+  void AddFace(Shape *face);
   const std::string name() const { return name_; };
 
  private:
   std::string name_;
-  std::vector<Triangle *> faces_;
+  std::vector<Shape *> faces_;
+};
+
+
+struct FaceVertex {
+  int vertex;
+  int texture_vertex;
+  int vertex_normal;
 };
 
 class ObjParser {
@@ -30,8 +37,11 @@ class ObjParser {
   ObjParser(std::stringstream &ss);
   ~ObjParser() = default;
 
-  // Gets vertex (1 indexed).
+  // Get vertex (1 indexed).
   const Tuple Vertex(int v) const;
+
+  // Get vertex normal (1 indexed).
+  const Tuple VertexNormal(int vn) const;
 
   // Returns the default group.
   Group *DefaultGroup() const;
@@ -44,13 +54,17 @@ class ObjParser {
 
  private:
   void ParseLine(std::string line);
+  const std::vector<FaceVertex> ParseFaceVertices(std::string vertices) const;
+  const std::vector<float> ParseFloats(std::string numbers) const;
+
   void AddVertex(std::string coordinates);
+  void AddVertexNormal(std::string vector);
   void AddFace(std::string vertices);
   void AddGroup(std::string name);
 
-  std::vector<float> ParseFloats(std::string numbers);
 
   std::vector<Tuple> vertices_;
+  std::vector<Tuple> vertex_normals_;
 
   // Groups. Current group is last group.
   std::vector<ObjGroup *> groups_;
