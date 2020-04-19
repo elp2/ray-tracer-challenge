@@ -2,6 +2,7 @@
 
 #include "primitives/intersection.h"
 #include "shapes/sphere.h"
+#include "shapes/smooth_triangle.h"
 
 #include <vector>
 
@@ -54,4 +55,11 @@ TEST(IntersectionTest, UnsortedList) {
 
   Intersections xs = Intersections(std::vector<Intersection>{i1, i2, i3, i4});
   ASSERT_EQ(xs.Hit().value(), i4);
+}
+
+TEST(IntersectionTest, UVFields) {
+  Sphere s = Sphere();
+  Intersection i = Intersection(5.0, &s, 0.2, 0.4);
+  EXPECT_FLOAT_EQ(i.u(), 0.2);
+  EXPECT_FLOAT_EQ(i.v(), 0.4);
 }

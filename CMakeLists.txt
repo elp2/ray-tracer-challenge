@@ -50,6 +50,7 @@ add_library (shapes
     src/shapes/obj_parser.cc    
     src/shapes/plane.cc
     src/shapes/shape.cc
+    src/shapes/smooth_triangle.cc
     src/shapes/sphere.cc
     src/shapes/triangle.cc)
 target_link_libraries(shapes lights)
@@ -184,6 +185,7 @@ add_executable(tests
     src/shapes/obj_parser_test.cc
     src/shapes/plane_test.cc
     src/shapes/shape_test.cc
+    src/shapes/smooth_triangle_test.cc
     src/shapes/sphere_test.cc
     src/shapes/triangle_test.cc)
 target_include_directories(tests PUBLIC ${PROJECT_SOURCE_DIR}/include)
