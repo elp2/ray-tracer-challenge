@@ -78,7 +78,7 @@ World get_world1() {
 
 Camera get_camera2() {
   Camera c = Camera(CAMERA_DIMENSION, CAMERA_DIMENSION, M_PI / 4.0);
-  Tuple from = Point(-6, 6.0, -5);
+  Tuple from = Point(20, 20, 20);
   Tuple to = Point(0, 0, 0);
   Tuple up = Vector(0, 1, 0);
   c.set_transform(ViewTransformation(from, to, up));
@@ -87,16 +87,24 @@ Camera get_camera2() {
 
 World get_world2() {
   World w = World();
-  w.set_light(PointLight(Point(-8, 8.0, 0.0), Color(1.0, 1.0, 1.0)));
+  w.set_light(PointLight(Point(16, 8.0, 17), Color(1.0, 1.0, 1.0)));
 
-  std::ifstream model("teapot.obj");
+  std::ifstream model("teapot-low.obj");
   assert(model.is_open());
   std::stringstream ss;
   ss << model.rdbuf();
   model.close();
 
   auto parser = ObjParser(ss);
-  w.add_object(parser.DefaultGroup()->OptimizedSubgroups(5));
+  // auto parsed_group = parser.DefaultGroup()->OptimizedSubgroups(10);
+  auto parsed_group = parser.GroupNamed("Teapot001")->OptimizedSubgroups(5);
+  w.add_object(parsed_group);
+
+  auto p = new Plane();
+  Material m = Material();
+  m.set_color(ElectricBlueColor());
+  p->set_material(m);
+  w.add_object(p);
 
   return w;
 }
