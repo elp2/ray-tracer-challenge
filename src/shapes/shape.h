@@ -15,7 +15,7 @@ class Shape {
   ~Shape() = default;
 
   Intersections Intersect(const Ray r) const;
-  const Tuple Normal(const Tuple p) const;
+  const Tuple Normal(const Tuple &world_point, const Intersection &i) const;
 
   void SetTransform(Matrix m) { transform_ = m; };
   Matrix Transform() const { return transform_; };
@@ -40,8 +40,7 @@ class Shape {
 
  protected:
   virtual const Intersections ObjectIntersect(const Ray object_ray) const = 0;
-  virtual const Tuple ObjectNormal(const Tuple world_point) const = 0;
-
+  virtual const Tuple ObjectNormal(const Tuple &p, const Intersection &i) const = 0;
   Matrix transform_ = IdentityMatrix(4);
   Material material_ = Material();
   Shape *parent_ = nullptr;

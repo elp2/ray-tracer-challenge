@@ -83,7 +83,7 @@ TEST(ConeTest, Normals) {
   };
   Cone c = Cone();
   for (int i = 0; i < 4; ++i) {
-    EXPECT_EQ(c.ObjectNormal(surface_points[i]), normals[i]);
+    EXPECT_EQ(c.ObjectNormal(surface_points[i], Intersection(1, &c)), normals[i]);
   }
 }
 

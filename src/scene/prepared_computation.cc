@@ -14,7 +14,7 @@ PreparedComputation::PreparedComputation(Intersection hit, Ray &r, Intersections
   object_ = (Shape *)hit.Object();
   point_ = r.Position(t_);
   eye_vector_ = -r.Direction();
-  normal_vector_ = object_->Normal(point_);
+  normal_vector_ = object_->Normal(point_, hit);
 
   if (normal_vector_.Dot(eye_vector_) < 0) {
     inside_ = true;

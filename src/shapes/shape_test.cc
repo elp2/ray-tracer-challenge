@@ -9,7 +9,7 @@
 class ShapeMock : public Shape {
  public:
   MOCK_METHOD(const Intersections, ObjectIntersect, (const Ray object_ray), (const, override));
-  const Tuple ObjectNormal(const Tuple object_point) const {
+  const Tuple ObjectNormal(const Tuple &object_point, const Intersection &i) const {
     return Vector(object_point.x(), object_point.y(), object_point.z());
   };
 
@@ -72,11 +72,11 @@ TEST(ShapeTest, NormaltScaledShape) {
   Ray r = Ray(Point(0.0, 0.0, -5.0), Vector(0.0, 0.0, 1.0));
   sm.SetTransform(Scaling(1.0, 0.5, 1.0) * RotationZ(M_PI / 5.0));
   Tuple at = Point(0.0, sqrt(2.0) / 2.0, sqrt(2.0) / 2.0);
-  EXPECT_EQ(sm.Normal(at), Vector(0.0, 0.97014, 0.24254));
+  EXPECT_EQ(sm.Normal(at, Intersection(1, &sm)), Vector(0.0, 0.97014, 0.24254));
 };
 
 TEST(ShapeTest, NormalTranslatedShape) {
   ShapeMock sm = ShapeMock();
   sm.SetTransform(Translation(0.0, 1.0, 0.0));
-  EXPECT_EQ(sm.Normal(Point(0.0, 1.70711, -0.70711)), Vector(0.0, 0.70711, -0.70711));
+  EXPECT_EQ(sm.Normal(Point(0.0, 1.70711, -0.70711), Intersection(1, &sm)), Vector(0.0, 0.70711, -0.70711));
 };

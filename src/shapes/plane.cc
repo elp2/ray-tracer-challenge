@@ -18,7 +18,7 @@ const Intersections Plane::ObjectIntersect(const Ray object_ray) const {
   return Intersections(std::vector<Intersection> {x});
 }
 
-const Tuple Plane::ObjectNormal(const Tuple world_point) const {
+const Tuple Plane::ObjectNormal(const Tuple &object_point, const Intersection &i) const {
   return Vector(0.0, 1.0, 0.0);
 }
 

@@ -93,6 +93,6 @@ TEST(CubeTest, Normals) {
   };
   Cube c = Cube();
   for (int i = 0; i < 8; ++i) {
-    ASSERT_EQ(c.Normal(surface_points[i]), normals[i]);
+    ASSERT_EQ(c.Normal(surface_points[i], Intersection(1, &c)), normals[i]);
   }
 }

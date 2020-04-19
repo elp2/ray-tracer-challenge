@@ -119,7 +119,7 @@ TEST(GroupTest, ChildNormal) {
   Tuple normal_point = Point(1.7321, 1.1547, -5.5774);
   // BOOK DIFF: Vector(0.2857, 0.4286, -0.8571)
 
-  ASSERT_EQ(s->Normal(normal_point), Vector(0.285704, 0.428543, -0.857161));
+  ASSERT_EQ(s->Normal(normal_point, Intersection(1, &s)), Vector(0.285704, 0.428543, -0.857161));
 }
 
 TEST(GroupTest, EmptyBounds) {

@@ -19,29 +19,12 @@ const int INSET = CANVAS_DIMENSION / 2;
 void DrawHit(Canvas *canvas, Ray r, Intersection hit, PointLight light) {
   Tuple hit_point = r.Position(hit.T());
   Sphere *s = (Sphere *)hit.Object();
-  Tuple normal = s->Normal(hit_point);
+  Tuple normal = s->Normal(hit_point, Intersection(1, &s));
   Tuple eye = -r.Direction();
   Color color = s->Lighting(light, hit_point, eye, normal, false);
 
-  // std::cout << "Ray ";
-  // r.Origin().Debug();
-  // r.Direction().Debug();
-  // std::cout << "HP, normal, eye";
-  // hit_point.Debug();
-  // normal.Debug();
-  // eye.Debug();
-  // std::cout << "COLOR: ";
-  // color.Debug();
-  // assert(color.r() >= 0.0);
-  // assert(color.r() <= 1.0);
-  // assert(color.g() >= 0.0);
-  // assert(color.g() <= 1.0);
-  // assert(color.b() >= 0.0);
-  // assert(color.b() <= 1.0);
-
   float x = hit_point.x() + INSET;
   float y = hit_point.y() + INSET;
-  // std::cout << "HIT: " << x << ", " << y << " @ " << color.r() << std::endl;
   canvas->WritePixel(color, x, y);
 }
 

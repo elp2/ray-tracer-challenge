@@ -12,7 +12,7 @@ class Triangle : public Shape {
   ~Triangle() = default;
 
   const Intersections ObjectIntersect(const Ray object_ray) const;
-  const Tuple ObjectNormal(const Tuple p) const { return precalculated_normal_; };
+  const Tuple ObjectNormal(const Tuple &p, const Intersection &i) const { return precalculated_normal_; };
 
   bool operator==(const Triangle o) const;
 

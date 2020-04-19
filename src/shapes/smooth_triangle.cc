@@ -17,11 +17,6 @@ SmoothTriangle::SmoothTriangle(Tuple p1, Tuple p2, Tuple p3, Tuple n1, Tuple n2,
   n3_ = n3;
 }
 
-const Tuple SmoothTriangle::ObjectNormal(const Tuple p) const {
-  // TODO. Replace this function in all other shapes with below one.
-  return Vector(1, 1, 1);
-}
-
 const Tuple SmoothTriangle::ObjectNormal(const Tuple &p, const Intersection &i) const {
   return n2_ * i.u() + n3_ * i.v() + n1_ * (1.0 - i.u() - i.v());
 }

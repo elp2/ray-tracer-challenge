@@ -4,6 +4,7 @@
 #include "shapes/smooth_triangle.h"
 #include "primitives/transformation.h"
 #include "primitives/tuple.h"
+#include "scene/prepared_computation.h"
 
 #include <math.h>
 #include <vector>
@@ -46,4 +47,12 @@ TEST_F(SmoothTriangleTest, UsesUVToInterpolateNormal) {
   Intersection i = Intersection(1, &tri_, 0.45, 0.25);
   Tuple n = tri_.ObjectNormal(Point(0, 0, 0), i).Normalized();
   ASSERT_EQ(Vector(-0.5547, 0.83205, 0), n);
+}
+
+TEST_F(SmoothTriangleTest, PreparedComputation) {
+  Intersection i = Intersection(1, &tri_, 0.45, 0.25);
+  Ray r = Ray(Point(-0.2, 0.3, -2), Vector(0, 0, 1));
+  Intersections xs = Intersections(std::vector<Intersection> { i });
+  PreparedComputation pc = PreparedComputation(i, r, xs);
+  EXPECT_EQ(pc.normal_vector(), Vector(-0.5547, 0.83205, 0));
 }

@@ -97,39 +97,39 @@ TEST(SphereTest, DoesntIntersectTranslation) {
 
 TEST(SphereTest, NormalXAxis) {
   Sphere s = Sphere();
-  Tuple n = s.Normal(Point(1, 0, 0));
+  Tuple n = s.Normal(Point(1, 0, 0), Intersection(1, &s));
   ASSERT_EQ(Vector(1, 0, 0), n);
 }
 
 TEST(SphereTest, NormalYAxis) {
   Sphere s = Sphere();
-  Tuple n = s.Normal(Point(0, 1, 0));
+  Tuple n = s.Normal(Point(0, 1, 0), Intersection(1, &s));
   ASSERT_EQ(Vector(0, 1, 0), n);
 }
 
 TEST(SphereTest, NormalZAxis) {
   Sphere s = Sphere();
-  Tuple n = s.Normal(Point(0, 0, 1));
+  Tuple n = s.Normal(Point(0, 0, 1), Intersection(1, &s));
   ASSERT_EQ(Vector(0, 0, 1), n);
 }
 
 TEST(SphereTest, PointIsANormalizedVector) {
   Sphere s = Sphere();
-  Tuple n = s.Normal(Point(sqrt(3) / 3.0, sqrt(3) / 3.0, sqrt(3) / 3.0));
+  Tuple n = s.Normal(Point(sqrt(3) / 3.0, sqrt(3) / 3.0, sqrt(3) / 3.0), Intersection(1, &s));
   ASSERT_EQ(n.Normalized(), n);
 }
 
 TEST(SphereTest, TranslatedSphereNormal) {
   Sphere s = Sphere();
   s.SetTransform(Translation(0.0, 1.0, 0.0));
-  Tuple n = s.Normal(Point(0, 1.70711, -0.70711));
+  Tuple n = s.Normal(Point(0, 1.70711, -0.70711), Intersection(1, &s));
   ASSERT_EQ(Vector(0, 0.70711, -0.70711), n);
 }
 
 TEST(SphereTest, ScaledRotatedSphereNormal) {
   Sphere s = Sphere();
   s.SetTransform(Scaling(1.0, 0.5, 1.0) * RotationZ(M_PI / 5.0));
-  Tuple n = s.Normal(Point(0, sqrt(2.0) / 2.0, -sqrt(2.0) / 2.0));
+  Tuple n = s.Normal(Point(0, sqrt(2.0) / 2.0, -sqrt(2.0) / 2.0), Intersection(1, &s));
   ASSERT_EQ(Vector(0.0, 0.97014, -0.24254), n);
 }
 

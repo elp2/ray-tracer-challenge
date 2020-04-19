@@ -16,9 +16,10 @@ class PlaneTest : public ::testing::Test {
 
 TEST(PlaneTest, NormalConstantEverywhere) {
   Plane p = Plane();
-  Tuple n1 = p.Normal(Point(0.0, 0.0, 0.0));
-  Tuple n2 = p.Normal(Point(10.0, 0.0, -10.0));
-  Tuple n3 = p.Normal(Point(-5.0, 0.0, 150.0));
+  auto hit = Intersection(1, &p);
+  Tuple n1 = p.Normal(Point(0.0, 0.0, 0.0), hit);
+  Tuple n2 = p.Normal(Point(10.0, 0.0, -10.0), hit);
+  Tuple n3 = p.Normal(Point(-5.0, 0.0, 150.0), hit);
   ASSERT_EQ(n1, Vector(0.0, 1.0, 0.0));
   ASSERT_EQ(n2, Vector(0.0, 1.0, 0.0));
   ASSERT_EQ(n3, Vector(0.0, 1.0, 0.0));
@@ -72,6 +73,6 @@ TEST(PlaneTest, RayIntersectsPlaneFromSide) {
 TEST(PlaneTest, NormalRotated) {
   Plane p = Plane();
   p.SetTransform(RotationZ(M_PI / 4.0));
-  Tuple n1 = p.Normal(Point(0.0, 0.0, 0.0));
+  Tuple n1 = p.Normal(Point(0.0, 0.0, 0.0), Intersection(1, &p));
   ASSERT_EQ(n1, Vector(-sqrt(2.0) / 2.0, sqrt(2.0) / 2.0, 0.0));
 }

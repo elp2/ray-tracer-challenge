@@ -31,9 +31,10 @@ TEST(TriangleTest, ConstructingTriangle) {
 
 TEST(TriangleTest, ConstructingTriangleX) {
   Triangle t = Triangle(Point(0, 1, 0), Point(-1, 0, 0), Point(1, 0, 0));
-  Tuple n1 = t.ObjectNormal(Point(0, 0.5, 0));
-  Tuple n2 = t.ObjectNormal(Point(-0.5, 0.75, 0));
-  Tuple n3 = t.ObjectNormal(Point(0.5, 0.25, 0));
+  auto hit = Intersection(1, &t);
+  Tuple n1 = t.ObjectNormal(Point(0, 0.5, 0), hit);
+  Tuple n2 = t.ObjectNormal(Point(-0.5, 0.75, 0), hit);
+  Tuple n3 = t.ObjectNormal(Point(0.5, 0.25, 0), hit);
 
   EXPECT_EQ(t.precalculated_normal(), n1);
   EXPECT_EQ(t.precalculated_normal(), n2);

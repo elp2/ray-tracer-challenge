@@ -72,7 +72,7 @@ TEST(CylinderTest, Normals) {
   };
   Cylinder c = Cylinder();
   for (int i = 0; i < 4; ++i) {
-    ASSERT_EQ(c.Normal(surface_points[i]), normals[i]);
+    ASSERT_EQ(c.Normal(surface_points[i], Intersection(1, &c)), normals[i]);
   }
 }
 
@@ -160,6 +160,6 @@ TEST(CylinderTest, CapNormals) {
   ASSERT_EQ(points.size(), normals.size());
   Cylinder c = Cylinder(2, 1, true);
   for (int i = 0; i < points.size(); ++i) {
-    EXPECT_EQ(c.ObjectNormal(points[i]), normals[i]);
+    EXPECT_EQ(c.ObjectNormal(points[i], Intersection(1, &c)), normals[i]);
   }
 }

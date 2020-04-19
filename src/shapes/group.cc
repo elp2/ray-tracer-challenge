@@ -92,7 +92,8 @@ const void Group::CheckAxis(const float &origin, const float &direction, float *
   }
 }
 
-const Tuple Group::ObjectNormal(const Tuple object_point) const {
+const Tuple Group::ObjectNormal(const Tuple &object_point, const Intersection &i) const {
+  assert(false);
   return Point(0.0, 0.0, 0.0);
 }
 

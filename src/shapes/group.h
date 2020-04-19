@@ -16,7 +16,7 @@ class Group : public Shape {
   ~Group() = default;
 
   const Intersections ObjectIntersect(const Ray object_ray) const;
-  const Tuple ObjectNormal(const Tuple p) const;
+  const Tuple ObjectNormal(const Tuple &object_point, const Intersection &i) const;
 
   bool operator==(const Group o) const;
 

@@ -12,7 +12,6 @@ class SmoothTriangle : public Shape {
   ~SmoothTriangle() = default;
 
   const Intersections ObjectIntersect(const Ray object_ray) const;
-  const Tuple ObjectNormal(const Tuple p) const;
   const Tuple ObjectNormal(const Tuple &p, const Intersection &i) const;
 
   bool operator==(const SmoothTriangle o) const;

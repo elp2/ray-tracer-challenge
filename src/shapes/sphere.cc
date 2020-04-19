@@ -37,7 +37,7 @@ const Intersections Sphere::ObjectIntersect(const Ray object_ray) const {
   return Intersections(intersections);
 }
 
-const Tuple Sphere::ObjectNormal(const Tuple object_point) const {
+const Tuple Sphere::ObjectNormal(const Tuple &object_point, const Intersection &i)  const {
   return object_point - Point(0.0, 0.0, 0.0);
 }
 
