@@ -32,12 +32,13 @@ class Group : public Shape {
   // Splits the group into subgroups. Do this before adding to a parent.
   Group *OptimizedSubgroups(int groups_per_dimension);
 
+  const bool Includes(Shape *other);
+
  private:
   std::vector<Shape *> *children_;
   Bounds bounds_ = Bounds(Point(0, 0, 0), Point(0, 0, 0));
   Material material_;
 
-  const Bounds ChildBounds(Shape *child) const;
   const void CheckAxis(const float &origin, const float &direction, float *tmin, float *tmax, const float &direction_min, const float &direction_max) const;
 };
 

@@ -13,6 +13,7 @@ class Intersections {
 
   std::optional<Intersection> Hit() const;
   std::size_t Size() const { return intersections_.size(); };
+  const std::vector<Intersection> &intersections() const { return intersections_; };
   Intersection operator[](int);
 
   void Merge(Intersections xs);

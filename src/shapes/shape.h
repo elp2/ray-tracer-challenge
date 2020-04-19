@@ -38,9 +38,13 @@ class Shape {
 
   virtual const Bounds UnitBounds() const = 0;
 
+  const bool Includes(Shape *other);
+
  protected:
   virtual const Intersections ObjectIntersect(const Ray object_ray) const = 0;
   virtual const Tuple ObjectNormal(const Tuple &p, const Intersection &i) const = 0;
+  const Bounds ChildBounds(Shape *child) const;
+
   Matrix transform_ = IdentityMatrix(4);
   Material material_ = Material();
   Shape *parent_ = nullptr;

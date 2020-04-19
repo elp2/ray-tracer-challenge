@@ -43,6 +43,7 @@ target_include_directories(patterns PUBLIC ${PROJECT_SOURCE_DIR}/src)
 add_library (shapes
     src/shapes/bounds.cc
     src/shapes/cone.cc
+    src/shapes/constructive_solid_geometry.cc
     src/shapes/cube.cc
     src/shapes/cylinder.cc
     src/shapes/group.cc
@@ -178,6 +179,7 @@ add_executable(tests
     src/scene/world_test.cc
     src/shapes/bounds_test.cc
     src/shapes/cone_test.cc
+    src/shapes/constructive_solid_geometry_test.cc
     src/shapes/cube_test.cc
     src/shapes/cylinder_test.cc
     src/shapes/group_test.cc
