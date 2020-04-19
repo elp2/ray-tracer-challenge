@@ -10,8 +10,8 @@ void ObjGroup::AddFace(Shape *face) {
   faces_.push_back(face);
 }
 
-Group *ObjGroup::ToGroup() const {
-  Group *group = new Group();
+Group *ObjGroup::ToGroup(Material material) const {
+  Group *group = new Group(material);
   for (auto face : faces_) {
     group->AddChild(face);
   }
@@ -132,15 +132,15 @@ const Tuple ObjParser::VertexNormal(int vn) const {
 }
 
 Group *ObjParser::DefaultGroup() const {
-  return groups_[0]->ToGroup();
+  return groups_[0]->ToGroup(material_);
 }
 
 Group *ObjParser::SuperGroup() const {
-  auto super_group = new Group();
+  auto super_group = new Group(material_);
   for (auto g : groups_) {
-    auto ggroup = g->ToGroup();
+    auto ggroup = g->ToGroup(material_);
     if (ggroup->size() > 0) {
-      super_group->AddChild(g->ToGroup());
+      super_group->AddChild(g->ToGroup(material_));
     }
   }
   return super_group;
@@ -149,7 +149,7 @@ Group *ObjParser::SuperGroup() const {
 Group *ObjParser::GroupNamed(std::string name) const {
   for (auto group : groups_) {
     if (name == group->name()) {
-      return group->ToGroup();
+      return group->ToGroup(material_);
     }
   }
   assert(false);

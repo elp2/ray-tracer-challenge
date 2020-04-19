@@ -12,6 +12,11 @@ Group::Group() {
   children_ = new std::vector<Shape *>();
 }
 
+Group::Group(Material material) {
+  children_ = new std::vector<Shape *>();
+  material_ = material;
+}
+
 void Group::ExtendBoundsForChild(Shape *child) {
   Bounds child_bounds = ChildBounds(child);
   bounds_.MergeWith(child_bounds);
@@ -43,10 +48,10 @@ const Bounds Group::ChildBounds(Shape *child) const {
   return child_bounds;
 }
 
-
 void Group::AddChild(Shape *child) {
   ExtendBoundsForChild(child);
   child->set_parent(this);
+  child->set_material(material_);
   children_->push_back(child);
 }
 
@@ -108,7 +113,7 @@ const Bounds Group::UnitBounds() const {
 Group *Group::OptimizedSubgroups(int groups_per_dimension) {
   std::vector<Group *> subgroups;
   for (int i = 0; i < groups_per_dimension * groups_per_dimension * groups_per_dimension; ++i) {
-    subgroups.push_back(new Group());
+    subgroups.push_back(new Group(material_));
   }
 
   Tuple span = bounds_.maximum() - bounds_.minimum();
@@ -126,7 +131,7 @@ Group *Group::OptimizedSubgroups(int groups_per_dimension) {
     subgroups[idx]->AddChild(child);
   }
 
-  auto ret = new Group();
+  auto ret = new Group(material_);
   for (auto subgroup : subgroups) {
     if (subgroup->size() > 0) {
       std::cout << "Subgroup size: " << subgroup->size() << std::endl;

@@ -15,7 +15,7 @@ class ObjGroup {
   ObjGroup(std::string name) { name_ = name; };
   ~ObjGroup() = default;
 
-  Group *ToGroup() const;
+  Group *ToGroup(Material material) const;
 
   void AddFace(Shape *face);
   const std::string name() const { return name_; };
@@ -52,6 +52,8 @@ class ObjParser {
   // Returns a group containing all groups parsed.
   Group *SuperGroup() const;
 
+  void set_material(Material material) { material_ = material; };
+
  private:
   void ParseLine(std::string line);
   const std::vector<FaceVertex> ParseFaceVertices(std::string vertices) const;
@@ -68,6 +70,8 @@ class ObjParser {
 
   // Groups. Current group is last group.
   std::vector<ObjGroup *> groups_;
+
+  Material material_;
 };
 
 #endif    // RTC_SHAPES_OBJ_PARSER_H

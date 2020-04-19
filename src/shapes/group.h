@@ -13,6 +13,7 @@
 class Group : public Shape {
  public:
   Group();
+  Group(Material material);
   ~Group() = default;
 
   const Intersections ObjectIntersect(const Ray object_ray) const;
@@ -34,6 +35,7 @@ class Group : public Shape {
  private:
   std::vector<Shape *> *children_;
   Bounds bounds_ = Bounds(Point(0, 0, 0), Point(0, 0, 0));
+  Material material_;
 
   const Bounds ChildBounds(Shape *child) const;
   const void CheckAxis(const float &origin, const float &direction, float *tmin, float *tmax, const float &direction_min, const float &direction_max) const;
