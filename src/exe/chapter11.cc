@@ -20,7 +20,7 @@
 #include <cmath>
 #include <iostream>
 
-const int CAMERA_DIMENSION = 200;
+const int CAMERA_DIMENSION = 500;
 
 Camera get_camera1() {
   Camera c = Camera(CAMERA_DIMENSION, CAMERA_DIMENSION, M_PI / 4.0);
@@ -186,7 +186,7 @@ Camera get_camera4() {
   return c;
 }
 
-World get_world4() {
+World get_world4(bool add_water) {
   World w = World();
   w.set_light(PointLight(Point(6, 20.0, 0), WhiteColor() * 1));
 
@@ -206,18 +206,20 @@ World get_world4() {
   back_wall->SetTransform(Translation(-3, 0, 0) *  RotationZ(M_PI / 2.0));
   w.add_object(back_wall);
 
-  auto water_plane = new Plane();
-  auto water_material = Material();
-  water_material.set_color(Color(0, 0, 1));
-  water_material.set_transparency(0.9);
-  water_material.set_reflective(0.3);
-  water_material.set_casts_shadow(false);
-  water_plane->set_material(water_material);
-  water_plane->SetTransform(Translation(0, 3, 0));
-  w.add_object(water_plane);
+  if (add_water) {
+    auto water_plane = new Plane();
+    auto water_material = Material();
+    water_material.set_color(Color(0, 0, 1));
+    water_material.set_transparency(0.9);
+    water_material.set_reflective(0.3);
+    water_material.set_casts_shadow(false);
+    water_plane->set_material(water_material);
+    water_plane->SetTransform(Translation(0, 3, 0));
+    w.add_object(water_plane);
+  }
 
   Sphere *sphere = CrystalBall();
-  sphere->SetTransform(Translation(3, 1, 0) * Scaling(1, 1, 1));
+  sphere->SetTransform(Translation(3, 1, 0));
   w.add_object(sphere);
 
   Sphere *red = new Sphere();
@@ -230,6 +232,53 @@ World get_world4() {
   return w;
 }
 
+World get_world5() {
+  World w = World();
+  w.set_light(PointLight(Point(6, 20.0, 0), WhiteColor() * 1));
+
+  auto p = new Plane();
+  auto grid = new ThreeDPattern(WhiteColor(), BlackColor());
+  auto pm1 = Material();
+  pm1.set_pattern(grid);
+  pm1.set_reflective(0.00);
+  pm1.set_shininess(30);
+  p->set_material(pm1);
+  w.add_object(p);
+
+  Sphere *near = new Sphere();
+  auto nearm = Material();
+  nearm.set_color(Color(ElectricBlueColor()));
+  near->set_material(nearm);
+  near->SetTransform(Translation(5, 1, 0));
+  w.add_object(near);
+
+  Sphere *far = new Sphere();
+  far->SetTransform(Translation(2, 2, 1));
+  Material farm = Material();
+  farm.set_color(Color(1, 0, 0));
+  far->set_material(farm);
+  w.add_object(far);
+
+  Sphere *distant = new Sphere();
+  distant->SetTransform(Translation(-3, 2, 0));
+  Material distantm = Material();
+  distantm.set_color(YellowColor());
+  distant->set_material(distantm);
+  w.add_object(distant);
+
+  return w;
+}
+
+Camera get_camera5() {
+  Camera c = Camera(CAMERA_DIMENSION, CAMERA_DIMENSION, M_PI / 2.0, 0.05, 4, 100);
+  // Camera c = Camera(CAMERA_DIMENSION, CAMERA_DIMENSION, M_PI / 2.0, 0, 3, 1);
+
+  Tuple from = Point(10, 3, 0);
+  Tuple to = Point(0.0, 0.0, 0.0);
+  Tuple up = Vector(0.0, 1.0, 0.0);
+  c.set_transform(ViewTransformation(from, to, up));
+  return c;
+}
 
 int main(int argc, char* argv[]) {
   (void)argc;
@@ -250,10 +299,15 @@ int main(int argc, char* argv[]) {
   // PPMWriter ppm_writer3 = PPMWriter(&canvas3);
   // ppm_writer3.WriteFile("chapter11_3.ppm");
 
-  std::cout << "Rendering chapter11_4.ppm." << std::endl;
-  Canvas canvas4 = get_camera4().Render(get_world4());
+  // std::cout << "Rendering chapter11_4.ppm." << std::endl;
+  // Canvas canvas4 = get_camera4().Render(get_world4(true));
+  // PPMWriter ppm_writer4 = PPMWriter(&canvas4);
+  // ppm_writer4.WriteFile("chapter11_4.ppm");
+
+  std::cout << "Rendering chapter11_5.ppm." << std::endl;
+  Canvas canvas4 = get_camera5().Render(get_world5());
   PPMWriter ppm_writer4 = PPMWriter(&canvas4);
-  ppm_writer4.WriteFile("chapter11_4.ppm");
+  ppm_writer4.WriteFile("chapter11_5.ppm");
 
 
   return 0;

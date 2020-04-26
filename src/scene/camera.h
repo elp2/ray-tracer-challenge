@@ -1,6 +1,8 @@
 #ifndef RTC_SCENE_CAMERA_H
 #define RTC_SCENE_CAMERA_H
 
+#include <vector>
+
 #include "primitives/matrix.h"
 
 class Canvas;
@@ -9,7 +11,12 @@ class World;
 
 class Camera {
  public:
-  Camera(int width, int height, float field_of_view);
+  Camera(const int width, const int height, const float field_of_view,
+      const float aperature_radius, const float focal_length, const int rays_per_pixel);
+
+  Camera(const int width, const int height, const float field_of_view) :
+      Camera(width, height, field_of_view, 0.0, 1.0, 1) {};
+
   ~Camera() = default;
 
   int width() { return width_; };
@@ -18,7 +25,10 @@ class Camera {
   float pixel_size() { return pixel_size_; };
   Matrix transform() { return transform_; };
 
-  Ray RayForPixel(int x, int y);
+  const Tuple AperaturePoint() const;
+
+  const std::vector<Ray> RaysForPixel(int x, int y) const;
+  const Ray RayForPixel(int x, int y, const Tuple &aperature_point) const;
   void set_transform(Matrix transform) { transform_ = transform; };
 
   Canvas Render(World w);
@@ -31,6 +41,10 @@ class Camera {
   float pixel_size_ = 0.0;
   float half_width_ = 0.0;
   float half_height_ = 0.0;
+  float focal_length_ = 1.0;
+  float aperature_radius_ = 0.0;
+  float aperature_radius_squared_ = 0.0;
+  int rays_per_pixel_ = 0;
 
   void RenderThread(Canvas *canvas, World *w, const int &mod);
 };
