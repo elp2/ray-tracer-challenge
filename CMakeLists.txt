@@ -20,7 +20,9 @@ add_library (primitives
 target_include_directories(primitives PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
 add_library (display
+    src/display/crc.cc
     src/display/canvas.cc
+    src/display/png_writer.cc
     src/display/ppm_writer.cc)
 target_include_directories(display PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
@@ -131,6 +133,10 @@ add_executable(chapter16 WIN32
     src/exe/chapter16.cc)
 target_link_libraries(chapter16 patterns primitives display shapes lights scene)
 
+add_executable(write_png WIN32
+    src/exe/write_png.cc)
+target_link_libraries(write_png patterns primitives display shapes lights scene)
+
 # Below is from googletest README.md.
 # Download and unpack googletest at configure time.
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
@@ -167,6 +173,7 @@ endif()
 # Tests
 add_executable(tests
     src/display/canvas_test.cc
+    src/display/crc_test.cc
     src/display/ppm_writer_test.cc
     src/lights/point_light_test.cc
     src/patterns/pattern_test.cc

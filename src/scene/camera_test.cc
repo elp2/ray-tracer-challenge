@@ -36,14 +36,14 @@ TEST(CameraTest, PixelSizeForVerticalCanvas) {
 
 TEST(CameraTest, RayThroughCenter) {
   Camera c = Camera(201, 101, M_PI / 2.0);
-  Ray r = c.RayForPixel(100, 50);
+  Ray r = c.RayForPixel(100, 50, Point(0, 0, 0));
   ASSERT_EQ(r.Origin(), Point(0.0, 0.0, 0.0));
   ASSERT_EQ(r.Direction(), Vector(0.0, 0.0, -1.0));
 }
 
 TEST(CameraTest, RayThroughCorner) {
   Camera c = Camera(201, 101, M_PI / 2.0);
-  Ray r = c.RayForPixel(0, 0);
+  Ray r = c.RayForPixel(0, 0, Point(0, 0, 0));
   ASSERT_EQ(r.Origin(), Point(0.0, 0.0, 0.0));
   ASSERT_EQ(r.Direction(), Vector(0.66519, 0.33259, -0.66851));
 }
@@ -51,7 +51,7 @@ TEST(CameraTest, RayThroughCorner) {
 TEST(CameraTest, RayThroughTransformedCamera) {
   Camera c = Camera(201, 101, M_PI / 2.0);
   c.set_transform(RotationY(M_PI / 4.0) * Translation(0.0, -2.0, 5.0));
-  Ray r = c.RayForPixel(100, 50);
+  Ray r = c.RayForPixel(100, 50, Point(0, 0, 0));
   ASSERT_EQ(r.Origin(), Point(0.0, 2.0, -5.0));
   ASSERT_EQ(r.Direction(), Vector(sqrt(2.0) / 2.0, 0.0, -sqrt(2.0) / 2.0));
 }
