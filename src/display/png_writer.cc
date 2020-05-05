@@ -68,9 +68,8 @@ const void PNGWriter::WriteChunk(std::ostream &stream, const int length, const s
 
   stream.write((char *)data, length);
 
-  const char *crc = CalculateCRC(data, length);
-  stream.write(crc, 4);
-  delete(crc);
+  uint32_t crc = htonl(CalculateCRC(type, data, length));
+  stream.write((char *)&crc, sizeof(crc));
 }
 
 const void PNGWriter::WriteFooter(std::ostream &stream) const {
@@ -99,9 +98,14 @@ const void PNGWriter::WriteImageData(std::ostream &stream) const {
   WriteChunk(stream, compressed_length, "IDAT", compressed_data);
 }
 
-const char* PNGWriter::CalculateCRC(const void *data, const int length) const {
-  char *ret = new char[4];
-  uint32_t crc = calculate_crc(data, length);
-  memcpy(ret, &crc, sizeof(crc));
-  return ret;
+const uint32_t PNGWriter::CalculateCRC(const std::string &type, const void *data, const int length) const {
+  int combined_length = type.size() + length;
+  char *type_data = new char[combined_length];
+  strcpy(type_data, type.c_str());
+  memcpy(type_data + 4, data, length);
+
+  uint32_t crc = calculate_crc(type_data, combined_length);
+  free(type_data);
+
+  return crc;
 }
