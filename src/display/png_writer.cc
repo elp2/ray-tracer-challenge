@@ -4,9 +4,11 @@
 #include <cassert>
 #include <cstring>
 #include <fstream>
+#include <iostream>
 #include <math.h>
 
 #include "display/crc.h"
+#include "zlib.h"
 
 static const uint8_t SIGNATURE[8] = { 137, 80, 78, 71, 13, 10, 26, 10 };
 
@@ -78,11 +80,16 @@ const void PNGWriter::WriteFooter(std::ostream &stream) const {
 }
 
 const void PNGWriter::WriteImageData(std::ostream &stream) const {
-  // Data stored row by row, left to right, as 3 bytes of R, G, B.
-  char *uncompressed_idata = new char[canvas_->width() * canvas_->height() * 3];
+  // Data stored in scanlines left to right, as 3 bytes of R, G, B
+  // with a filter byte (0 for none) before each scanline.
+  int uncompressed_length = canvas_->width() * canvas_->height() * 3
+      + canvas_->height();
+  uint8_t *uncompressed_idata = new uint8_t[uncompressed_length];
 
   int i = 0;
   for (int y = 0; y < canvas_->height(); ++y) {
+    // None type filter byte.
+    uncompressed_idata[i++] = 0;
     for (int x = 0; x < canvas_->width(); ++x) {
       Color c = canvas_->PixelAt(x, y);
       uncompressed_idata[i++] = ColorByte(c.r());
@@ -91,9 +98,9 @@ const void PNGWriter::WriteImageData(std::ostream &stream) const {
     }
   }
 
-  // TODO: Compress data.
-  char *compressed_data = uncompressed_idata;
-  int compressed_length = 9;
+  uLongf compressed_length = uncompressed_length + 100;
+  uint8_t *compressed_data = new uint8_t[compressed_length];
+  compress(compressed_data, &compressed_length, uncompressed_idata, uncompressed_length);
 
   WriteChunk(stream, compressed_length, "IDAT", compressed_data);
 }

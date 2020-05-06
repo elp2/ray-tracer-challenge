@@ -15,7 +15,6 @@ const int INSET = CANVAS_DIMENSION / 2;
 void DrawPixel(Canvas *canvas, Tuple p) {
   int x = floor(p.x()) + INSET;
   int y = floor(p.y()) + INSET;
-  std::cout << x << ", " << y << std::endl;
   canvas->WritePixel(Color(1, 0, 0), x, y);
 }
 
@@ -43,19 +42,24 @@ void DrawClock() {
   png_writer.WriteFile("clock.png");
 }
 
-void DrawRedDot() {
-  Canvas *canvas = new Canvas(1, 1);
-  canvas->WritePixel(Color(1, 0, 0), 0, 0);
+void DrawGradient() {
+  const int DIMENSION = 100;
+  Canvas *canvas = new Canvas(DIMENSION, DIMENSION);
+  for (int y = 0; y < DIMENSION; ++y) {
+    for (int x = 0; x < DIMENSION; ++x) {
+      canvas->WritePixel(Color((float)y / DIMENSION, 0, (float)x / DIMENSION), x, y);
+    }
+  }
   PNGWriter png_writer = PNGWriter(canvas);
-  png_writer.WriteFile("red_dot.png");
+  png_writer.WriteFile("gradient.png");
 }
 
 int main(int argc, char* argv[]) {
   (void)argc;
   (void)argv;
 
-  DrawRedDot();
-  // TODO: DrawClock();
+  DrawGradient();
+  DrawClock();
 
   return 0;
 }

@@ -24,6 +24,7 @@ add_library (display
     src/display/canvas.cc
     src/display/png_writer.cc
     src/display/ppm_writer.cc)
+target_link_libraries(display z)
 target_include_directories(display PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
 add_library (lights
