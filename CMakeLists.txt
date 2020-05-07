@@ -9,6 +9,13 @@ set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
+if (WIN32)
+set(SDL2_DIR "C://Users/edwar/Documents/Dev/SDL2-2.0.10")
+endif()
+
+find_package(SDL2 REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS})
+
 add_library (primitives
     src/primitives/color.cc
     src/primitives/intersection.cc
@@ -74,6 +81,26 @@ find_package (Threads)
 target_link_libraries (scene Threads::Threads)
 target_include_directories(scene PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
+add_library (imgui
+    imgui/examples/imgui_impl_opengl3.cpp
+    imgui/examples/imgui_impl_sdl.cpp
+    imgui/imgui.cpp
+    imgui/imgui_draw.cpp
+    imgui/imgui_widgets.cpp)
+target_include_directories(imgui PUBLIC ${PROJECT_SOURCE_DIR}/src)
+target_include_directories(imgui PUBLIC ${PROJECT_SOURCE_DIR}/imgui)
+target_include_directories(imgui PUBLIC ${SDL2_INCLUDE_DIR})
+target_compile_definitions(imgui PUBLIC IMGUI_IMPL_OPENGL_LOADER_CUSTOM=<SDL_opengl.h>  GL_GLEXT_PROTOTYPES=1)
+target_link_libraries(imgui GL)
+target_link_libraries(imgui ${SDL2_LIBRARIES})
+
+add_library (gui
+    src/gui/gui.cc)
+target_include_directories(gui PUBLIC ${SDL2_INCLUDE_DIR})
+target_link_libraries(gui imgui)
+target_link_libraries(gui GL)
+target_link_libraries(gui ${SDL2_LIBRARIES})
+
 add_executable(rtc WIN32
     src/exe/main.cc)
 target_link_libraries(rtc primitives display)
@@ -137,6 +164,10 @@ target_link_libraries(chapter16 patterns primitives display shapes lights scene)
 add_executable(write_png WIN32
     src/exe/write_png.cc)
 target_link_libraries(write_png patterns primitives display shapes lights scene)
+
+add_executable(elptracer WIN32
+    src/exe/elptracer.cc)
+target_link_libraries(elptracer patterns primitives display shapes lights scene gui)
 
 # Below is from googletest README.md.
 # Download and unpack googletest at configure time.
