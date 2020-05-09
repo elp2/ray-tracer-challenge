@@ -125,7 +125,6 @@ TEST(ObjParserTest, NormalVectorFaces) {
   Group *group = parser.DefaultGroup();
   ASSERT_EQ(group->children()->size(), 2);
   SmoothTriangle *t1 = (SmoothTriangle *)(*group->children())[0];
-  SmoothTriangle *t2 = (SmoothTriangle *)(*group->children())[1];
 
   EXPECT_EQ(t1->p1(), parser.Vertex(1));
   EXPECT_EQ(t1->p2(), parser.Vertex(2));

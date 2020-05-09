@@ -31,7 +31,7 @@ class PNGWriter {
   // Writes data for a chunk. Compression and must be done by caller. length must be less than 2^31.
   void WriteChunk(std::ostream &stream, const int length, const std::string &type, const void *data) const;
   // Returns 4 bit CRC for data.
-  const uint32_t CalculateCRC(const std::string &type, const void *data, const int length) const;
+  uint32_t CalculateCRC(const std::string &type, const void *data, const int length) const;
 };
 
 #endif    // RTC_DISPLAY_PNG_WRITER_H

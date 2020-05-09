@@ -12,7 +12,7 @@
 
 static const uint8_t SIGNATURE[8] = { 137, 80, 78, 71, 13, 10, 26, 10 };
 
-const uint8_t ColorByte(float color_component) {
+uint8_t ColorByte(float color_component) {
   int color_int = ceil(color_component * 255.0);
   if (color_int > 255) {
     return 255;
@@ -105,7 +105,7 @@ void PNGWriter::WriteImageData(std::ostream &stream) const {
   WriteChunk(stream, compressed_length, "IDAT", compressed_data);
 }
 
-const uint32_t PNGWriter::CalculateCRC(const std::string &type, const void *data, const int length) const {
+uint32_t PNGWriter::CalculateCRC(const std::string &type, const void *data, const int length) const {
   int combined_length = type.size() + length;
   char *type_data = new char[combined_length];
   strcpy(type_data, type.c_str());

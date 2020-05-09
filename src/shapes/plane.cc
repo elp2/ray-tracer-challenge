@@ -19,6 +19,10 @@ const Intersections Plane::ObjectIntersect(const Ray object_ray) const {
 }
 
 const Tuple Plane::ObjectNormal(const Tuple &object_point, const Intersection &i) const {
+  (void)object_point;
+  (void)i;
+
+  // Plane's normal is the same at every point and intersection.
   return Vector(0.0, 1.0, 0.0);
 }
 

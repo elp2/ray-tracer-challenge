@@ -32,7 +32,7 @@ TEST_F(StripedPatternTest, ConstantInY) {
 TEST_F(StripedPatternTest, ConstantInZ) {
   StripedPattern sp = StripedPattern(white_, black_);
   Color origin_color = sp.ColorAt(Point(0, 0, 0));
-  for (int z = 0; 0, z < 10; ++z) {
+  for (int z = 0; z < 10; ++z) {
     ASSERT_EQ(origin_color, sp.ColorAt(Point(0, 0, z)));
   }
 }

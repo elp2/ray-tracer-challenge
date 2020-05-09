@@ -31,8 +31,8 @@ const int CAMERA_DIMENSION = 100;
 
 ConstructiveSolidGeometry *Dice(Color c) {
   const float dice_radius = 5;
-  const float dice_curve_diff = 0.3;
-  const float dice_scaling= 4;// sqrt(dice_curve_diff + dice_radius);
+  // const float dice_curve_diff = 0.3;
+  const float dice_scaling= 4; // sqrt(dice_curve_diff + dice_radius);
 
   Material dice_material;
   dice_material.set_color(c);
