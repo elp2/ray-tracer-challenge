@@ -4,6 +4,9 @@
 #include "examples/imgui_impl_sdl.h"
 #include "examples/imgui_impl_opengl3.h"
 
+#include "camera_window.h"
+#include "preview_window.h"
+
 #include <cassert>
 #include <iostream>
 
@@ -64,7 +67,11 @@ Gui::Gui() {
 
     ImGui_ImplSDL2_InitForOpenGL(window_, context_);
     ImGui_ImplOpenGL3_Init();
+
+    preview_window_ = new PreviewWindow();
+    camera_window_ = new CameraWindow();
 }
+
 void Gui::Show() {
   while(EventLoop()) {}
   Cleanup();
@@ -101,6 +108,9 @@ bool Gui::EventLoop() {
 void Gui::Frame() {
   ImGui::Begin("Yay!");
   ImGui::End();
+
+  camera_window_->Frame();
+  preview_window_->Frame();
 }
 
 void Gui::Cleanup() const {

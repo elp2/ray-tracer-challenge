@@ -95,7 +95,9 @@ target_compile_definitions(imgui PUBLIC IMGUI_IMPL_OPENGL_LOADER_CUSTOM=<SDL_ope
 target_link_libraries(imgui ${OPENGL_opengl_LIBRARY} ${SDL2_LIBRARIES})
 
 add_library (gui
-    src/gui/gui.cc)
+    src/gui/camera_window.cc
+    src/gui/gui.cc
+    src/gui/preview_window.cc)
 target_include_directories(gui PUBLIC ${SDL2_INCLUDE_DIR})
 target_link_libraries(gui imgui ${OPENGL_opengl_LIBRARY} ${SDL2_LIBRARIES})
 target_compile_definitions(gui PUBLIC GL_GLEXT_PROTOTYPES=1)
