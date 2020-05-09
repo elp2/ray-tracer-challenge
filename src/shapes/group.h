@@ -21,7 +21,7 @@ class Group : public Shape {
 
   bool operator==(const Group o) const;
 
-  const int size() const { return children_->size(); };
+  int size() const { return children_->size(); };
 
   void AddChild(Shape * child);
   const std::vector<Shape *> *children() const { return children_; };
@@ -32,14 +32,14 @@ class Group : public Shape {
   // Splits the group into subgroups. Do this before adding to a parent.
   Group *OptimizedSubgroups(int groups_per_dimension);
 
-  const bool Includes(Shape *other);
+  bool Includes(Shape *other);
 
  private:
   std::vector<Shape *> *children_;
   Bounds bounds_ = Bounds(Point(0, 0, 0), Point(0, 0, 0));
   Material material_;
 
-  const void CheckAxis(const float &origin, const float &direction, float *tmin, float *tmax, const float &direction_min, const float &direction_max) const;
+  void CheckAxis(const float &origin, const float &direction, float *tmin, float *tmax, const float &direction_min, const float &direction_max) const;
 };
 
 #endif    // RTC_SHAPES_GROUP_H

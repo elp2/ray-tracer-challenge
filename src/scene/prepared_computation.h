@@ -13,7 +13,7 @@ class PreparedComputation {
   PreparedComputation(Intersection hit, Ray &r, Intersections &xs);
   ~PreparedComputation() = default;
 
-  const float t() const { return t_; };
+  float t() const { return t_; };
   const Shape *object() const { return object_; };
   const Tuple point() const { return point_; };
   const Tuple over_point() const { return over_point_; };
@@ -21,10 +21,10 @@ class PreparedComputation {
   const Tuple eye_vector() const { return eye_vector_; };
   const Tuple normal_vector() const { return normal_vector_; };
   const Tuple reflect_vector() const { return reflect_vector_; };
-  const bool inside() const { return inside_; };
-  const float n1() const { return n1_; };
-  const float n2() const { return n2_; };
-  const float schlick() const;
+  bool inside() const { return inside_; };
+  float n1() const { return n1_; };
+  float n2() const { return n2_; };
+  float schlick() const;
 
  private:
   float t_;

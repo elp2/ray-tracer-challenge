@@ -69,14 +69,14 @@ bool Cylinder::operator==(const Cylinder o) const {
   return Shape::operator==(o);
 }
 
-const bool Cylinder::IntersectsCap(const Ray &r, const float &t) const {
+bool Cylinder::IntersectsCap(const Ray &r, const float &t) const {
   float x = r.Origin().x() + t * r.Direction().x();
   float z = r.Origin().z() + t * r.Direction().z();
 
   return (pow(x, 2) + pow(z, 2)) <= 1.0 + EPSILON;
 }
 
-const void Cylinder::CapIntersections(const Ray &r, std::vector<Intersection> *xs) const {
+void Cylinder::CapIntersections(const Ray &r, std::vector<Intersection> *xs) const {
   if (!closed_ || fabs(r.Direction().y()) < EPSILON) {
     return;
   }

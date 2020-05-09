@@ -76,6 +76,6 @@ const Bounds Shape::ChildBounds(Shape *child) const {
   return child_bounds;
 }
 
-const bool Shape::Includes(Shape *other) {
+bool Shape::Includes(Shape *other) {
   return this == other;
 }

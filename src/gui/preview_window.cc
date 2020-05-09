@@ -17,6 +17,6 @@ void PreviewWindow::Frame() {
   ImGui::End();
 }
 
-const float PreviewWindow::Progress() const {
+float PreviewWindow::Progress() const {
   return 0.45;
 }

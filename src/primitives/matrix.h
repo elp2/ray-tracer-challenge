@@ -16,11 +16,11 @@ class Matrix {
   Matrix(const Matrix &matrix);
   Matrix &operator=(const Matrix &matrix);
 
-  const float operator()(const int &row, const int &col) const;
+  float operator()(const int &row, const int &col) const;
   void Set(float value, const int &row, const int &col);
 
-  inline const int w() const { return w_; };
-  inline const int h() const { return h_; };
+  inline int w() const { return w_; };
+  inline int h() const { return h_; };
 
   Matrix Transpose();
   float Determinant() const;
@@ -40,11 +40,11 @@ class Matrix {
  private:
   int w_, h_;
   float *matrix_;
-  const inline int MatrixIndex(const int &row, const int &col) const;
+  inline int MatrixIndex(const int &row, const int &col) const;
 };
 
-const bool operator==(const Matrix lhs, const Matrix rhs);
-const bool operator!=(const Matrix lhs, const Matrix rhs);
+bool operator==(const Matrix lhs, const Matrix rhs);
+bool operator!=(const Matrix lhs, const Matrix rhs);
 const Matrix operator*(const Matrix lhs, const Matrix rhs);
 const Tuple operator*(const Matrix lhs, const Tuple rhs);
 

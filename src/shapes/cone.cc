@@ -90,14 +90,14 @@ bool Cone::operator==(const Cone o) const {
   return Shape::operator==(o);
 }
 
-const bool Cone::IntersectsCap(const Ray &r, const float &t, const float &cap_radius) const {
+bool Cone::IntersectsCap(const Ray &r, const float &t, const float &cap_radius) const {
   float x = r.Origin().x() + t * r.Direction().x();
   float z = r.Origin().z() + t * r.Direction().z();
 
   return (pow(x, 2) + pow(z, 2)) <= cap_radius + EPSILON;
 }
 
-const void Cone::CapIntersections(const Ray &r, std::vector<Intersection> *xs) const {
+void Cone::CapIntersections(const Ray &r, std::vector<Intersection> *xs) const {
   if (!closed_ || fabs(r.Direction().y()) < EPSILON) {
     return;
   }

@@ -54,7 +54,7 @@ const Intersections Group::ObjectIntersect(const Ray object_ray) const {
   return xs;
 }
 
-const void Group::CheckAxis(const float &origin, const float &direction, float *tmin, float *tmax,
+void Group::CheckAxis(const float &origin, const float &direction, float *tmin, float *tmax,
     const float &direction_min, const float &direction_max) const {
   float tmin_numerator = (direction_min - origin);
   float tmax_numerator = (direction_max - origin);
@@ -116,7 +116,7 @@ Group *Group::OptimizedSubgroups(int groups_per_dimension) {
   return ret;
 }
 
-const bool Group::Includes(Shape *other) {
+bool Group::Includes(Shape *other) {
   for (auto child : (*children_)) {
     if (child->Includes(other)) {
       return true;

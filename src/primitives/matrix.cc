@@ -53,13 +53,13 @@ Matrix::Matrix(const Matrix &matrix) {
   memcpy(matrix_, matrix.matrix_, w_ * h_ * sizeof(float));
 }
 
-const inline int Matrix::MatrixIndex(const int &row, const int &col) const {
+inline int Matrix::MatrixIndex(const int &row, const int &col) const {
   // assert(col >= 0 && col < w_);
   // assert(row >= 0 && row < h_);
   return col + row * h_;
 }
 
-const float Matrix::operator()(const int &row, const int &col) const {
+float Matrix::operator()(const int &row, const int &col) const {
   return matrix_[MatrixIndex(row, col)];
 }
 
@@ -67,7 +67,7 @@ void Matrix::Set(float value, const int &row, const int &col) {
   matrix_[MatrixIndex(row, col)] = value;
 }
 
-const bool operator==(const Matrix lhs, const Matrix rhs) {
+bool operator==(const Matrix lhs, const Matrix rhs) {
   if (lhs.w() != rhs.w() || lhs.h() != rhs.h()) {
     return false;
   }
@@ -83,7 +83,7 @@ const bool operator==(const Matrix lhs, const Matrix rhs) {
   return true;
 }
 
-const bool operator!=(const Matrix lhs, const Matrix rhs) {
+bool operator!=(const Matrix lhs, const Matrix rhs) {
   return !(lhs == rhs);
 }
 

@@ -13,7 +13,7 @@ class IntersectionStrategy {
  public:
   ~IntersectionStrategy() = default;
 
-  virtual const bool IntersectionAllowed(bool left_hit, bool in_left, bool in_right) const = 0;
+  virtual bool IntersectionAllowed(bool left_hit, bool in_left, bool in_right) const = 0;
 };
 
 class UnionIntersectionStrategy : public IntersectionStrategy {
@@ -21,7 +21,7 @@ class UnionIntersectionStrategy : public IntersectionStrategy {
   UnionIntersectionStrategy() {};
   ~UnionIntersectionStrategy() = default;
 
-  const bool IntersectionAllowed(bool left_hit, bool in_left, bool in_right) const {
+  bool IntersectionAllowed(bool left_hit, bool in_left, bool in_right) const {
     return (left_hit && !in_right) || (!left_hit && !in_left);
   }
 };
@@ -31,7 +31,7 @@ class IntersectIntersectionStrategy : public IntersectionStrategy {
   IntersectIntersectionStrategy() {};
   ~IntersectIntersectionStrategy() = default;
 
-  const bool IntersectionAllowed(bool left_hit, bool in_left, bool in_right) const {
+  bool IntersectionAllowed(bool left_hit, bool in_left, bool in_right) const {
     return (left_hit && in_right) || (!left_hit && in_left);
   }
 };
@@ -41,7 +41,7 @@ class DifferenceIntersectionStrategy : public IntersectionStrategy {
   DifferenceIntersectionStrategy() {};
   ~DifferenceIntersectionStrategy() = default;
 
-  const bool IntersectionAllowed(bool left_hit, bool in_left, bool in_right) const {
+  bool IntersectionAllowed(bool left_hit, bool in_left, bool in_right) const {
     return (left_hit && !in_right) || (!left_hit && in_left);
   }
 };
@@ -61,7 +61,7 @@ class ConstructiveSolidGeometry : public Shape {
 
   const Bounds UnitBounds() const;
 
-  const bool Includes(Shape *other);
+  bool Includes(Shape *other);
 
   Shape *left() { return left_; };
   Shape *right() { return right_; };

@@ -68,7 +68,7 @@ Tuple UnitPointIfy(const Tuple &point) {
   return Point(x, y, z);
 }
 
-const float PerturbedPattern::PerlinValue(const Tuple &point) const {
+float PerturbedPattern::PerlinValue(const Tuple &point) const {
   Tuple unit_point = UnitPointIfy(point);
   // https://en.wikipedia.org/wiki/Trilinear_interpolation
   // [x,y,z]d are all x,y,z since we're operating on the unit point.
@@ -89,7 +89,7 @@ const float PerturbedPattern::PerlinValue(const Tuple &point) const {
   return DAMPER * c;
 }
 
-const float PerturbedPattern::DotPattern(const int &corner_index, Tuple &point) const {
+float PerturbedPattern::DotPattern(const int &corner_index, Tuple &point) const {
   Tuple distance = point - corner_positions[corner_index];
   return gradients_[corner_index].Dot(distance);
 }

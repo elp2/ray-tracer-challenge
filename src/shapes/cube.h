@@ -21,7 +21,7 @@ class Cube : public Shape {
   const Bounds UnitBounds() const;
 
  private:
-  const void CheckAxis(const float &origin, const float &direction, float *tmin, float *tmax) const;
+  void CheckAxis(const float &origin, const float &direction, float *tmin, float *tmax) const;
 };
 
 #endif    // RTC_SHAPES_CUBE_H

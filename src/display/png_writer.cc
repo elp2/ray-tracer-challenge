@@ -27,25 +27,25 @@ PNGWriter::PNGWriter(Canvas *canvas) {
   canvas_ = canvas;
 }
 
-const void PNGWriter::WriteFile(std::string filename) const {
+void PNGWriter::WriteFile(std::string filename) const {
   std::ofstream out;
   out.open(filename);
   WriteStream(out);
   out.close();
 }
 
-const void PNGWriter::WriteStream(std::ostream &stream) const {
+void PNGWriter::WriteStream(std::ostream &stream) const {
   WriteSignature(stream);
   WriteHeader(stream);
   WriteImageData(stream);
   WriteFooter(stream);
 }
 
-const void PNGWriter::WriteSignature(std::ostream &stream) const {
+void PNGWriter::WriteSignature(std::ostream &stream) const {
   stream.write((char *)SIGNATURE, 8);
 }
 
-const void PNGWriter::WriteHeader(std::ostream &stream) const {
+void PNGWriter::WriteHeader(std::ostream &stream) const {
   char data[13];
   uint32_t w = htonl((uint32_t)canvas_->width());
   memcpy(data, &w, sizeof(w));
@@ -60,7 +60,7 @@ const void PNGWriter::WriteHeader(std::ostream &stream) const {
   WriteChunk(stream, 13, "IHDR", data);
 }
 
-const void PNGWriter::WriteChunk(std::ostream &stream, const int length, const std::string &type, const void *data) const {
+void PNGWriter::WriteChunk(std::ostream &stream, const int length, const std::string &type, const void *data) const {
   assert(length < pow(2, 31));
 
   uint32_t network_order_length = htonl((uint32_t)length);
@@ -74,12 +74,12 @@ const void PNGWriter::WriteChunk(std::ostream &stream, const int length, const s
   stream.write((char *)&crc, sizeof(crc));
 }
 
-const void PNGWriter::WriteFooter(std::ostream &stream) const {
+void PNGWriter::WriteFooter(std::ostream &stream) const {
   char data[0];
   WriteChunk(stream, 0, "IEND", data);
 }
 
-const void PNGWriter::WriteImageData(std::ostream &stream) const {
+void PNGWriter::WriteImageData(std::ostream &stream) const {
   // Data stored in scanlines left to right, as 3 bytes of R, G, B
   // with a filter byte (0 for none) before each scanline.
   int uncompressed_length = canvas_->width() * canvas_->height() * 3

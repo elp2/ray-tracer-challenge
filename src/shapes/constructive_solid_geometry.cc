@@ -50,7 +50,7 @@ const Intersections ConstructiveSolidGeometry::FilterIntersections(Intersections
   return Intersections(filtered);
 }
 
-const bool ConstructiveSolidGeometry::Includes(Shape *other) {
+bool ConstructiveSolidGeometry::Includes(Shape *other) {
   return left_->Includes(other) || right_->Includes(other);
 }
 

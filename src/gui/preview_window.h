@@ -11,7 +11,7 @@ class PreviewWindow {
   void Frame();
 
  private:
-  const float Progress() const;
+  float Progress() const;
 };
 
 #endif    // RTC_GUI_PREVIEW_WNDOW_H

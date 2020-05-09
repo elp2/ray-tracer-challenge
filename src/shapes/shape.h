@@ -27,7 +27,7 @@ class Shape {
 
   bool operator==(const Shape &o) const;
 
-  const void set_parent(Shape *parent) { parent_ = parent; };
+  void set_parent(Shape *parent) { parent_ = parent; };
   const Shape *parent() { return parent_; };
 
   const Tuple WorldPointToObject(const Tuple &world_point) const;
@@ -38,7 +38,7 @@ class Shape {
 
   virtual const Bounds UnitBounds() const = 0;
 
-  const bool Includes(Shape *other);
+  bool Includes(Shape *other);
 
  protected:
   virtual const Intersections ObjectIntersect(const Ray object_ray) const = 0;

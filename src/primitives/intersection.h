@@ -11,8 +11,8 @@ class Intersection {
   const void *Object() const { return object_; };
   bool operator==(Intersection other) const { return object_ == other.Object() && t_ == other.T(); };
 
-  const float u() const { return u_; };
-  const float v() const { return v_; };
+  float u() const { return u_; };
+  float v() const { return v_; };
 
  private:
   float t_;

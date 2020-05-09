@@ -21,9 +21,9 @@ class Cylinder : public Shape {
 
   bool operator==(const Cylinder o) const;
 
-  const float maximum() const { return maximum_; };
-  const float minimum() const { return minimum_; };
-  const bool closed() const { return closed_; };
+  float maximum() const { return maximum_; };
+  float minimum() const { return minimum_; };
+  bool closed() const { return closed_; };
 
   const Bounds UnitBounds() const;
 
@@ -32,8 +32,8 @@ class Cylinder : public Shape {
   float minimum_ = -INFINITY;
   bool closed_ = false;
 
-  const bool IntersectsCap(const Ray &r, const float &t) const;
-  const void CapIntersections(const Ray &r, std::vector<Intersection> *xs) const;
+  bool IntersectsCap(const Ray &r, const float &t) const;
+  void CapIntersections(const Ray &r, std::vector<Intersection> *xs) const;
 };
 
 #endif    // RTC_SHAPES_CYLINDER_H

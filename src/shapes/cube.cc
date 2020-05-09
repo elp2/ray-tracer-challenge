@@ -45,7 +45,7 @@ bool Cube::operator==(const Cube o) const {
   return Shape::operator==(o);
 }
 
-const void Cube::CheckAxis(const float &origin, const float &direction, float *tmin, float *tmax) const {
+void Cube::CheckAxis(const float &origin, const float &direction, float *tmin, float *tmax) const {
   float tmin_numerator = (-1.0 - origin);
   float tmax_numerator = (1.0 - origin);
 
