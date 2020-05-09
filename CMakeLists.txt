@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.13)
 project(ray-tracer-challenge)
 
 enable_testing()
@@ -58,7 +58,7 @@ add_library (shapes
     src/shapes/cylinder.cc
     src/shapes/group.cc
     src/shapes/material.cc
-    src/shapes/obj_parser.cc    
+    src/shapes/obj_parser.cc
     src/shapes/plane.cc
     src/shapes/shape.cc
     src/shapes/smooth_triangle.cc
@@ -81,6 +81,7 @@ find_package (Threads)
 target_link_libraries (scene Threads::Threads)
 target_include_directories(scene PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
+find_package(OpenGL)
 add_library (imgui
     imgui/examples/imgui_impl_opengl3.cpp
     imgui/examples/imgui_impl_sdl.cpp
@@ -91,15 +92,13 @@ target_include_directories(imgui PUBLIC ${PROJECT_SOURCE_DIR}/src)
 target_include_directories(imgui PUBLIC ${PROJECT_SOURCE_DIR}/imgui)
 target_include_directories(imgui PUBLIC ${SDL2_INCLUDE_DIR})
 target_compile_definitions(imgui PUBLIC IMGUI_IMPL_OPENGL_LOADER_CUSTOM=<SDL_opengl.h>  GL_GLEXT_PROTOTYPES=1)
-target_link_libraries(imgui GL)
-target_link_libraries(imgui ${SDL2_LIBRARIES})
+target_link_libraries(imgui ${OPENGL_opengl_LIBRARY} ${SDL2_LIBRARIES})
 
 add_library (gui
     src/gui/gui.cc)
 target_include_directories(gui PUBLIC ${SDL2_INCLUDE_DIR})
-target_link_libraries(gui imgui)
-target_link_libraries(gui GL)
-target_link_libraries(gui ${SDL2_LIBRARIES})
+target_link_libraries(gui imgui ${OPENGL_opengl_LIBRARY} ${SDL2_LIBRARIES})
+target_compile_definitions(gui PUBLIC GL_GLEXT_PROTOTYPES=1)
 
 add_executable(rtc WIN32
     src/exe/main.cc)
