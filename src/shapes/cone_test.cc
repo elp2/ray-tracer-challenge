@@ -31,7 +31,7 @@ TEST(ConeTest, RayHitsCone) {
   std::vector<float> t1s = { 5, 8.6602545, 49.44994 };
 
   Cone c = Cone();
-  for (int i = 0; i < t0s.size(); ++i) {
+  for (std::vector<Tuple>::size_type i = 0; i < t0s.size(); ++i) {
     Ray r = Ray(origins[i], directions[i].Normalized());
     Intersections xs = c.ObjectIntersect(r);
     ASSERT_EQ(xs.Size(), 2);
@@ -63,7 +63,7 @@ TEST(ConeTest, IntersectingCappedCone) {
   std::vector<int> counts = { 0, 2, 4 };
 
   auto c = Cone(0.5, -0.5, true);
-  for (int i = 0; i < points.size(); ++i) {
+  for (std::vector<Tuple>::size_type i = 0; i < points.size(); ++i) {
     Ray r = Ray(points[i], directions[i].Normalized());
     Intersections xs = c.ObjectIntersect(r);
     EXPECT_EQ(xs.Size(), counts[i]);

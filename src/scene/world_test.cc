@@ -237,7 +237,7 @@ TEST(WorldTest, RefractedColorOpaqueSurface) {
   Ray r = Ray(Point(0, 0, -5), Vector(0, 0, 1));
   auto allxs = w.Intersect(r);
   std::vector<Intersection> shape_xs;
-  for (int i = 0; i < allxs.Size(); ++i) {
+  for (std::vector<Tuple>::size_type i = 0; i < allxs.Size(); ++i) {
     if (shape == allxs[i].Object()) {
       shape_xs.push_back(allxs[i]);
     }
@@ -263,7 +263,7 @@ TEST(WorldTest, MaxRefractedDepth) {
   Ray r = Ray(Point(0, 0, -5), Vector(0, 0, 1));
   auto allxs = w.Intersect(r);
   std::vector<Intersection> shape_xs;
-  for (int i = 0; i < allxs.Size(); ++i) {
+  for (std::vector<Tuple>::size_type i = 0; i < allxs.Size(); ++i) {
     if (shape == allxs[i].Object()) {
       shape_xs.push_back(allxs[i]);
     }
@@ -289,7 +289,7 @@ TEST(WorldTest, TotalInternalRefractionColor) {
   Ray r = Ray(Point(0, 0, sqrt(2.0) / 2.0), Vector(0, 1, 0));
   auto allxs = w.Intersect(r);
   std::vector<Intersection> shape_xs;
-  for (int i = 0; i < allxs.Size(); ++i) {
+  for (std::vector<Tuple>::size_type i = 0; i < allxs.Size(); ++i) {
     if (shape == allxs[i].Object()) {
       shape_xs.push_back(allxs[i]);
     }

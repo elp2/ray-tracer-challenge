@@ -25,8 +25,9 @@ Matrix::Matrix(const int w, const int h, std::vector<float> values) {
   w_ = h;
   h_ = h;
   matrix_ = (float *)calloc(w * h, sizeof(float));
-  assert(values.size() == w * h);
-  for (int i = 0; i < values.size(); ++i) {
+  std::vector<float>::size_type matrix_size = w * h;
+  assert(values.size() == matrix_size);
+  for (std::vector<float>::size_type i = 0; i < values.size(); ++i) {
     matrix_[i] = values[i];
   }
 }

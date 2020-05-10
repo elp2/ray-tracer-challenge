@@ -32,7 +32,7 @@ PreparedComputation::PreparedComputation(Intersection hit, Ray &r, Intersections
 void PreparedComputation::CalculateN1N2(Intersections &xs, Intersection &hit) {
   std::vector<const void *> intersected_objects;
   // Possible optimization: Capture exited material in merge step of intersections.
-  for (int i = 0; i < xs.Size(); ++i) {
+  for (std::size_t i = 0; i < xs.Size(); ++i) {
     Intersection x = xs[i];
     if (hit == x) {
       if (intersected_objects.empty()) {

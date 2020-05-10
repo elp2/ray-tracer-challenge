@@ -73,6 +73,7 @@ const Intersections Cone::ObjectIntersect(const Ray object_ray) const {
 }
 
 const Tuple Cone::ObjectNormal(const Tuple &object_point, const Intersection &i) const {
+  (void)i;
   float y = sqrt(pow(object_point.x(), 2.0) + pow(object_point.z(), 2.0));
   if (object_point.y() > 0) {
     y = -y;

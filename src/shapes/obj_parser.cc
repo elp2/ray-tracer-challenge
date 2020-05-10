@@ -97,7 +97,7 @@ const std::vector<FaceVertex> ObjParser::ParseFaceVertices(std::string vertices)
 void ObjParser::AddFace(std::string vertices) {
   std::vector<FaceVertex> fv = ParseFaceVertices(vertices);
   assert(fv.size() >= 3);
-  for (int i = 1; i < fv.size() - 1; ++i) {
+  for (std::vector<FaceVertex>::size_type i = 1; i < fv.size() - 1; ++i) {
     int vn0 = fv[0].vertex_normal;
     int vni = fv[i].vertex_normal;
     int vni1 = fv[i + 1].vertex_normal;
@@ -126,7 +126,7 @@ void ObjParser::AddVertexNormal(std::string vector) {
 
 const Tuple ObjParser::VertexNormal(int vn) const {
   assert(vn >= 1);
-  int idx = vn - 1;
+  std::vector<Tuple>::size_type idx = vn - 1;
   assert(idx < vertex_normals_.size());
   return vertex_normals_[idx];
 }
@@ -158,7 +158,7 @@ Group *ObjParser::GroupNamed(std::string name) const {
 
 const Tuple ObjParser::Vertex(int v) const {
   assert(v >= 1);
-  int zero_indexed = v - 1;
+  std::vector<Tuple>::size_type zero_indexed = v - 1;
   assert(zero_indexed < vertices_.size());
   return vertices_[zero_indexed];
 }

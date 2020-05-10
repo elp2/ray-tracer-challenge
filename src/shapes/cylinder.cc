@@ -55,6 +55,7 @@ const Intersections Cylinder::ObjectIntersect(const Ray object_ray) const {
 }
 
 const Tuple Cylinder::ObjectNormal(const Tuple &object_point, const Intersection &i) const {
+  (void)i;
   float dist = pow(object_point.x(), 2.0) + pow(object_point.z(), 2.0);
   if (dist <= 1 && object_point.y() >= maximum_ - EPSILON) {
     return Vector(0, 1, 0);

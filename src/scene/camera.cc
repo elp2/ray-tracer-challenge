@@ -44,11 +44,12 @@ const Tuple Camera::AperaturePoint() const {
     float x = 2.0 * aperature_radius_ * rand() / (float)RAND_MAX - aperature_radius_;
     float y = 2.0 * aperature_radius_ * rand() / (float)RAND_MAX - aperature_radius_;
 
-    if (pow(x, 2.0) + pow(y, 2.0) < aperature_radius_squared_);
+    if (pow(x, 2.0) + pow(y, 2.0) < aperature_radius_squared_) {
       return Point(x, y, 0);
     }
-    assert(false);
-    return Point(0, 0, 0);
+  }
+  assert(false);
+  return Point(0, 0, 0);
 }
 
 const std::vector<Ray> Camera::RaysForPixel(int x, int y) const {
@@ -88,7 +89,7 @@ Canvas Camera::Render(World w) {
   Canvas canvas = Canvas(width_, height_);
   canvas.set_report_render_progress(true);
   std::vector<std::thread> threads;
-  for (int i = 0; i < std::thread::hardware_concurrency(); ++i) {
+  for (unsigned int i = 0; i < std::thread::hardware_concurrency(); ++i) {
     std::thread thread (&Camera::RenderThread, this, &canvas, &w, i);
     threads.push_back(std::move(thread));
   }
@@ -99,8 +100,8 @@ Canvas Camera::Render(World w) {
 }
 
 void Camera::RenderThread(Canvas *canvas, World *w, const int &mod) {
-  for (int y = 0; y < height_; ++y) {
-    if (y % std::thread::hardware_concurrency() != mod) {
+  for (unsigned int y = 0; y < (unsigned int)height_; ++y) {
+    if (y % std::thread::hardware_concurrency() != (unsigned int)mod) {
       continue;
     }
     for (int x = 0; x < width_; ++x){

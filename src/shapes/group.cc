@@ -72,6 +72,9 @@ void Group::CheckAxis(const float &origin, const float &direction, float *tmin, 
 }
 
 const Tuple Group::ObjectNormal(const Tuple &object_point, const Intersection &i) const {
+  // This should never be called since only its children should be in an intersection.
+  (void)object_point;
+  (void)i;
   assert(false);
   return Point(0.0, 0.0, 0.0);
 }
@@ -99,8 +102,8 @@ Group *Group::OptimizedSubgroups(int groups_per_dimension) {
     int y = (int)(center.y() - bounds_.minimum().y()) * ((float)groups_per_dimension / span.y());
     int z = (int)(center.z() - bounds_.minimum().z()) * ((float)groups_per_dimension / span.z());
 
-    int idx = x * groups_per_dimension * groups_per_dimension + y * groups_per_dimension + z;
-    assert(idx >= 0);
+    std::vector<Group*>::size_type idx = 
+        x * groups_per_dimension * groups_per_dimension + y * groups_per_dimension + z;
     assert(idx < subgroups.size());
     subgroups[idx]->AddChild(child);
   }

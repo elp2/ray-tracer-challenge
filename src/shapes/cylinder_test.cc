@@ -132,7 +132,7 @@ TEST(CylinderTest, IntersectingCappedCylinder) {
   std::vector<int> counts = { 2, 2, 2, 2, 2 };
 
   auto c = Cylinder(2, 1, true);
-  for (int i = 0; i < points.size(); ++i) {
+  for (std::vector<Tuple>::size_type i = 0; i < points.size(); ++i) {
     Ray r = Ray(points[i], directions[i].Normalized());
     Intersections xs = c.ObjectIntersect(r);
     EXPECT_EQ(xs.Size(), counts[i]);
@@ -159,7 +159,7 @@ TEST(CylinderTest, CapNormals) {
 
   ASSERT_EQ(points.size(), normals.size());
   Cylinder c = Cylinder(2, 1, true);
-  for (int i = 0; i < points.size(); ++i) {
+  for (std::vector<Tuple>::size_type i = 0; i < points.size(); ++i) {
     EXPECT_EQ(c.ObjectNormal(points[i], Intersection(1, &c)), normals[i]);
   }
 }

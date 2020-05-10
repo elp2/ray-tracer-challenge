@@ -24,6 +24,7 @@ const Intersections ConstructiveSolidGeometry::ObjectIntersect(const Ray object_
 }
 
 const Tuple ConstructiveSolidGeometry::ObjectNormal(const Tuple &object_point, const Intersection &i) const {
+  (void)i;
   assert(false);
   return Vector(0, 0, object_point.z());
 }

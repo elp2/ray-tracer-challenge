@@ -119,7 +119,7 @@ TEST(PreparedComputationTest, N1N2) {
   auto n1s = std::vector<float> { 1.0, 1.5, 2.0, 2.5, 2.5, 1.5 };
   auto n2s = std::vector<float> { 1.5, 2.0, 2.5, 2.5, 1.5, 1.0 };
 
-  for (int i = 0; i < xs.Size(); ++i) {
+  for (std::vector<Tuple>::size_type i = 0; i < xs.Size(); ++i) {
     PreparedComputation pc = PreparedComputation(xs[i], r, xs);
     ASSERT_FLOAT_EQ(pc.n1(), n1s[i]);
     ASSERT_FLOAT_EQ(pc.n2(), n2s[i]);
