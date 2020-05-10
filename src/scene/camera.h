@@ -31,6 +31,9 @@ class Camera {
   const Ray RayForPixel(int x, int y, const Tuple &aperature_point) const;
   void set_transform(Matrix transform) { transform_ = transform; };
 
+  // Cancels the rendering, preventing further writes from happening.
+  void Cancel() { cancelled_ = true; };
+
   Canvas Render(World w);
 
  private:
@@ -45,6 +48,7 @@ class Camera {
   float aperature_radius_ = 0.0;
   float aperature_radius_squared_ = 0.0;
   int rays_per_pixel_ = 0;
+  bool cancelled_ = false;
 
   void RenderThread(Canvas *canvas, World *w, const int &mod);
 };

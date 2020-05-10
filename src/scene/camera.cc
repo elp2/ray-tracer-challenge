@@ -105,7 +105,10 @@ void Camera::RenderThread(Canvas *canvas, World *w, const int &mod) {
     if (y % std::thread::hardware_concurrency() != (unsigned int)mod) {
       continue;
     }
-    for (int x = 0; x < width_; ++x){
+    for (int x = 0; x < width_; ++x) {
+      if (cancelled_) {
+        continue;
+      }
       std::vector<Ray> rays = RaysForPixel(x, y);
       Color c = BlackColor();
       for (auto r : rays) {

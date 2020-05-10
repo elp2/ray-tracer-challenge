@@ -4,7 +4,9 @@
 #include "imgui.h"
 #include <math.h>
 
+#include "primitives/tuple.h"
 #include "scene/camera.h"
+#include "scene/view_transformation.h"
 
 CameraWindow::CameraWindow() {
 }
@@ -21,11 +23,11 @@ bool CameraWindow::Frame() {
   updated |= ImGui::InputFloat("Z", &z_, 0, 0, "%.3f");
   ImGui::PopItemWidth();
 
-  ImGui::Text("Facing Point"); ImGui::SameLine();
+  ImGui::Text("To"); ImGui::SameLine();
   ImGui::PushItemWidth(50);
-  updated |= ImGui::InputFloat("FX", &facing_x_, 0, 0, "%.3f"); ImGui::SameLine();
-  updated |= ImGui::InputFloat("FY", &facing_y_, 0, 0, "%.3f"); ImGui::SameLine();
-  updated |= ImGui::InputFloat("FZ", &facing_z_, 0, 0, "%.3f");
+  updated |= ImGui::InputFloat("FX", &to_x_, 0, 0, "%.3f"); ImGui::SameLine();
+  updated |= ImGui::InputFloat("FY", &to_y_, 0, 0, "%.3f"); ImGui::SameLine();
+  updated |= ImGui::InputFloat("FZ", &to_z_, 0, 0, "%.3f");
   ImGui::PopItemWidth();
 
   ImGui::Text("Up Vector"); ImGui::SameLine();
@@ -37,7 +39,7 @@ bool CameraWindow::Frame() {
 
   ImGui::Text("Field of View"); ImGui::SameLine();
   ImGui::PushItemWidth(100);
-  updated |= ImGui::SliderFloat("Radians", &field_of_view_, 0.0f, M_PI, "%.4f", 2.0f);
+  updated |= ImGui::SliderFloat("Radians", &field_of_view_, 0.1f, M_PI - 0.1f, "%.4f", 2.0f);
   ImGui::PopItemWidth();
 
   // TODO: Add aperature radius, focal length, rays per pixel behind a checkbox.
@@ -48,7 +50,12 @@ bool CameraWindow::Frame() {
 }
 
 Camera *CameraWindow::GetCamera() {
-  const int WIDTH = 50;
-  const int HEIGHT = 50;
-  return new Camera(WIDTH, HEIGHT, field_of_view_, aperature_radius_, focal_length_, rays_per_pixel_);
+  const int WIDTH = 100;
+  const int HEIGHT = 100;
+  auto camera = new Camera(WIDTH, HEIGHT, field_of_view_);
+  Tuple from = Point(x_, y_, z_);
+  Tuple to = Point(to_x_, to_y_, to_z_);
+  Tuple up = Vector(up_x_, up_y_, up_z_);
+  camera->set_transform(ViewTransformation(from, to, up));
+  return camera;
 }

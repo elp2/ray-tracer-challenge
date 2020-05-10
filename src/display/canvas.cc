@@ -3,6 +3,9 @@
 #include <cassert>
 #include <cstdlib>
 #include <iostream>
+#include <mutex>
+
+std::mutex mutex_;
 
 Canvas::Canvas(int w, int h) {
   w_ = w;
@@ -29,6 +32,8 @@ Color Canvas::PixelAt(int x, int y) {
 }
 
 void Canvas::WritePixel(Color c, int x, int y) {
+  std::unique_lock<std::mutex> guard(mutex_);
+
   if (report_render_progress_) {
     ++rendered_;
     float progress = 100.0 * (float)rendered_ / (float)(w_ * h_);

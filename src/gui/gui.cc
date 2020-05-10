@@ -131,10 +131,13 @@ void Gui::Update() {
   camera_ = camera_window_->GetCamera();
 
   world_ = new World();
-  auto point_light = PointLight();
+  auto point_light = PointLight(Point(0, 10, 0), Color(1, 1, 1));
   world_->set_light(point_light);
 
   auto sphere = new Sphere();
+  auto material = Material();
+  material.set_color(Color(1, 0, 0));
+  sphere->set_material(material);
   world_->add_object(sphere);
 
   std::cout << "Rendering." << std::endl;
