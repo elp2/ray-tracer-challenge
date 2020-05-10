@@ -21,7 +21,7 @@ class PPMWriter {
   void WriteHeader(std::ostream &stream);
   void WriteRow(std::ostream &stream, int row);
   int ColorInt(float color);
-  void WriteColorFloat(std::ostream &stream, float fcolor, int *line_len, bool row_end);
+  void WriteColorFloat(std::ostream &stream, float fcolor, int *line_len);
 };
 
 #endif    // RTC_DISPLAY_PPMWRITER_H

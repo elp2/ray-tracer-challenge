@@ -39,7 +39,7 @@ int PPMWriter::ColorInt(float color) {
   }
 }
 
-void PPMWriter::WriteColorFloat(std::ostream &stream, float fcolor, int *line_len, bool row_end) {
+void PPMWriter::WriteColorFloat(std::ostream &stream, float fcolor, int *line_len) {
   int color_len;
   int color = ColorInt(fcolor);
   if (color >= 100) {
@@ -67,9 +67,9 @@ void PPMWriter::WriteRow(std::ostream &stream, int y) {
   for (int x = 0; x < canvas_->width(); x++) {
     bool row_end = x == canvas_->width() - 1;
     Color color = canvas_->PixelAt(x, y);
-    WriteColorFloat(stream, color.r(), &line_len, false);
-    WriteColorFloat(stream, color.g(), &line_len, false);
-    WriteColorFloat(stream, color.b(), &line_len, row_end);
+    WriteColorFloat(stream, color.r(), &line_len);
+    WriteColorFloat(stream, color.g(), &line_len);
+    WriteColorFloat(stream, color.b(), &line_len);
     if (row_end) {
       stream << "\n";
     }
