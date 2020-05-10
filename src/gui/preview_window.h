@@ -8,7 +8,7 @@ class PreviewWindow {
   PreviewWindow();
   ~PreviewWindow() = default;
 
-  void Frame();
+  bool Frame();
 
  private:
   float Progress() const;

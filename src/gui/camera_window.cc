@@ -1,12 +1,15 @@
-#include "camera_window.h"
+#include "gui/camera_window.h"
 
 #include <iostream>
 #include "imgui.h"
+#include <math.h>
+
+#include "scene/camera.h"
 
 CameraWindow::CameraWindow() {
 }
 
-void CameraWindow::Frame() {
+bool CameraWindow::Frame() {
   ImGui::Begin("Camera");
 
   bool updated = false;
@@ -18,23 +21,34 @@ void CameraWindow::Frame() {
   updated |= ImGui::InputFloat("Z", &z_, 0, 0, "%.3f");
   ImGui::PopItemWidth();
 
-  ImGui::Text("Facing"); ImGui::SameLine();
+  ImGui::Text("Facing Point"); ImGui::SameLine();
   ImGui::PushItemWidth(50);
-  updated |= ImGui::InputFloat("X1", &facing_x_, 0, 0, "%.3f"); ImGui::SameLine();
-  updated |= ImGui::InputFloat("Y1", &facing_y_, 0, 0, "%.3f"); ImGui::SameLine();
-  updated |= ImGui::InputFloat("Z1", &facing_z_, 0, 0, "%.3f");
+  updated |= ImGui::InputFloat("FX", &facing_x_, 0, 0, "%.3f"); ImGui::SameLine();
+  updated |= ImGui::InputFloat("FY", &facing_y_, 0, 0, "%.3f"); ImGui::SameLine();
+  updated |= ImGui::InputFloat("FZ", &facing_z_, 0, 0, "%.3f");
   ImGui::PopItemWidth();
 
-  ImGui::Text("Up"); ImGui::SameLine();
+  ImGui::Text("Up Vector"); ImGui::SameLine();
   ImGui::PushItemWidth(50);
-  updated |= ImGui::InputFloat("X2", &up_x_, 0, 0, "%.3f"); ImGui::SameLine();
-  updated |= ImGui::InputFloat("Y2", &up_y_, 0, 0, "%.3f"); ImGui::SameLine();
-  updated |= ImGui::InputFloat("Z2", &up_z_, 0, 0, "%.3f");
+  updated |= ImGui::InputFloat("UX", &up_x_, 0, 0, "%.3f"); ImGui::SameLine();
+  updated |= ImGui::InputFloat("UY", &up_y_, 0, 0, "%.3f"); ImGui::SameLine();
+  updated |= ImGui::InputFloat("UZ", &up_z_, 0, 0, "%.3f");
   ImGui::PopItemWidth();
 
-  if (updated) {
-    std::cout << "Updated: " << x_ << ", " << y_ << ", " << z_ << std::endl;
-  }
+  ImGui::Text("Field of View"); ImGui::SameLine();
+  ImGui::PushItemWidth(100);
+  updated |= ImGui::SliderFloat("Radians", &field_of_view_, 0.0f, M_PI, "%.4f", 2.0f);
+  ImGui::PopItemWidth();
+
+  // TODO: Add aperature radius, focal length, rays per pixel behind a checkbox.
 
   ImGui::End();
+
+  return updated;
+}
+
+Camera *CameraWindow::GetCamera() {
+  const int WIDTH = 50;
+  const int HEIGHT = 50;
+  return new Camera(WIDTH, HEIGHT, field_of_view_, aperature_radius_, focal_length_, rays_per_pixel_);
 }

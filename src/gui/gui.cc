@@ -4,8 +4,13 @@
 #include "examples/imgui_impl_sdl.h"
 #include "examples/imgui_impl_opengl3.h"
 
-#include "camera_window.h"
-#include "preview_window.h"
+#include "gui/camera_window.h"
+#include "gui/preview_window.h"
+
+#include "display/png_writer.h"
+#include "shapes/sphere.h"
+#include "scene/camera.h"
+#include "scene/world.h"
 
 #include <cassert>
 #include <iostream>
@@ -106,11 +111,36 @@ bool Gui::EventLoop() {
 }
 
 void Gui::Frame() {
-  ImGui::Begin("Yay!");
+  ImGui::Begin("ELPtracer");
   ImGui::End();
 
-  camera_window_->Frame();
-  preview_window_->Frame();
+  bool updated = false;
+  updated |= camera_window_->Frame();
+  updated |= preview_window_->Frame();
+
+  if (updated) {
+    Update();
+  }
+}
+
+void Gui::Update() {
+  if (camera_) {
+    // TODO: Stop rendering.
+    free(camera_);
+  }
+  camera_ = camera_window_->GetCamera();
+
+  world_ = new World();
+  auto point_light = PointLight();
+  world_->set_light(point_light);
+
+  auto sphere = new Sphere();
+  world_->add_object(sphere);
+
+  std::cout << "Rendering." << std::endl;
+  auto canvas = camera_->Render(*world_);
+  png_writer_ = new PNGWriter(&canvas);
+  png_writer_->WriteFile("gui.png");
 }
 
 void Gui::Cleanup() const {

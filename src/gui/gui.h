@@ -4,8 +4,11 @@
 #include <vector>
 #include "SDL.h"
 
+class Camera;
 class CameraWindow;
+class PNGWriter;
 class PreviewWindow;
+class World;
 
 class Gui {
  public:
@@ -18,6 +21,11 @@ class Gui {
   void Cleanup() const;
   bool EventLoop();
   void Frame();
+  void Update();
+
+  Camera *camera_;
+  PNGWriter *png_writer_;
+  World *world_;
 
   PreviewWindow *preview_window_;
   CameraWindow *camera_window_;

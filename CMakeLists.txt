@@ -75,9 +75,7 @@ add_library (scene
     src/scene/prepared_computation.cc
     src/scene/view_transformation.cc
     src/scene/world.cc)
-target_link_libraries(scene lights)
-target_link_libraries(scene primitives)
-target_link_libraries(scene shapes)
+target_link_libraries(scene display lights primitives shapes)
 find_package (Threads)
 target_link_libraries (scene Threads::Threads)
 target_include_directories(scene PUBLIC ${PROJECT_SOURCE_DIR}/src)
@@ -100,7 +98,7 @@ add_library (gui
     src/gui/gui.cc
     src/gui/preview_window.cc)
 target_include_directories(gui PUBLIC ${SDL2_INCLUDE_DIR})
-target_link_libraries(gui imgui ${OPENGL_opengl_LIBRARY} ${SDL2_LIBRARIES})
+target_link_libraries(gui imgui scene shapes primitives display lights patterns ${OPENGL_opengl_LIBRARY} ${SDL2_LIBRARIES})
 target_compile_definitions(gui PUBLIC GL_GLEXT_PROTOTYPES=1)
 
 add_executable(rtc WIN32
@@ -169,7 +167,7 @@ target_link_libraries(write_png patterns primitives display shapes lights scene)
 
 add_executable(elptracer WIN32
     src/exe/elptracer.cc)
-target_link_libraries(elptracer patterns primitives display shapes lights scene gui)
+target_link_libraries(elptracer gui patterns primitives display shapes lights scene)
 
 # Below is from googletest README.md.
 # Download and unpack googletest at configure time.

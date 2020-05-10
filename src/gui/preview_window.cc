@@ -1,11 +1,11 @@
-#include "preview_window.h"
+#include "gui/preview_window.h"
 
 #include "imgui.h"
 
 PreviewWindow::PreviewWindow() {
 }
 
-void PreviewWindow::Frame() {
+bool PreviewWindow::Frame() {
   ImGui::Begin("Preview");
 
   ImGui::ProgressBar(Progress(), ImVec2(0.0f, 0.0f));
@@ -15,6 +15,8 @@ void PreviewWindow::Frame() {
   }
   
   ImGui::End();
+
+  return false;
 }
 
 float PreviewWindow::Progress() const {

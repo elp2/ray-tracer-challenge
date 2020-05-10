@@ -26,6 +26,7 @@ Camera::Camera(const int width, const int height, const float field_of_view,
   aperature_radius_squared_ = pow(aperature_radius, 2.0);
   focal_length_ = focal_length;
   rays_per_pixel_ = rays_per_pixel;
+  assert(!aperature_radius_ || rays_per_pixel_ == 1);
 
   float half_view = tan(field_of_view_ / 2);
   float aspect_ratio = (float)width_ / (float)height_;
