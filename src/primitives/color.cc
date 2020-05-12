@@ -1,5 +1,6 @@
 #include "primitives/color.h"
 
+#include <math.h>
 #include <sstream>
 
 Color::Color(float r, float g, float b) : Tuple(r, g, b, 0) {}
@@ -63,4 +64,13 @@ Color OrangeColor() {
 
 Color TealColor() {
    return Color(0, 0.502, 0.502);
+}
+
+
+uint8_t ColorByte(float color_component) {
+  if (color_component >= 1.0) {
+    return 255;
+  } else {
+    return color_component * 256.0;
+  }
 }

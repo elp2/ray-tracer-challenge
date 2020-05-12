@@ -5,17 +5,14 @@
 #include <iostream>
 #include <mutex>
 
+#include "primitives/color.h"
+
 std::mutex mutex_;
 
 Canvas::Canvas(int w, int h) {
   w_ = w;
   h_ = h;
-  pixels_ = (Color *)calloc(sizeof(Color), w * h);
-  for (int x = 0; x < w; x++) {
-    for (int y = 0; y < h; y++) {
-      WritePixel(Color(0, 0, 0), x, y);
-    }
-  }
+  data_ = (float *)calloc(sizeof(float), w_ * h_ * 3);
 }
 
 int Canvas::PixelIndex(int x, int y) {
@@ -24,11 +21,15 @@ int Canvas::PixelIndex(int x, int y) {
   assert(y >= 0);
   assert(y < h_);
 
-  return x + y * w_;
+  return 3 * (x + y * w_);
 }
 
 Color Canvas::PixelAt(int x, int y) {
-  return pixels_[PixelIndex(x, y)];
+  int idx = PixelIndex(x, y);
+  float r = data_[idx++];
+  float g = data_[idx++];
+  float b = data_[idx++];
+  return Color(r, g, b);
 }
 
 void Canvas::WritePixel(Color c, int x, int y) {
@@ -43,5 +44,8 @@ void Canvas::WritePixel(Color c, int x, int y) {
       rendered_reported_ = progress + 5.0;
     }
   }
-  pixels_[PixelIndex(x, y)] = c;
+  int idx = PixelIndex(x, y);
+  data_[idx++] = c.r();
+  data_[idx++] = c.g();
+  data_[idx++] = c.b();
 }

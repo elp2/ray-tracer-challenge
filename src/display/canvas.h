@@ -17,7 +17,8 @@ class Canvas {
   void set_report_render_progress(bool report) { report_render_progress_ = report; };
 
  private:
-  Color *pixels_;
+  // Canvas data in GL_FLOAT format (r, g, b triplets).
+  float *data_;
   int w_, h_;
   int PixelIndex(int x, int y);
 

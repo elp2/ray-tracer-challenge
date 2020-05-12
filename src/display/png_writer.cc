@@ -8,20 +8,10 @@
 #include <math.h>
 
 #include "display/crc.h"
+#include "primitives/color.h"
 #include "zlib.h"
 
 static const uint8_t SIGNATURE[8] = { 137, 80, 78, 71, 13, 10, 26, 10 };
-
-uint8_t ColorByte(float color_component) {
-  int color_int = ceil(color_component * 255.0);
-  if (color_int > 255) {
-    return 255;
-  } else if (color_int < 0) {
-    return 0;
-  } else {
-    return color_int;
-  }
-}
 
 PNGWriter::PNGWriter(Canvas *canvas) {
   canvas_ = canvas;

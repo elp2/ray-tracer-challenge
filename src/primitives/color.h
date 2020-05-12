@@ -20,6 +20,9 @@ class Color : public Tuple {
   friend void PrintTo(const Color& color, std::ostream* os) { *os << color.DebugString(); };
 };
 
+// Returns a 0.0-1.0 ranged color as 0-255 byte.
+uint8_t ColorByte(float color_component);
+
 // Hadmard Product.
 Color operator*(const Color c, const Color o);
 Color operator*(const Color c, const float factor);
