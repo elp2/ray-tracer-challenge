@@ -77,8 +77,8 @@ int main(int argc, char* argv[]) {
   (void)argv;
 
   std::cout << "Rendering chapter13.ppm." << std::endl;
-  Canvas canvas1 = get_camera1().Render(get_world1());
-  PPMWriter ppm_writer1 = PPMWriter(&canvas1);
+  auto canvas1 = get_camera1().Render(get_world1());
+  PPMWriter ppm_writer1 = PPMWriter(canvas1);
   ppm_writer1.WriteFile("chapter13.ppm");
 
   return 0;

@@ -34,7 +34,9 @@ class Camera {
   // Cancels the rendering, preventing further writes from happening.
   void Cancel() { cancelled_ = true; };
 
-  Canvas Render(World w);
+  Canvas *Render(World w);
+
+  void set_canvas(Canvas *canvas) { canvas_ = canvas; };
 
  private:
   int width_ = 0;
@@ -49,6 +51,7 @@ class Camera {
   float aperature_radius_squared_ = 0.0;
   int rays_per_pixel_ = 0;
   bool cancelled_ = false;
+  Canvas *canvas_ = nullptr;
 
   void RenderThread(Canvas *canvas, World *w, const int &mod);
 };

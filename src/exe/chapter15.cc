@@ -132,12 +132,12 @@ int main(int argc, char* argv[]) {
 
   // std::cout << "Rendering chapter15_1.ppm." << std::endl;
   // Canvas canvas1 = get_camera1().Render(get_world1());
-  // PPMWriter ppm_writer1 = PPMWriter(&canvas1);
+  // PPMWriter ppm_writer1 = PPMWriter(canvas1);
   // ppm_writer1.WriteFile("chapter15_1.ppm");
 
   std::cout << "Rendering chapter15_2.ppm." << std::endl;
-  Canvas canvas2 = get_camera2().Render(get_world2());
-  PPMWriter ppm_writer2 = PPMWriter(&canvas2);
+  auto canvas2 = get_camera2().Render(get_world2());
+  PPMWriter ppm_writer2 = PPMWriter(canvas2);
   ppm_writer2.WriteFile("chapter15_2.ppm");
 
   return 0;

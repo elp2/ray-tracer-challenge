@@ -68,9 +68,9 @@ int main(int argc, char* argv[]) {
   (void)argc;
   (void)argv;
 
-  Canvas canvas = get_camera().Render(get_world());
+  auto canvas = get_camera().Render(get_world());
 
-  PPMWriter ppm_writer = PPMWriter(&canvas);
+  PPMWriter ppm_writer = PPMWriter(canvas);
   ppm_writer.WriteFile("chapter7.ppm");
 
   return 0;

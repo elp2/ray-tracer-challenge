@@ -82,22 +82,24 @@ const Ray Camera::RayForPixel(int x, int y, const Tuple &aperature_point) const 
   return Ray(origin, direction);
 }
 
-Canvas Camera::Render(World w) {
+Canvas *Camera::Render(World w) {
   assert(transform_.Invertible() && "Impossible combination of up/from/to.");
 
   std::cout << "Rendering with " << std::thread::hardware_concurrency()
     << " threads." << std::endl;
-  Canvas canvas = Canvas(width_, height_);
-  canvas.set_report_render_progress(true);
+  if (canvas_ == nullptr) {
+    canvas_ = new Canvas(width_, height_);
+  }
+  canvas_->set_report_render_progress(true);
   std::vector<std::thread> threads;
   for (unsigned int i = 0; i < std::thread::hardware_concurrency(); ++i) {
-    std::thread thread (&Camera::RenderThread, this, &canvas, &w, i);
+    std::thread thread (&Camera::RenderThread, this, canvas_, &w, i);
     threads.push_back(std::move(thread));
   }
   for (auto &thread : threads) {
     thread.join();
   }
-  return canvas;
+  return canvas_;
 }
 
 void Camera::RenderThread(Canvas *canvas, World *w, const int &mod) {

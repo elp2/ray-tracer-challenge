@@ -142,7 +142,7 @@ void Gui::Update() {
 
   std::cout << "Rendering." << std::endl;
   auto canvas = camera_->Render(*world_);
-  png_writer_ = new PNGWriter(&canvas);
+  png_writer_ = new PNGWriter(canvas);
   png_writer_->WriteFile("gui.png");
 }
 

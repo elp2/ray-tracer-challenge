@@ -285,28 +285,28 @@ int main(int argc, char* argv[]) {
   (void)argv;
 
   // std::cout << "Rendering chapter11_1.ppm." << std::endl;
-  // Canvas canvas1 = get_camera1().Render(get_world1());
-  // PPMWriter ppm_writer1 = PPMWriter(&canvas1);
+  // auto canvas1 = get_camera1().Render(get_world1());
+  // PPMWriter ppm_writer1 = PPMWriter(canvas1);
   // ppm_writer1.WriteFile("chapter11_1.ppm");
 
   // std::cout << "Rendering chapter11_2.ppm." << std::endl;
-  // Canvas canvas2 = get_camera2().Render(get_world2());
-  // PPMWriter ppm_writer2 = PPMWriter(&canvas2);
+  // auto canvas2 = get_camera2().Render(get_world2());
+  // PPMWriter ppm_writer2 = PPMWriter(canvas2);
   // ppm_writer2.WriteFile("chapter11_2.ppm");
 
   // std::cout << "Rendering chapter11_3.ppm." << std::endl;
-  // Canvas canvas3 = get_camera3().Render(get_world3());
-  // PPMWriter ppm_writer3 = PPMWriter(&canvas3);
+  // auto canvas3 = get_camera3().Render(get_world3());
+  // PPMWriter ppm_writer3 = PPMWriter(canvas3);
   // ppm_writer3.WriteFile("chapter11_3.ppm");
 
   // std::cout << "Rendering chapter11_4.ppm." << std::endl;
-  // Canvas canvas4 = get_camera4().Render(get_world4(true));
-  // PPMWriter ppm_writer4 = PPMWriter(&canvas4);
+  // auto canvas4 = get_camera4().Render(get_world4(true));
+  // PPMWriter ppm_writer4 = PPMWriter(canvas4);
   // ppm_writer4.WriteFile("chapter11_4.ppm");
 
   std::cout << "Rendering chapter11_5.ppm." << std::endl;
-  Canvas canvas4 = get_camera5().Render(get_world5());
-  PPMWriter ppm_writer4 = PPMWriter(&canvas4);
+  auto canvas4 = get_camera5().Render(get_world5());
+  PPMWriter ppm_writer4 = PPMWriter(canvas4);
   ppm_writer4.WriteFile("chapter11_5.ppm");
 
 
