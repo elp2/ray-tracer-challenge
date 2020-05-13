@@ -7,6 +7,7 @@
 class Camera;
 class CameraWindow;
 class Canvas;
+class LightsWindow;
 class PNGWriter;
 class PreviewWindow;
 class World;
@@ -29,8 +30,9 @@ class Gui {
   PNGWriter *png_writer_;
   World *world_;
 
-  PreviewWindow *preview_window_;
   CameraWindow *camera_window_;
+  LightsWindow *lights_window_;
+  PreviewWindow *preview_window_;
 
   SDL_GLContext context_;
   SDL_Window *window_;

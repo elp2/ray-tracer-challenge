@@ -5,6 +5,7 @@
 #include "examples/imgui_impl_opengl3.h"
 
 #include "gui/camera_window.h"
+#include "gui/lights_window.h"
 #include "gui/preview_window.h"
 
 #include "display/png_writer.h"
@@ -76,6 +77,7 @@ Gui::Gui() {
     preview_canvas_ = new Canvas(300, 300);
     preview_window_ = new PreviewWindow(preview_canvas_);
     camera_window_ = new CameraWindow(preview_canvas_);
+    lights_window_ = new LightsWindow();
 }
 
 void Gui::Show() {
@@ -117,6 +119,7 @@ void Gui::Frame() {
 
   bool updated = false;
   updated |= camera_window_->Frame();
+  updated |= lights_window_->Frame();
   updated |= preview_window_->Frame();
 
   if (updated) {
@@ -132,12 +135,11 @@ void Gui::Update() {
   camera_ = camera_window_->GetCamera();
 
   world_ = new World();
-  auto point_light = PointLight(Point(0, 10, 0), Color(1, 1, 1));
-  world_->set_light(point_light);
+  world_->set_light(lights_window_->GetPointLight());
 
   auto sphere = new Sphere();
   auto material = Material();
-  material.set_color(Color(1, 0, 0));
+  material.set_color(Color(0.6, 0.6, 0.6));
   sphere->set_material(material);
   world_->add_object(sphere);
 
