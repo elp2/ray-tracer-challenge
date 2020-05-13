@@ -9,6 +9,8 @@
 
 std::mutex mutex_;
 
+const float PROGRESS_STEP = 0.05;
+
 Canvas::Canvas(int w, int h) {
   w_ = w;
   h_ = h;
@@ -37,15 +39,32 @@ void Canvas::WritePixel(Color c, int x, int y) {
 
   if (report_render_progress_) {
     ++rendered_;
-    float progress = 100.0 * (float)rendered_ / (float)(w_ * h_);
+    float progress = Progress();
     if (progress > rendered_reported_) {
-      std::cout << "Rendered " << rendered_ << " pixels: " << progress
+      std::cout << "Rendered " << rendered_ << " pixels: " << (100.0 *  progress)
           << "%" << std::endl;
-      rendered_reported_ = progress + 5.0;
+      rendered_reported_ = progress + PROGRESS_STEP;
     }
   }
+  Color here = PixelAt(x, y);
   int idx = PixelIndex(x, y);
   data_[idx++] = c.r();
   data_[idx++] = c.g();
   data_[idx++] = c.b();
+}
+
+void Canvas::Reset() {
+  report_render_progress_ = false;
+  for (int y = 0; y < h_; ++y) {
+    for (int x = 0; x < w_; ++x) {
+      WritePixel(Color(0, 0, 0), x, y);
+    }
+  }
+  report_render_progress_ = true;
+  rendered_ = 0;
+  rendered_reported_ = PROGRESS_STEP;
+}
+
+float Canvas::Progress() const {
+  return (float)rendered_ / (float)(w_ * h_);
 }

@@ -6,6 +6,7 @@
 
 class Camera;
 class CameraWindow;
+class Canvas;
 class PNGWriter;
 class PreviewWindow;
 class World;
@@ -24,6 +25,7 @@ class Gui {
   void Update();
 
   Camera *camera_;
+  Canvas *preview_canvas_;
   PNGWriter *png_writer_;
   World *world_;
 

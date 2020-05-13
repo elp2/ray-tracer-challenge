@@ -73,8 +73,9 @@ Gui::Gui() {
     ImGui_ImplSDL2_InitForOpenGL(window_, context_);
     ImGui_ImplOpenGL3_Init();
 
-    preview_window_ = new PreviewWindow();
-    camera_window_ = new CameraWindow();
+    preview_canvas_ = new Canvas(300, 300);
+    preview_window_ = new PreviewWindow(preview_canvas_);
+    camera_window_ = new CameraWindow(preview_canvas_);
 }
 
 void Gui::Show() {
@@ -125,7 +126,7 @@ void Gui::Frame() {
 
 void Gui::Update() {
   if (camera_) {
-    // TODO: Stop rendering.
+    camera_->Cancel();
     free(camera_);
   }
   camera_ = camera_window_->GetCamera();

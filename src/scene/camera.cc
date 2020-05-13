@@ -90,6 +90,7 @@ Canvas *Camera::Render(World w) {
   if (canvas_ == nullptr) {
     canvas_ = new Canvas(width_, height_);
   }
+  canvas_->Reset();
   canvas_->set_report_render_progress(true);
   std::vector<std::thread> threads;
   for (unsigned int i = 0; i < std::thread::hardware_concurrency(); ++i) {

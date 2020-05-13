@@ -4,11 +4,13 @@
 #include "imgui.h"
 #include <math.h>
 
+#include "display/canvas.h"
 #include "primitives/tuple.h"
 #include "scene/camera.h"
 #include "scene/view_transformation.h"
 
-CameraWindow::CameraWindow() {
+CameraWindow::CameraWindow(Canvas *canvas) {
+  canvas_ = canvas;
 }
 
 bool CameraWindow::Frame() {
@@ -50,12 +52,11 @@ bool CameraWindow::Frame() {
 }
 
 Camera *CameraWindow::GetCamera() {
-  const int WIDTH = 100;
-  const int HEIGHT = 100;
-  auto camera = new Camera(WIDTH, HEIGHT, field_of_view_);
+  auto camera = new Camera(canvas_->width(), canvas_->height(), field_of_view_);
   Tuple from = Point(x_, y_, z_);
   Tuple to = Point(to_x_, to_y_, to_z_);
   Tuple up = Vector(up_x_, up_y_, up_z_);
   camera->set_transform(ViewTransformation(from, to, up));
+  camera->set_canvas(canvas_);
   return camera;
 }

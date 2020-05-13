@@ -5,10 +5,11 @@
 #include <vector>
 
 class Camera;
+class Canvas;
 
 class CameraWindow {
  public:
-  CameraWindow();
+  CameraWindow(Canvas *canvas_);
   ~CameraWindow() = default;
 
   // Returns whether the widgets changed this frame.
@@ -25,6 +26,7 @@ class CameraWindow {
   float aperature_radius_ = 0;
   float focal_length_ = 0.0;
   int rays_per_pixel_ = 1;
+  Canvas *canvas_;
 };
 
 #endif    // RTC_GUI_CAMERA_WNDOW_H

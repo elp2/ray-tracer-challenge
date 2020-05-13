@@ -16,6 +16,15 @@ class Canvas {
 
   void set_report_render_progress(bool report) { report_render_progress_ = report; };
 
+  // Reset to previous state. Call before reusing.
+  void Reset();
+
+  // Returns underlying data for displaying.
+  float *data() { return data_; };
+
+  // Returns the progress in rendering from 0.0 to 1.0.
+  float Progress() const;
+
  private:
   // Canvas data in GL_FLOAT format (r, g, b triplets).
   float *data_;
