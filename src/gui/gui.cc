@@ -6,10 +6,10 @@
 
 #include "gui/camera_window.h"
 #include "gui/lights_window.h"
+#include "gui/objects_window.h"
 #include "gui/preview_window.h"
 
 #include "display/png_writer.h"
-#include "shapes/sphere.h"
 #include "scene/camera.h"
 #include "scene/world.h"
 
@@ -78,6 +78,7 @@ Gui::Gui() {
     preview_window_ = new PreviewWindow(preview_canvas_);
     camera_window_ = new CameraWindow(preview_canvas_);
     lights_window_ = new LightsWindow();
+    objects_window_ = new ObjectsWindow();
 }
 
 void Gui::Show() {
@@ -114,13 +115,11 @@ bool Gui::EventLoop() {
 }
 
 void Gui::Frame() {
-  ImGui::Begin("ELPtracer");
-  ImGui::End();
-
   bool updated = false;
   updated |= camera_window_->Frame();
   updated |= lights_window_->Frame();
   updated |= preview_window_->Frame();
+  updated |= objects_window_->Frame();
 
   if (updated) {
     Update();
@@ -134,15 +133,7 @@ void Gui::Update() {
   }
   camera_ = camera_window_->GetCamera();
 
-  world_ = new World();
-  world_->set_light(lights_window_->GetPointLight());
-
-  auto sphere = new Sphere();
-  auto material = Material();
-  material.set_color(Color(0.6, 0.6, 0.6));
-  sphere->set_material(material);
-  world_->add_object(sphere);
-
+  world_ = GetWorld();
   std::cout << "Rendering." << std::endl;
   auto canvas = camera_->Render(*world_);
   png_writer_ = new PNGWriter(canvas);
@@ -153,4 +144,16 @@ void Gui::Cleanup() const {
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplSDL2_Shutdown();
     ImGui::DestroyContext();
+}
+
+World *Gui::GetWorld() {
+  auto world = new World();
+  world->set_light(lights_window_->GetPointLight());
+
+  std::vector<Shape *> objects = objects_window_->GetObjects();
+  for (auto o : objects) {
+    world->add_object(o);
+  }
+
+  return world;
 }

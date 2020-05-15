@@ -8,6 +8,7 @@ class Camera;
 class CameraWindow;
 class Canvas;
 class LightsWindow;
+class ObjectsWindow;
 class PNGWriter;
 class PreviewWindow;
 class World;
@@ -24,6 +25,7 @@ class Gui {
   bool EventLoop();
   void Frame();
   void Update();
+  World *GetWorld();
 
   Camera *camera_;
   Canvas *preview_canvas_;
@@ -32,6 +34,7 @@ class Gui {
 
   CameraWindow *camera_window_;
   LightsWindow *lights_window_;
+  ObjectsWindow *objects_window_;
   PreviewWindow *preview_window_;
 
   SDL_GLContext context_;
