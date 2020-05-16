@@ -12,6 +12,14 @@ static const float REFRACTIVE_INDEX_WATER = 1.333;
 static const float REFRACTIVE_INDEX_GLASS = 1.5;
 static const float REFRACTIVE_INDEX_DIAMOND = 2.417;
 
+static const float MATERIAL_DEFAULT_AMBIENT = 0.1;
+static const float MATERIAL_DEFAULT_DIFFUSE = 0.9;
+static const float MATERIAL_DEFAULT_REFLECTIVE = 0.0;
+static const float MATERIAL_DEFAULT_REFRACTIVE_INDEX = REFRACTIVE_INDEX_VACUUM;
+static const float MATERIAL_DEFAULT_SPECULAR = 0.9;
+static const float MATERIAL_DEFAULT_SHININESS = 200.0;
+static const float MATERIAL_DEFAULT_TRANSPARENCY = 0.0;
+
 class Shape;
 
 class Material {
@@ -27,7 +35,7 @@ class Material {
 
   // 0.0 - 1.0.
   float ambient() { return ambient_; };
-  void set_ambient(float ambient) { ambient_ = ambient; };  
+  void set_ambient(float ambient) { ambient_ = ambient; };
 
   // 0.0 - 1.0.
   float diffuse() { return diffuse_; };

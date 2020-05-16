@@ -19,7 +19,7 @@ class CameraWindow {
   Camera *GetCamera();
 
  private:
-  float x_ = 5, y_ = 5, z_ = 5;
+  float x_ = 5, y_ = 1, z_ = 5;
   float to_x_ = 0, to_y_ = 0, to_z_ = 0;
   float up_x_ = 0, up_y_ = 1, up_z_ = 0;
   float field_of_view_ = M_PI / 4.0;

@@ -5,6 +5,7 @@
 #include <iostream>
 #include "imgui.h"
 
+#include "gui/material_view.h"
 #include "shapes/cone.h"
 #include "shapes/cube.h"
 #include "shapes/cylinder.h"
@@ -14,9 +15,11 @@
 #include "shapes/sphere.h"
 
 ObjectView::ObjectView() {
+  material_view_ = new MaterialView();
 }
 
 bool ObjectView::Frame() {
+  bool updated = false;
   const char *types[] = { "Cone", "Cube", "Cylinder", "Plane", "Sphere", "Teapot", "Unknown" };
   const char *type_label = types[type_];
   if (ImGui::BeginCombo("Type", type_label, 0)) {
@@ -25,16 +28,17 @@ bool ObjectView::Frame() {
           if (ImGui::Selectable(types[n], is_selected)) {
               type_ = (ObjectType)n;
           }
-
-          // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
           if (is_selected) {
             ImGui::SetItemDefaultFocus();
           }
       }
       ImGui::EndCombo();
+      updated = true;
   }
 
-  return false;
+  updated |= material_view_->Frame();
+
+  return updated;
 }
 
 Shape *ObjectView::GetShape() {
@@ -64,6 +68,8 @@ Shape *ObjectView::GetShape() {
       assert(false);
       break;
   }
+
+  object->set_material(material_view_->GetMaterial());
 
   return object;
 }

@@ -15,7 +15,7 @@ class LightsWindow {
   PointLight GetPointLight();
 
  private:
-  float x_ = 0, y_ = 10.0, z_ = 0;
+  float x_ = 10, y_ = 3, z_ = 10;
   float color_[3] = { 1.0, 1.0, 1.0 };
 };
 

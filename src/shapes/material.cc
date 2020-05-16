@@ -7,17 +7,17 @@
 
 Material::Material() {
   color_ = Color(1.0, 1.0, 1.0);
-  ambient_ = 0.1;
-  diffuse_ = 0.9;
-  reflective_ = 0.0;
-  refractive_index_ = 1.0;
-  specular_ = 0.9;
-  shininess_ = 200.0;
-  transparency_ = 0.0;
+  ambient_ = MATERIAL_DEFAULT_AMBIENT;
+  diffuse_ = MATERIAL_DEFAULT_DIFFUSE;
+  reflective_ = MATERIAL_DEFAULT_REFLECTIVE;
+  refractive_index_ = MATERIAL_DEFAULT_REFRACTIVE_INDEX;
+  specular_ = MATERIAL_DEFAULT_SPECULAR;
+  shininess_ = MATERIAL_DEFAULT_SHININESS;
+  transparency_ = MATERIAL_DEFAULT_TRANSPARENCY;
 }
 
 bool Material::operator==(Material other) const {
-  return other.color() == color_ && other.ambient() == ambient_ && 
+  return other.color() == color_ && other.ambient() == ambient_ &&
     other.diffuse() == diffuse_ && other.specular() == specular_ &&
     other.shininess() == shininess_;
 }

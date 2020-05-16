@@ -7,6 +7,7 @@ class Cone;
 class Cube;
 class Cylinder;
 class Group;
+class MaterialView;
 class Plane;
 class Shape;
 class Sphere;
@@ -35,12 +36,11 @@ class ObjectView {
   // TODO: Callback to delete this.
 
  private:
-  // Type enum.
-  // TODO: Material View.
   // TODO: Transform.
   // TODO: Callback Delgate.
 
   ObjectType type_ = ObjectType_Unknown;
+  MaterialView *material_view_;
 
   Cone *GetCone();
   Cube *GetCube();
