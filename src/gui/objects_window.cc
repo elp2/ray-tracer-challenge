@@ -27,9 +27,6 @@ std::vector<Shape *> ObjectsWindow::GetObjects() {
     return objects;
   }
 
-  auto material = Material();
-  material.set_color(Color(0.6, 0.6, 0.6));
-  shape->set_material(material);
   objects.push_back(shape);
 
   return objects;

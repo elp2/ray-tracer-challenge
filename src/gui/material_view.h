@@ -17,6 +17,8 @@ class MaterialView {
   Material GetMaterial();
 
  private:
+  float color_[3] = { 1.0, 1.0, 1.0 };
+
   float ambient_ = MATERIAL_DEFAULT_AMBIENT;
   float diffuse_ = MATERIAL_DEFAULT_DIFFUSE;
   float reflective_ = MATERIAL_DEFAULT_REFLECTIVE;
