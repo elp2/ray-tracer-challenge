@@ -1,16 +1,18 @@
 #include "gui/objects_window.h"
 
-#include "shapes/sphere.h"
-
 #include "imgui.h"
 
+#include "gui/object_view.h"
+#include "shapes/sphere.h"
+
 ObjectsWindow::ObjectsWindow() {
+  object_view_ = new ObjectView();
 }
 
 bool ObjectsWindow::Frame() {
   ImGui::Begin("Objects");
 
-  bool updated = false;
+  bool updated = object_view_->Frame();
 
   ImGui::End();
 
@@ -20,11 +22,15 @@ bool ObjectsWindow::Frame() {
 std::vector<Shape *> ObjectsWindow::GetObjects() {
   std::vector<Shape *>objects;
 
-  auto sphere = new Sphere();
+  auto shape = object_view_->GetShape();
+  if (nullptr == shape) {
+    return objects;
+  }
+
   auto material = Material();
   material.set_color(Color(0.6, 0.6, 0.6));
-  sphere->set_material(material);
-  objects.push_back(sphere);
+  shape->set_material(material);
+  objects.push_back(shape);
 
   return objects;
 }

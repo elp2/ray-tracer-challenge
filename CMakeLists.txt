@@ -97,6 +97,7 @@ add_library (gui
     src/gui/camera_window.cc
     src/gui/gui.cc
     src/gui/lights_window.cc
+    src/gui/object_view.cc
     src/gui/objects_window.cc
     src/gui/preview_window.cc)
 target_include_directories(gui PUBLIC ${SDL2_INCLUDE_DIR})

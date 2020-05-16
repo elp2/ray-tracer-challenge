@@ -3,6 +3,7 @@
 
 #include <vector>
 
+class ObjectView;
 class Shape;
 
 class ObjectsWindow {
@@ -15,6 +16,9 @@ class ObjectsWindow {
 
   // Return objects contained in the window.
   std::vector<Shape *> GetObjects();
+
+ private:
+  ObjectView *object_view_;
 };
 
 #endif    // RTC_GUI_OBJECTS_WINDOW_H
