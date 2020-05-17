@@ -2,17 +2,18 @@
 
 #include "imgui.h"
 
+#include "gui/item_list.h"
 #include "gui/object_view.h"
 #include "shapes/sphere.h"
 
 ObjectsWindow::ObjectsWindow() {
-  object_view_ = new ObjectView();
+  list_ = new ItemList();
 }
 
 bool ObjectsWindow::Frame() {
   ImGui::Begin("Objects");
 
-  bool updated = object_view_->Frame();
+  bool updated = list_->Frame();
 
   ImGui::End();
 
@@ -20,14 +21,5 @@ bool ObjectsWindow::Frame() {
 }
 
 std::vector<Shape *> ObjectsWindow::GetObjects() {
-  std::vector<Shape *>objects;
-
-  auto shape = object_view_->GetShape();
-  if (nullptr == shape) {
-    return objects;
-  }
-
-  objects.push_back(shape);
-
-  return objects;
+  return list_->Items();
 }

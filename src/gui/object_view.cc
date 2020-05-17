@@ -22,6 +22,8 @@ bool ObjectView::Frame() {
   bool updated = false;
   const char *types[] = { "Cone", "Cube", "Cylinder", "Plane", "Sphere", "Teapot", "Unknown" };
   const char *type_label = types[type_];
+
+  ObjectType old_type = type_;
   if (ImGui::BeginCombo("Type", type_label, 0)) {
       for (int n = 0; n < IM_ARRAYSIZE(types); n++) {
           const bool is_selected = (type_ == n);
@@ -33,8 +35,8 @@ bool ObjectView::Frame() {
           }
       }
       ImGui::EndCombo();
-      updated = true;
   }
+  updated |= (old_type != type_);
 
   updated |= material_view_->Frame();
 

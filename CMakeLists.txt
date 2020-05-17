@@ -96,6 +96,7 @@ target_link_libraries(imgui ${OPENGL_opengl_LIBRARY} ${SDL2_LIBRARIES})
 add_library (gui
     src/gui/camera_window.cc
     src/gui/gui.cc
+    src/gui/item_list.cc
     src/gui/lights_window.cc
     src/gui/material_view.cc
     src/gui/object_view.cc
