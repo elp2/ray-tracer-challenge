@@ -1,6 +1,7 @@
 #include "shapes/shape.h"
 
 #include "primitives/intersection.h"
+#include "primitives/perlin_noise.h"
 #include "patterns/pattern.h"
 
 #include <math.h>
@@ -40,6 +41,14 @@ const Tuple Shape::ObjectNormalToWorld(const Tuple &normal_vector) const {
 
   if (parent_ != nullptr) {
     vector = parent_->ObjectNormalToWorld(vector);
+  }
+
+  if (normal_noise_) {
+    float x_jitter = normal_noise_->PerlinValue(vector);
+    float y_jitter = normal_noise_->PerlinValue(vector + Point(-0.5, 0.2, 0.1));
+    float z_jitter = normal_noise_->PerlinValue(vector + Point(0.3, 0.4, -0.4));
+
+    vector = vector + Point(x_jitter, y_jitter, z_jitter);
   }
 
   return vector;

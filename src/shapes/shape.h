@@ -10,6 +10,8 @@
 
 #include <vector>
 
+class PerlinNoise;
+
 class Shape {
  public:
   ~Shape() = default;
@@ -40,6 +42,8 @@ class Shape {
 
   bool Includes(Shape *other);
 
+  void set_normal_noise(PerlinNoise *normal_noise) { normal_noise_ = normal_noise; };
+
  protected:
   virtual const Intersections ObjectIntersect(const Ray object_ray) const = 0;
   virtual const Tuple ObjectNormal(const Tuple &p, const Intersection &i) const = 0;
@@ -48,6 +52,7 @@ class Shape {
   Matrix transform_ = IdentityMatrix(4);
   Material material_ = Material();
   Shape *parent_ = nullptr;
+  PerlinNoise *normal_noise_;
 };
 
 #endif    // RTC_SHAPES_SHAPE_H
