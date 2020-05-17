@@ -22,6 +22,7 @@ add_library (primitives
     src/primitives/intersection.cc
     src/primitives/intersections.cc
     src/primitives/matrix.cc
+    src/primitives/perlin_noise.cc
     src/primitives/ray.cc
     src/primitives/transformation.cc
     src/primitives/tuple.cc)
@@ -173,6 +174,10 @@ target_link_libraries(write_png patterns primitives display shapes lights scene)
 add_executable(elptracer WIN32
     src/exe/elptracer.cc)
 target_link_libraries(elptracer gui patterns primitives display shapes lights scene)
+
+add_executable(perturbed_normals WIN32
+    src/exe/perturbed_normals.cc)
+target_link_libraries(perturbed_normals gui patterns primitives display shapes lights scene)
 
 # Below is from googletest README.md.
 # Download and unpack googletest at configure time.
