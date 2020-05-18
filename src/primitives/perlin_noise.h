@@ -16,7 +16,8 @@ class PerlinNoise {
  private:
   std::vector<Tuple> gradients_;
 
-  float DotPattern(const int &corner_index, Tuple &point) const;
+  float DotCubeGradient(const Tuple &corner, const Tuple &point) const;
+  const Tuple Gradient(float x, float y, float z) const;
 };
 
 #endif    // RTC_PRIMITIVES_PERLIN_NOISE_H

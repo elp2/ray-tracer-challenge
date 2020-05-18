@@ -44,11 +44,12 @@ const Tuple Shape::ObjectNormalToWorld(const Tuple &normal_vector) const {
   }
 
   if (normal_noise_) {
-    float x_jitter = normal_noise_->PerlinValue(vector);
-    float y_jitter = normal_noise_->PerlinValue(vector + Point(-0.5, 0.2, 0.1));
-    float z_jitter = normal_noise_->PerlinValue(vector + Point(0.3, 0.4, -0.4));
+    float x_jitter = normal_noise_->PerlinValue(vector * 3);
+    float y_jitter = normal_noise_->PerlinValue(vector * 3 + Point(-25, 0.2, 11));
+    float z_jitter = normal_noise_->PerlinValue(vector * 3 + Point(18, 231, -0.4));
 
-    vector = vector + Point(x_jitter, y_jitter, z_jitter);
+    const float NOISE_DAMPER = 0.5;
+    vector = vector + Point(x_jitter, y_jitter, z_jitter) * NOISE_DAMPER;
   }
 
   return vector;
