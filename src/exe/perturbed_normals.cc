@@ -61,8 +61,8 @@ World get_world1() {
   Material cm = Material();
   cm.set_color(Color(0.3, 0.3, 0.3));
   cm.set_reflective(1.0);
-  c->SetTransform(Translation(-2.5, 1.5, -0.5));
-  // c->set_normal_noise(new PerlinNoise());
+  c->SetTransform(Translation(-2.5, 2, -0.5));
+  c->set_normal_noise(new PerlinNoise());
   c->set_material(cm);
   w.add_object(c);
 
@@ -72,6 +72,7 @@ World get_world1() {
   pm.set_reflective(0.8);
   pm.set_color(Color(0.3, 0.3, 0.3));
   plane->set_material(pm);
+  plane->set_normal_noise(new PerlinNoise());
   w.add_object(plane);
 
   return w;
@@ -105,7 +106,7 @@ int main(int argc, char* argv[]) {
   (void)argv;
 
   srand(time(NULL));
-  write_noise();
+  // write_noise();
 
   std::cout << "Rendering perturbed_normals.ppm." << std::endl;
   auto canvas1 = get_camera1().Render(get_world1());

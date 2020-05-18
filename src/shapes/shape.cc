@@ -14,6 +14,17 @@ Intersections Shape::Intersect(const Ray r) const {
 const Tuple Shape::Normal(const Tuple &world_point, const Intersection &i)  const {
   Tuple object_point = WorldPointToObject(world_point);
   Tuple object_normal = ObjectNormal(object_point, i);
+
+  if (normal_noise_) {
+    const float PERLIN_STEP = 1.5;
+    float x_jitter = normal_noise_->PerlinValue(object_normal * PERLIN_STEP);
+    float y_jitter = normal_noise_->PerlinValue(object_normal * PERLIN_STEP + Point(-25, 0.2, 11));
+    float z_jitter = normal_noise_->PerlinValue(object_normal * PERLIN_STEP + Point(18, 231, -0.4));
+
+    const float NOISE_DAMPER = 1;
+    object_normal = object_normal + Point(x_jitter, y_jitter, z_jitter) * NOISE_DAMPER;
+  }
+
   return ObjectNormalToWorld(object_normal);
 }
 
@@ -41,15 +52,6 @@ const Tuple Shape::ObjectNormalToWorld(const Tuple &normal_vector) const {
 
   if (parent_ != nullptr) {
     vector = parent_->ObjectNormalToWorld(vector);
-  }
-
-  if (normal_noise_) {
-    float x_jitter = normal_noise_->PerlinValue(vector * 3);
-    float y_jitter = normal_noise_->PerlinValue(vector * 3 + Point(-25, 0.2, 11));
-    float z_jitter = normal_noise_->PerlinValue(vector * 3 + Point(18, 231, -0.4));
-
-    const float NOISE_DAMPER = 0.5;
-    vector = vector + Point(x_jitter, y_jitter, z_jitter) * NOISE_DAMPER;
   }
 
   return vector;
