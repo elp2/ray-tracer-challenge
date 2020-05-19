@@ -74,23 +74,32 @@ World DefaultWorld() {
 }
 
 float World::Shadowing(Tuple p) {
-  Tuple v = light_.position() - p;
+  // TODO: Average out the shadowing for all valid points.
+  Tuple light_position = light_.position();
+  return LightShadowing(p, light_position);
+}
+
+float World::LightShadowing(const Tuple &p, const Tuple &light_position) {
+  Tuple v = light_position - p;
   Tuple direction = v.Normalized();
   Ray r = Ray(p, direction);
 
   Intersections xs = Intersect(r);
   if (!xs.Hit().has_value()) {
-    return false;
+    // Nothing between point and light - no shadow.
+    return 0.0;
   }
   Intersection hit = xs.Hit().value();
   Shape *s = (Shape *)xs.Hit()->Object();
   if (!s->material().casts_shadow()) {
-    return false;
+    // Material casts no shadow (e.g. water hack) - no shadow.
+    return 0.0;
   }
 
   float light_distance = v.Magnitude();
   bool first_hit_closer = hit.T() < light_distance;
-  return first_hit_closer;
+  // If the first intersection is past the light, point is not obstructed.
+  return first_hit_closer ? 1.0 : 0.0;
 }
 
 Color World::ReflectedColor(PreparedComputation &pc, const int &reflections) {

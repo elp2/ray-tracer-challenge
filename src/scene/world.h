@@ -34,6 +34,8 @@ class World {
  private:
   Color ColorAt(Ray r, const int &reflections);
 
+  float LightShadowing(const Tuple &p, const Tuple &light_position);
+
   std::vector<Shape *> objects_;
   PointLight light_;
 };
