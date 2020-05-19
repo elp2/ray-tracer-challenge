@@ -52,7 +52,7 @@ class Shape {
   Matrix transform_ = IdentityMatrix(4);
   Material material_ = Material();
   Shape *parent_ = nullptr;
-  PerlinNoise *normal_noise_;
+  PerlinNoise *normal_noise_ = nullptr;
 };
 
 #endif    // RTC_SHAPES_SHAPE_H

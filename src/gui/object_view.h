@@ -3,6 +3,8 @@
 
 #include <math.h>
 
+#include "shapes/material.h"
+
 class Cone;
 class Cube;
 class Cylinder;
@@ -47,7 +49,7 @@ class ObjectView {
   Cylinder *GetCylinder();
   Sphere *GetSphere();
   Plane *GetPlane();
-  Group *GetTeapot();
+  Group *GetTeapot(Material material);
 
   // For cone and cylinder.
   float maximum_ = INFINITY;

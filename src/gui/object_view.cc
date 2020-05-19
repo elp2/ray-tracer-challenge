@@ -6,6 +6,7 @@
 #include "imgui.h"
 
 #include "gui/material_view.h"
+#include "primitives/transformation.h"
 #include "shapes/cone.h"
 #include "shapes/cube.h"
 #include "shapes/cylinder.h"
@@ -45,6 +46,7 @@ bool ObjectView::Frame() {
 
 Shape *ObjectView::GetShape() {
   Shape *object;
+  auto material = material_view_->GetMaterial();
   switch (type_) {
     case ObjectType_Cone:
       object = GetCone();
@@ -62,7 +64,7 @@ Shape *ObjectView::GetShape() {
       object = GetSphere();
       break;
     case ObjectType_Teapot:
-      object = GetTeapot();
+      object = GetTeapot(material);
       break;
     case ObjectType_Unknown:
       return nullptr;
@@ -71,7 +73,7 @@ Shape *ObjectView::GetShape() {
       break;
   }
 
-  object->set_material(material_view_->GetMaterial());
+  object->set_material(material);
 
   return object;
 }
@@ -96,7 +98,7 @@ Sphere *ObjectView::GetSphere() {
   return new Sphere();
 }
 
-Group *ObjectView::GetTeapot() {
+Group *ObjectView::GetTeapot(Material material) {
   std::ifstream model("teapot-low.obj");
   assert(model.is_open());
   std::stringstream ss;
@@ -104,5 +106,11 @@ Group *ObjectView::GetTeapot() {
   model.close();
 
   auto parser = ObjParser(ss);
-  return parser.GroupNamed("Teapot001")->OptimizedSubgroups(5);
+  parser.set_material(material);
+  auto teapot = parser.GroupNamed("Teapot001");
+  auto scaled = new Group();
+  const float scaling_factor = 1.0 / 15.0;
+  teapot->SetTransform(Scaling(scaling_factor, scaling_factor, scaling_factor));
+  scaled->AddChild(teapot);
+  return scaled->OptimizedSubgroups(5);
 }
