@@ -22,7 +22,8 @@ Intersections World::Intersect(const Ray r) {
 }
 
 Color World::ShadeHit(PreparedComputation pc, const int &reflections) {
-  bool is_shadowed = IsShadowed(pc.over_point());
+  float shadowing = Shadowing(pc.over_point());
+  bool is_shadowed = shadowing == 1.0;
 
   const Shape *s = pc.object();
   Color surface = s->Lighting(light_, pc.over_point(), pc.eye_vector(), pc.normal_vector(), is_shadowed);
@@ -73,7 +74,7 @@ World DefaultWorld() {
   return w;
 }
 
-bool World::IsShadowed(Tuple p) {
+float World::Shadowing(Tuple p) {
   Tuple v = light_.position() - p;
   Tuple direction = v.Normalized();
   Ray r = Ray(p, direction);

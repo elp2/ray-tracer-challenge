@@ -21,7 +21,7 @@ class World {
   Intersections Intersect(const Ray r);
   Color ShadeHit(PreparedComputation pc, const int &reflections);
   Color ColorAt(Ray r);
-  bool IsShadowed(Tuple p);
+  float Shadowing(Tuple p);
   Color ReflectedColor(PreparedComputation &pc, const int &reflections);
   Color RefractedColor(PreparedComputation &pc, const int &refractions);
 
