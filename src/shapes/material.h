@@ -28,7 +28,7 @@ class Material {
   ~Material() = default;
 
   Color Lighting(const PointLight &light, const Tuple &position,
-      const Tuple &eye_vector, const Tuple &normal_vector, bool in_shadow, const Shape *shape) const;
+      const Tuple &eye_vector, const Tuple &normal_vector, float shadowing, const Shape *shape) const;
 
   Color color() { return color_; };
   void set_color(Color color) { color_ = color; };

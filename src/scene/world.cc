@@ -23,10 +23,9 @@ Intersections World::Intersect(const Ray r) {
 
 Color World::ShadeHit(PreparedComputation pc, const int &reflections) {
   float shadowing = Shadowing(pc.over_point());
-  bool is_shadowed = shadowing == 1.0;
 
   const Shape *s = pc.object();
-  Color surface = s->Lighting(light_, pc.over_point(), pc.eye_vector(), pc.normal_vector(), is_shadowed);
+  Color surface = s->Lighting(light_, pc.over_point(), pc.eye_vector(), pc.normal_vector(), shadowing);
   Color reflected = ReflectedColor(pc, reflections);
   Color refracted = RefractedColor(pc, reflections);
 

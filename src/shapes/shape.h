@@ -36,7 +36,7 @@ class Shape {
   const Tuple ObjectNormalToWorld(const Tuple &normal_vector) const;
 
   const Color Lighting(PointLight light, Tuple position, Tuple eye_vector,
-      Tuple normal_vector, bool in_shadow) const;
+      Tuple normal_vector, float shadowing) const;
 
   virtual const Bounds UnitBounds() const = 0;
 

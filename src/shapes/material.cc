@@ -23,13 +23,13 @@ bool Material::operator==(Material other) const {
 }
 
 Color Material::Lighting(const PointLight &light, const Tuple &position,
-    const Tuple &eye_vector, const Tuple &normal_vector, bool in_shadow, const Shape *shape) const {
+    const Tuple &eye_vector, const Tuple &normal_vector, float shadowing, const Shape *shape) const {
   Tuple color_point = shape == nullptr ? position : shape->WorldPointToObject(position);
   Color point_color = pattern_ == nullptr ? color_ : pattern_->ColorAt(color_point);
   Color effective_color = point_color * light.intensity();
   Tuple light_vector = (light.position() - position).Normalized();
   Color ambient_color = effective_color * ambient_;
-  if (in_shadow) {
+  if (shadowing == 1.0) {
     return ambient_color;
   }
 
