@@ -57,9 +57,9 @@ const Tuple Shape::ObjectNormalToWorld(const Tuple &normal_vector) const {
   return vector;
 }
 
-const Color Shape::Lighting(PointLight light, Tuple position, Tuple eye_vector,
+const Color Shape::Lighting(const Lightlet *lightlet, Tuple position, Tuple eye_vector,
     Tuple normal_vector, float shadowing) const {
-  return material_.Lighting(light, position, eye_vector, normal_vector, shadowing, this);
+  return material_.Lighting(lightlet, position, eye_vector, normal_vector, shadowing, this);
 }
 
 const Bounds Shape::ChildBounds(Shape *child) const {

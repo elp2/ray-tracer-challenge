@@ -1,7 +1,7 @@
 #ifndef RTC_SHAPES_MATERIAL_H_
 #define RTC_SHAPES_MATERIAL_H_
 
-#include "lights/point_light.h"
+#include "lights/lightlet.h"
 #include "patterns/pattern.h"
 #include "primitives/color.h"
 #include "primitives/tuple.h"
@@ -27,7 +27,7 @@ class Material {
   Material();
   ~Material() = default;
 
-  Color Lighting(const PointLight &light, const Tuple &position,
+  Color Lighting(const Lightlet *lightlet, const Tuple &position,
       const Tuple &eye_vector, const Tuple &normal_vector, float shadowing, const Shape *shape) const;
 
   Color color() { return color_; };

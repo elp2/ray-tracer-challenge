@@ -4,6 +4,7 @@
 
 #include "primitives/color.h"
 
+#include "lights/point_light.h"
 #include "patterns/striped_pattern.h"
 #include "shapes/material.h"
 #include "shapes/sphere.h"
@@ -30,8 +31,9 @@ TEST(MaterialTest, EyeBetweenLightAndSurface) {
   Tuple eye_vector = Vector(0.0, 0.0, -1.0);
   Tuple normal_vector = Vector(0.0, 0.0, -1.0);
   PointLight light = PointLight(Point(0.0, 0.0, -10.0), Color(1.0, 1.0, 1.0));
+  auto lightlet = light.LightletsForPoint(position)[0];
 
-  Tuple result = m.Lighting(light, position, eye_vector, normal_vector, 0.0, new Sphere());
+  Tuple result = m.Lighting(lightlet, position, eye_vector, normal_vector, 0.0, new Sphere());
   ASSERT_EQ(Color(1.9, 1.9, 1.9), result);
 }
 
@@ -42,8 +44,9 @@ TEST(MaterialTest, EyeOffset45BetweenLightAndSurface) {
   Tuple eye_vector = Point(0.0, sqrt(2.0) / 2.0, -sqrt(2.0) / 2.0);
   Tuple normal_vector = Vector(0.0, 0.0, -1.0);
   PointLight light = PointLight(Point(0.0, 0.0, -10.0), Color(1.0, 1.0, 1.0));
+  auto lightlet = light.LightletsForPoint(position)[0];
 
-  Tuple result = m.Lighting(light, position, eye_vector, normal_vector, 0.0, new Sphere());
+  Tuple result = m.Lighting(lightlet, position, eye_vector, normal_vector, 0.0, new Sphere());
   ASSERT_EQ(Color(1.0, 1.0, 1.0), result);
 }
 
@@ -54,8 +57,9 @@ TEST(MaterialTest, LightOffset45EyeOppositeSurface) {
   Tuple eye_vector = Vector(0.0, 0.0, -1.0);
   Tuple normal_vector = Vector(0.0, 0.0, -1.0);
   PointLight light = PointLight(Point(0.0, 10.0, -10.0), Color(1.0, 1.0, 1.0));
+  auto lightlet = light.LightletsForPoint(position)[0];
 
-  Tuple result = m.Lighting(light, position, eye_vector, normal_vector, 0.0, new Sphere());
+  Tuple result = m.Lighting(lightlet, position, eye_vector, normal_vector, 0.0, new Sphere());
   ASSERT_EQ(Color(0.7364, 0.7364, 0.7364), result);
 }
 
@@ -66,8 +70,9 @@ TEST(MaterialTest, LightingInReflectionPathOfEye) {
   Tuple eye_vector = Vector(0.0, -sqrt(2.0) / 2.0, -sqrt(2.0) / 2.0);
   Tuple normal_vector = Vector(0.0, 0.0, -1.0);
   PointLight light = PointLight(Point(0.0, 10.0, -10.0), Color(1.0, 1.0, 1.0));
+  auto lightlet = light.LightletsForPoint(position)[0];
 
-  Tuple result = m.Lighting(light, position, eye_vector, normal_vector, 0.0, new Sphere());
+  Tuple result = m.Lighting(lightlet, position, eye_vector, normal_vector, 0.0, new Sphere());
   ASSERT_EQ(Color(1.63639, 1.63639, 1.63639), result);
 }
 
@@ -78,8 +83,9 @@ TEST(MaterialTest, LightBehindSurface) {
   Tuple eye_vector = Point(0.0, 0.0, -1.0);
   Tuple normal_vector = Vector(0.0, 0.0, -1.0);
   PointLight light = PointLight(Point(0.0, 0.0, 10.0), Color(1.0, 1.0, 1.0));
+  auto lightlet = light.LightletsForPoint(position)[0];
 
-  Tuple result = m.Lighting(light, position, eye_vector, normal_vector, 0.0, new Sphere());
+  Tuple result = m.Lighting(lightlet, position, eye_vector, normal_vector, 0.0, new Sphere());
 
   ASSERT_EQ(Color(0.1, 0.1, 0.1), result);
   ASSERT_EQ(Color(m.ambient(), m.ambient(), m.ambient()), result);
@@ -92,8 +98,9 @@ TEST(MaterialTest, LightingInShadow) {
   Tuple eye_vector = Point(0.0, 0.0, -1.0);
   Tuple normal_vector = Vector(0.0, 0.0, -1.0);
   PointLight light = PointLight(Point(0.0, 0.0, -10.0), Color(1.0, 1.0, 1.0));
+  auto lightlet = light.LightletsForPoint(position)[0];
 
-  Tuple result = m.Lighting(light, position, eye_vector, normal_vector, 1.0, new Sphere());
+  Tuple result = m.Lighting(lightlet, position, eye_vector, normal_vector, 1.0, new Sphere());
 
   ASSERT_EQ(Color(0.1, 0.1, 0.1), result);
 }
@@ -112,12 +119,13 @@ TEST(MaterialTest, LightingWithPattern) {
   Tuple eye_vector = Point(0.0, 0.0, -1.0);
   Tuple normal_vector = Vector(0.0, 0.0, -1.0);
   PointLight light = PointLight(Point(0.0, 0.0, -10.0), Color(1.0, 1.0, 1.0));
+  auto lightlet = light.LightletsForPoint(Point(0, 0, 0))[0];
 
   Tuple p1 = Point(0.9, 0.0, 0.0);
-  ASSERT_EQ(red, m.Lighting(light, p1, eye_vector, normal_vector, 0.0, new Sphere()));
+  ASSERT_EQ(red, m.Lighting(lightlet, p1, eye_vector, normal_vector, 0.0, new Sphere()));
 
   Tuple p2 = Point(1.9, 0.0, 0.0);
-  ASSERT_EQ(blue, m.Lighting(light, p2, eye_vector, normal_vector, 0.0, new Sphere()));
+  ASSERT_EQ(blue, m.Lighting(lightlet, p2, eye_vector, normal_vector, 0.0, new Sphere()));
 }
 
 TEST(MaterialTest, ReflectivityOfDefaultMaterial) {

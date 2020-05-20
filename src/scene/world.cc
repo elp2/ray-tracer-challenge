@@ -25,7 +25,9 @@ Color World::ShadeHit(PreparedComputation pc, const int &reflections) {
   float shadowing = Shadowing(pc.over_point());
 
   const Shape *s = pc.object();
-  Color surface = s->Lighting(light_, pc.over_point(), pc.eye_vector(), pc.normal_vector(), shadowing);
+  // TODO: Merge shadowing and this call.
+  const Lightlet *lightlet = light_.LightletsForPoint(pc.over_point())[0];
+  Color surface = s->Lighting(lightlet, pc.over_point(), pc.eye_vector(), pc.normal_vector(), shadowing);
   Color reflected = ReflectedColor(pc, reflections);
   Color refracted = RefractedColor(pc, reflections);
 
@@ -74,12 +76,21 @@ World DefaultWorld() {
 }
 
 float World::Shadowing(Tuple p) {
-  // TODO: Average out the shadowing for all valid points.
-  Tuple light_position = light_.position();
-  return LightShadowing(p, light_position);
+  float shadowing = 0.0;
+  auto lightlets = light_.LightletsForPoint(p);
+  for (auto lightlet : lightlets) {
+    float lightlet_shadowing = lightlet->ShadowingForPoint(p);
+    if (lightlet_shadowing == 1.0) {
+      // Fully shadowed - no need to also check intersections.
+      shadowing += lightlet_shadowing;
+      continue;
+    }
+    shadowing += LightShadowed(p, lightlet->position()) ? 1.0 : lightlet_shadowing;
+  }
+  return shadowing / (float)lightlets.size();
 }
 
-float World::LightShadowing(const Tuple &p, const Tuple &light_position) {
+bool World::LightShadowed(const Tuple &p, const Tuple &light_position) {
   Tuple v = light_position - p;
   Tuple direction = v.Normalized();
   Ray r = Ray(p, direction);
