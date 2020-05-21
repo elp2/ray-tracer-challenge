@@ -22,12 +22,19 @@ Intersections World::Intersect(const Ray r) {
 }
 
 Color World::ShadeHit(PreparedComputation pc, const int &reflections) {
-  float shadowing = Shadowing(pc.over_point());
-
+  Color surface = Color(0, 0, 0);
   const Shape *s = pc.object();
-  // TODO: Merge shadowing and this call.
-  const Lightlet *lightlet = light_.LightletsForPoint(pc.over_point())[0];
-  Color surface = s->Lighting(lightlet, pc.over_point(), pc.eye_vector(), pc.normal_vector(), shadowing);
+
+  auto lightlets = light_.LightletsForPoint(pc.over_point());
+  for (auto lightlet : lightlets) {
+    float shadowing = lightlet->ShadowingForPoint(pc.over_point());
+    if (shadowing != 1.0) {
+      shadowing = LightShadowed(pc.over_point(), lightlet->position()) ? 1.0 : shadowing;
+    }
+    surface = surface + s->Lighting(lightlet, pc.over_point(), pc.eye_vector(), pc.normal_vector(), shadowing);
+  }
+  surface = surface * (1.0 / (float)lightlets.size());
+
   Color reflected = ReflectedColor(pc, reflections);
   Color refracted = RefractedColor(pc, reflections);
 

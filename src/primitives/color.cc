@@ -16,7 +16,7 @@ Color operator*(const Color c, const Color o) {
 }
 
 Color operator*(const Color c, float scalar) {
-  return Color(c.x() * scalar, c.y() * scalar, c.z() * scalar);
+  return Color(c.r() * scalar, c.g() * scalar, c.b() * scalar);
 }
 
 Color operator+(const Color c, const Color o) {

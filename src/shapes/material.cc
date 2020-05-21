@@ -54,5 +54,5 @@ Color Material::Lighting(const Lightlet *lightlet, const Tuple &position,
     }
   }
 
-  return ambient_color + diffuse_color + specular_color;
+  return ambient_color + (diffuse_color + specular_color) * (1.0 - shadowing);
 }
