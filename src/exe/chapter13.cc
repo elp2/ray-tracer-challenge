@@ -1,5 +1,6 @@
 #include "display/canvas.h"
 #include "display/ppm_writer.h"
+#include "lights/point_light.h"
 #include "patterns/blended_pattern.h"
 #include "patterns/gradient_pattern.h"
 #include "patterns/perturbed_pattern.h"
@@ -35,7 +36,7 @@ Camera get_camera1() {
 
 World get_world1() {
   World w = World();
-  w.set_light(PointLight(Point(-80, 80, 0.0), Color(1.0, 1.0, 1.0)));
+  w.set_light(new PointLight(Point(-80, 80, 0.0), Color(1.0, 1.0, 1.0)));
 
   auto p = new Plane();
   Material pm1;

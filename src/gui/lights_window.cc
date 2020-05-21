@@ -22,8 +22,8 @@ bool LightsWindow::Frame() {
   return updated;
 }
 
-PointLight LightsWindow::GetPointLight() {
+PointLight *LightsWindow::GetPointLight() {
   Tuple position = Point(x_, y_, z_);
   Color color = Color(color_[0], color_[1], color_[2]);
-  return PointLight(position, color);
+  return new PointLight(position, color);
 }

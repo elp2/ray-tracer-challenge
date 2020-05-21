@@ -1,5 +1,6 @@
 #include "display/canvas.h"
 #include "display/ppm_writer.h"
+#include "lights/point_light.h"
 #include "primitives/math.h"
 #include "primitives/matrix.h"
 #include "primitives/transformation.h"
@@ -35,7 +36,7 @@ Sphere *get_wall(Color c) {
 
 World get_world() {
   World w = World();
-  w.set_light(PointLight(Point(-10.0, 10.0, -10.0), Color(1.0, 1.0, 1.0)));
+  w.set_light(new PointLight(Point(-10.0, 10.0, -10.0), Color(1.0, 1.0, 1.0)));
 
   auto floor = get_wall(Color(1.0, 0.9, 0.9));
   floor->SetTransform(Scaling(20.0, 0.001, 20.0));

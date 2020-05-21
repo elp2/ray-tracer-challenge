@@ -1,5 +1,6 @@
 #include "display/canvas.h"
 #include "display/ppm_writer.h"
+#include "lights/point_light.h"
 #include "patterns/blended_pattern.h"
 #include "patterns/gradient_pattern.h"
 #include "patterns/perturbed_pattern.h"
@@ -33,7 +34,7 @@ Camera get_camera1() {
 
 World get_world1() {
   World w = World();
-  w.set_light(PointLight(Point(6.0, 5.0, 1.0), Color(1.0, 1.0, 1.0)));
+  w.set_light(new PointLight(Point(6.0, 5.0, 1.0), Color(1.0, 1.0, 1.0)));
 
   auto p = new Plane();
   p->SetTransform(RotationX(M_PI / 2.0));
@@ -108,7 +109,7 @@ Sphere *CrystalBall() {
 
 World get_world2() {
   World w = World();
-  w.set_light(PointLight(Point(-1, 10.0, 0), Color(1.0, 0.2, 0.2)));
+  w.set_light(new PointLight(Point(-1, 10.0, 0), Color(1.0, 0.2, 0.2)));
 
   auto p = new Plane();
   auto pm = Material();
@@ -145,7 +146,7 @@ Camera get_camera3() {
 
 World get_world3() {
   World w = World();
-  w.set_light(PointLight(Point(-1, 20.0, 0), WhiteColor() * 1));
+  w.set_light(new PointLight(Point(-1, 20.0, 0), WhiteColor() * 1));
 
   auto p = new Plane();
   auto pm1 = Material();
@@ -188,7 +189,7 @@ Camera get_camera4() {
 
 World get_world4(bool add_water) {
   World w = World();
-  w.set_light(PointLight(Point(6, 20.0, 0), WhiteColor() * 1));
+  w.set_light(new PointLight(Point(6, 20.0, 0), WhiteColor() * 1));
 
   auto p = new Plane();
   auto pm1 = Material();
@@ -234,7 +235,7 @@ World get_world4(bool add_water) {
 
 World get_world5() {
   World w = World();
-  w.set_light(PointLight(Point(6, 20.0, 0), WhiteColor() * 1));
+  w.set_light(new PointLight(Point(6, 20.0, 0), WhiteColor() * 1));
 
   auto p = new Plane();
   auto grid = new ThreeDPattern(WhiteColor(), BlackColor());

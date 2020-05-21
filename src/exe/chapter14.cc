@@ -1,5 +1,6 @@
 #include "display/canvas.h"
 #include "display/ppm_writer.h"
+#include "lights/point_light.h"
 #include "patterns/blended_pattern.h"
 #include "patterns/gradient_pattern.h"
 #include "patterns/perturbed_pattern.h"
@@ -37,7 +38,7 @@ Camera get_camera1() {
 
 World get_world1() {
   World w = World();
-  w.set_light(PointLight(Point(-8, 8.0, 0.0), Color(1.0, 1.0, 1.0)));
+  w.set_light(new PointLight(Point(-8, 8.0, 0.0), Color(1.0, 1.0, 1.0)));
 
   Material m = Material();
   auto sp = new StripedPattern(PinkColor(), YellowColor());
@@ -92,7 +93,7 @@ Group *get_arm() {
 
 World get_world2() {
   World w = World();
-  w.set_light(PointLight(Point(5.0, 2.0, 20.0), Color(1.0, 1.0, 1.0)));
+  w.set_light(new PointLight(Point(5.0, 2.0, 20.0), Color(1.0, 1.0, 1.0)));
 
   Material m = Material();
   auto sp = new StripedPattern(PinkColor(), YellowColor());

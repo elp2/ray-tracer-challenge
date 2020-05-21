@@ -1,13 +1,14 @@
 #ifndef RTC_LIGHTS_POINT_LIGHT_H
 #define RTC_LIGHTS_POINT_LIGHT_H
 
+#include "lights/light.h"
 #include "lights/lightlet.h"
 #include "primitives/color.h"
 #include "primitives/tuple.h"
 
 #include <vector>
 
-class PointLight {
+class PointLight : public Light {
  public:
   PointLight() : PointLight(Point(0, 0, 0), Color(1, 1, 1)) {};
   PointLight(Tuple position, Color intensity);

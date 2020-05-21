@@ -1,5 +1,6 @@
 #include "display/canvas.h"
 #include "display/ppm_writer.h"
+#include "lights/point_light.h"
 #include "primitives/math.h"
 #include "primitives/matrix.h"
 #include "primitives/transformation.h"
@@ -26,7 +27,7 @@ Camera get_camera() {
 
 World get_world() {
   World w = World();
-  w.set_light(PointLight(Point(20.0, 16.0, 0.0), Color(1.0, 1.0, 1.0)));
+  w.set_light(new PointLight(Point(20.0, 16.0, 0.0), Color(1.0, 1.0, 1.0)));
 
   auto earth = new Sphere();
   Material em = Material();

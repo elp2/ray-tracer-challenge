@@ -2,13 +2,15 @@
 
 #include <math.h>
 
+#include "lights/light.h"
+#include "lights/point_light.h"
 #include "primitives/transformation.h"
 #include "primitives/intersection.h"
 #include "primitives/intersections.h"
 #include "shapes/sphere.h"
 
 World::World() {
-  light_ = PointLight();
+  light_ = new PointLight();
 }
 
 Intersections World::Intersect(const Ray r) {
@@ -25,7 +27,7 @@ Color World::ShadeHit(PreparedComputation pc, const int &reflections) {
   Color surface = Color(0, 0, 0);
   const Shape *s = pc.object();
 
-  auto lightlets = light_.LightletsForPoint(pc.over_point());
+  auto lightlets = light_->LightletsForPoint(pc.over_point());
   for (auto lightlet : lightlets) {
     float shadowing = lightlet->ShadowingForPoint(pc.over_point());
     if (shadowing != 1.0) {
@@ -77,14 +79,14 @@ World DefaultWorld() {
   s2->SetTransform(Scaling(0.5, 0.5, 0.5));
   w.add_object(s2);
 
-  PointLight light = PointLight(Point(-10.0, 10.0, -10.0), Color(1.0, 1.0, 1.0));
+  auto light = new PointLight(Point(-10.0, 10.0, -10.0), Color(1.0, 1.0, 1.0));
   w.set_light(light);
   return w;
 }
 
 float World::Shadowing(Tuple p) {
   float shadowing = 0.0;
-  auto lightlets = light_.LightletsForPoint(p);
+  auto lightlets = light_->LightletsForPoint(p);
   for (auto lightlet : lightlets) {
     float lightlet_shadowing = lightlet->ShadowingForPoint(p);
     if (lightlet_shadowing == 1.0) {

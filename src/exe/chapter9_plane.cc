@@ -1,5 +1,6 @@
 #include "display/canvas.h"
 #include "display/ppm_writer.h"
+#include "lights/point_light.h"
 #include "primitives/math.h"
 #include "primitives/matrix.h"
 #include "primitives/transformation.h"
@@ -27,7 +28,7 @@ Camera get_camera() {
 
 World get_world() {
   World w = World();
-  w.set_light(PointLight(Point(-2.0, 5.0, 1.0), Color(1.0, 1.0, 1.0)));
+  w.set_light(new PointLight(Point(-2.0, 5.0, 1.0), Color(1.0, 1.0, 1.0)));
 
   auto p = new Plane();
   p->SetTransform(RotationX(M_PI / 2.0));

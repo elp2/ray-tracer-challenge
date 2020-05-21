@@ -6,12 +6,13 @@ class Ray;
 
 #include <vector>
 
-#include "lights/point_light.h"
 #include "shapes/shape.h"
 #include "scene/prepared_computation.h"
 
 static const int MAX_REFLECTIONS = 5;
 static const int MAX_REFRACTIONS = 5;
+
+class Light;
 
 class World {
  public:
@@ -28,8 +29,8 @@ class World {
   std::vector<Shape *> objects() const { return objects_; };
   void add_object(Shape *s) { objects_.push_back(s); };
 
-  PointLight light() const { return light_; };
-  void set_light(PointLight light) { light_ = light; };
+  Light *light() const { return light_; };
+  void set_light(Light *light) { light_ = light; };
 
  private:
   Color ColorAt(Ray r, const int &reflections);
@@ -37,7 +38,7 @@ class World {
   bool LightShadowed(const Tuple &p, const Tuple &light_position);
 
   std::vector<Shape *> objects_;
-  PointLight light_;
+  Light *light_ = nullptr;
 };
 
 World DefaultWorld();

@@ -12,7 +12,7 @@ class LightsWindow {
   bool Frame();
 
   // Returns the point light on demand (e.g. on init).
-  PointLight GetPointLight();
+  PointLight *GetPointLight();
 
  private:
   float x_ = 10, y_ = 3, z_ = 10;

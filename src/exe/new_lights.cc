@@ -1,5 +1,6 @@
 #include "display/canvas.h"
 #include "display/png_writer.h"
+#include "lights/point_light.h"
 #include "patterns/blended_pattern.h"
 #include "patterns/gradient_pattern.h"
 #include "patterns/perturbed_pattern.h"
@@ -41,7 +42,7 @@ Camera get_camera1() {
 
 World get_world1() {
   World w = World();
-  w.set_light(PointLight(Point(3, 5, 5), Color(1.0, 1.0, 1.0)));
+  w.set_light(new PointLight(Point(3, 5, 5), Color(1.0, 1.0, 1.0)));
 
   auto *s = new Sphere();
   s->SetTransform(Translation(0.5, 1, 0));
