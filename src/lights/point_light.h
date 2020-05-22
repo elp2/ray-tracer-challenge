@@ -17,12 +17,12 @@ class PointLight : public Light {
   bool operator!=(const PointLight &other) const;
   bool operator==(const PointLight &other) const;
 
-  const std::vector<const Lightlet *> &LightletsForPoint(const Tuple &p) { (void)p; return lightlets_; };
+  const std::vector<const Lightlet *> *LightletsForPoint(const Tuple &p) { (void)p; return lightlets_; };
 
  private:
   Tuple position_ = Point(0.0, 0.0, 0.0);
   Color intensity_ = Color(1.0, 1.0, 1.0);
-  std::vector<const Lightlet *> lightlets_;
+  std::vector<const Lightlet *> *lightlets_ = new std::vector<const Lightlet *>();
 };
 
 #endif    // RTC_LIGHTS_POINT_LIGHT_H

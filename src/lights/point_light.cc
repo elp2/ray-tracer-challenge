@@ -11,7 +11,7 @@ class PointLightlet : public Lightlet {
 PointLight::PointLight(Tuple position, Color intensity) {
   position_ = position;
   intensity_ = intensity;
-  lightlets_ = std::vector<const Lightlet *> { new PointLightlet(position, intensity_) };
+  lightlets_->push_back(new PointLightlet(position, intensity_));
 };
 
 bool PointLight::operator==(const PointLight &other) const {

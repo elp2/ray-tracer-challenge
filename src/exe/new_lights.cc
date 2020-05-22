@@ -92,19 +92,19 @@ void render_cube_worlds() {
   Tuple position =  Point(3, 5, 5);
   Color intensity = Color(1.0, 1.0, 1.0);
 
-  std::cout << "Rendering point_light.png." << std::endl;
-  auto canvas1 = get_camera1().Render(get_cube_world(new PointLight(position, intensity)));
-  PNGWriter ppm_writer1 = PNGWriter(canvas1);
-  ppm_writer1.WriteFile("point_light.png");
+  // std::cout << "Rendering point_light.png." << std::endl;
+  // auto canvas1 = get_camera1().Render(get_cube_world(new PointLight(position, intensity)));
+  // PNGWriter ppm_writer1 = PNGWriter(canvas1);
+  // ppm_writer1.WriteFile("point_light.png");
 
-  std::cout << "Rendering area_light.png." << std::endl;
-  auto canvas2 = get_camera1().Render(get_cube_world(new AreaLight(position, intensity, 0.1, 3)));
-  PNGWriter ppm_writer2 = PNGWriter(canvas2);
-  ppm_writer2.WriteFile("area_light.png");
+  // std::cout << "Rendering area_light.png." << std::endl;
+  // auto canvas2 = get_camera1().Render(get_cube_world(new AreaLight(position, intensity, 0.1, 3)));
+  // PNGWriter ppm_writer2 = PNGWriter(canvas2);
+  // ppm_writer2.WriteFile("area_light.png");
 
   std::cout << "Rendering spot_light.png." << std::endl;
   auto canvas3 = get_camera1().Render(get_cube_world(
-      new SpotLight(position, intensity, DEFAULT_TOTAL_RADIANS, DEFAULT_CENTER_RADIANS)));
+      new SpotLight(position, intensity, DEFAULT_CENTER_RADIANS, DEFAULT_TOTAL_RADIANS)));
   PNGWriter ppm_writer3 = PNGWriter(canvas3);
   ppm_writer3.WriteFile("spot_light.png");
 }

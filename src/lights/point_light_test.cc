@@ -18,8 +18,8 @@ TEST(PointLightTest, HasPositionAndIntensity) {
   Tuple position = Point(0.0, 0.0, 0.0);
   PointLight point_light = PointLight(position, intensity);
   auto lightlets = point_light.LightletsForPoint(Point(0, 0, 0));
-  ASSERT_EQ(lightlets.size(), 1);
-  auto lightlet = lightlets[0];
+  ASSERT_EQ(lightlets->size(), 1);
+  auto lightlet = (*lightlets)[0];
   ASSERT_EQ(lightlet->position(), position);
   ASSERT_EQ(lightlet->intensity(), intensity);
 }

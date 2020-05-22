@@ -29,7 +29,7 @@ Color World::ShadeHit(PreparedComputation pc, const int &reflections) {
   const Shape *s = pc.object();
 
   auto lightlets = light_->LightletsForPoint(pc.over_point());
-  for (auto lightlet : lightlets) {
+  for (auto lightlet : *lightlets) {
     float shadowing = lightlet->ShadowingForPoint(pc.over_point());
     if (shadowing != 1.0) {
       shadowing = LightShadowed(pc.over_point(), lightlet->position()) ? 1.0 : shadowing;
@@ -38,7 +38,7 @@ Color World::ShadeHit(PreparedComputation pc, const int &reflections) {
         pc.eye_vector(), pc.normal_vector(), shadowing);
     surface = surface + surface_contribution;
   }
-  surface = surface * (1.0 / (float)lightlets.size());
+  surface = surface * (1.0 / (float)lightlets->size());
 
   Color reflected = ReflectedColor(pc, reflections);
   Color refracted = RefractedColor(pc, reflections);

@@ -24,17 +24,14 @@ class SpotLight : public Light {
   bool operator!=(const SpotLight &other) const;
   bool operator==(const SpotLight &other) const;
 
-  const std::vector<const Lightlet *> &LightletsForPoint(const Tuple &p);
+  const std::vector<const Lightlet *> *LightletsForPoint(const Tuple &p);
 
  private:
-  float total_radians_ = DEFAULT_TOTAL_RADIANS;
-  float center_radians_ = DEFAULT_CENTER_RADIANS;
+  float total_radians_;
+  float center_radians_;
   float shaded_radians = 0.0;
   Tuple position_ = Point(0.0, 0.0, 0.0);
   Color intensity_ = Color(1.0, 1.0, 1.0);
-
-  // TODO: constantly re-assigning this probably isn't great.
-  std::vector<const Lightlet *> lightlets_;
 };
 
 #endif    // RTC_LIGHTS_SPOT_LIGHT_H

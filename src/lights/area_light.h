@@ -19,12 +19,12 @@ class AreaLight : public Light {
   bool operator!=(const AreaLight &other) const;
   bool operator==(const AreaLight &other) const;
 
-  const std::vector<const Lightlet *> &LightletsForPoint(const Tuple &p) { (void)p; return lightlets_; };
+  const std::vector<const Lightlet *> *LightletsForPoint(const Tuple &p) { (void)p; return lightlets_; };
 
  private:
   Tuple position_ = Point(0.0, 0.0, 0.0);
   Color intensity_ = Color(1.0, 1.0, 1.0);
-  std::vector<const Lightlet *> lightlets_;
+  std::vector<const Lightlet *> *lightlets_ = new std::vector<const Lightlet *>();
   float radius_ = AREA_LIGHT_RADIUS;
   int arm_lights_ = AREA_LIGHT_ARM_LIGHTS;
 };

@@ -21,18 +21,16 @@ SpotLight::SpotLight(Tuple position, Color intensity, float center_radians, floa
   position_ = position;
   intensity_ = intensity;
 
-  assert(center_radians_ < total_radians_);
-  assert(center_radians_ > M_PI / 20.0);
-  assert(total_radians_ < M_PI / 2.0);
-
   center_radians_ = center_radians;
   total_radians_ = total_radians;
   shaded_radians = total_radians_ - center_radians_;
-  lightlets_ = std::vector<const Lightlet*> { new SpotLightlet(position_, intensity_, 0.75) };
+
+  assert(center_radians_ < total_radians_);
+  assert(center_radians_ > M_PI / 20.0);
+  assert(total_radians_ < M_PI / 2.0);
 };
 
-const std::vector<const Lightlet *> &SpotLight::LightletsForPoint(const Tuple &p) {
-  /* TODO: Re-enable with angles.
+const std::vector<const Lightlet *> *SpotLight::LightletsForPoint(const Tuple &p) {
   // Default fully shadowed.
   float shadowing = 1.0;
   // TODO: Calculate incoming angle.
@@ -45,9 +43,7 @@ const std::vector<const Lightlet *> &SpotLight::LightletsForPoint(const Tuple &p
     float distance = hit_angle - center_radians_;
     shadowing = distance / shaded_radians;
   }
-  lightlets_ = std::vector<const Lightlet*> { new SpotLightlet(position_, intensity_, shadowing) };
-  */
-  return lightlets_;
+  return new std::vector<const Lightlet*> { new SpotLightlet(position_, intensity_, shadowing) };
 }
 
 bool SpotLight::operator==(const SpotLight &other) const {

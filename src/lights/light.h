@@ -10,10 +10,7 @@ class Light {
  public:
   ~Light() = default;
 
-  virtual const std::vector<const Lightlet *> &LightletsForPoint(const Tuple &p) = 0;
-
- protected:
-  std::vector<const Lightlet *> lightlets_;
+  virtual const std::vector<const Lightlet *> *LightletsForPoint(const Tuple &p) = 0;
 };
 
 #endif    // RTC_LIGHTS_LIGHT_H

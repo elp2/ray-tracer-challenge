@@ -26,7 +26,7 @@ AreaLight::AreaLight(Tuple position, Color intensity, float radius, int arm_ligh
       for (float z = -radius; z <= radius; z += step) {
         Tuple pos = position_ - Vector(x, y, z);
         std::cout << "Area Lightlet: " << pos.DebugString() << std::endl;
-        lightlets_.push_back(new AreaLightlet(pos, intensity_));
+        lightlets_->push_back(new AreaLightlet(pos, intensity_));
       }
     }
   }
