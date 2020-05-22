@@ -38,7 +38,8 @@ target_include_directories(display PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
 add_library (lights
     src/lights/area_light.cc
-    src/lights/point_light.cc)
+    src/lights/point_light.cc
+    src/lights/spot_light.cc)
 target_link_libraries(lights primitives)
 target_include_directories(lights PUBLIC ${PROJECT_SOURCE_DIR}/src)
 

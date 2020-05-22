@@ -2,6 +2,7 @@
 #include "display/png_writer.h"
 #include "lights/area_light.h"
 #include "lights/point_light.h"
+#include "lights/spot_light.h"
 #include "patterns/blended_pattern.h"
 #include "patterns/gradient_pattern.h"
 #include "patterns/perturbed_pattern.h"
@@ -90,6 +91,7 @@ World get_world(Light *light) {
 void render_cube_worlds() {
   Tuple position =  Point(3, 5, 5);
   Color intensity = Color(1.0, 1.0, 1.0);
+
   std::cout << "Rendering point_light.png." << std::endl;
   auto canvas1 = get_camera1().Render(get_cube_world(new PointLight(position, intensity)));
   PNGWriter ppm_writer1 = PNGWriter(canvas1);
@@ -100,9 +102,9 @@ void render_cube_worlds() {
   PNGWriter ppm_writer2 = PNGWriter(canvas2);
   ppm_writer2.WriteFile("area_light.png");
 
-  // TODO: Spot Light.
   std::cout << "Rendering spot_light.png." << std::endl;
-  auto canvas3 = get_camera1().Render(get_cube_world(new AreaLight(position, intensity, 0.01, 3)));
+  auto canvas3 = get_camera1().Render(get_cube_world(
+      new SpotLight(position, intensity, DEFAULT_TOTAL_RADIANS, DEFAULT_CENTER_RADIANS)));
   PNGWriter ppm_writer3 = PNGWriter(canvas3);
   ppm_writer3.WriteFile("spot_light.png");
 }
@@ -119,7 +121,6 @@ void render_bugfix_world() {
   PNGWriter ppm_writer1 = PNGWriter(canvas1);
   ppm_writer1.WriteFile("point_light.png");
 
-  // TODO - thje
   std::cout << "Rendering area_light.png." << std::endl;
   auto canvas2 = get_camera2().Render(get_world(new AreaLight(position, intensity, 0.2, 2)));
   PNGWriter ppm_writer2 = PNGWriter(canvas2);
