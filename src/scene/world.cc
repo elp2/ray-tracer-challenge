@@ -1,5 +1,6 @@
 #include "scene/world.h"
 
+#include <iostream>
 #include <math.h>
 
 #include "lights/light.h"
@@ -33,7 +34,9 @@ Color World::ShadeHit(PreparedComputation pc, const int &reflections) {
     if (shadowing != 1.0) {
       shadowing = LightShadowed(pc.over_point(), lightlet->position()) ? 1.0 : shadowing;
     }
-    surface = surface + s->Lighting(lightlet, pc.over_point(), pc.eye_vector(), pc.normal_vector(), shadowing);
+    Color surface_contribution = s->Lighting(lightlet, pc.over_point(),
+        pc.eye_vector(), pc.normal_vector(), shadowing);
+    surface = surface + surface_contribution;
   }
   surface = surface * (1.0 / (float)lightlets.size());
 
@@ -82,21 +85,6 @@ World DefaultWorld() {
   auto light = new PointLight(Point(-10.0, 10.0, -10.0), Color(1.0, 1.0, 1.0));
   w.set_light(light);
   return w;
-}
-
-float World::Shadowing(Tuple p) {
-  float shadowing = 0.0;
-  auto lightlets = light_->LightletsForPoint(p);
-  for (auto lightlet : lightlets) {
-    float lightlet_shadowing = lightlet->ShadowingForPoint(p);
-    if (lightlet_shadowing == 1.0) {
-      // Fully shadowed - no need to also check intersections.
-      shadowing += lightlet_shadowing;
-      continue;
-    }
-    shadowing += LightShadowed(p, lightlet->position()) ? 1.0 : lightlet_shadowing;
-  }
-  return shadowing / (float)lightlets.size();
 }
 
 bool World::LightShadowed(const Tuple &p, const Tuple &light_position) {

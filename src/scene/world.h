@@ -21,8 +21,9 @@ class World {
 
   Intersections Intersect(const Ray r);
   Color ShadeHit(PreparedComputation pc, const int &reflections);
+  bool LightShadowed(const Tuple &p, const Tuple &light_position);
+
   Color ColorAt(Ray r);
-  float Shadowing(Tuple p);
   Color ReflectedColor(PreparedComputation &pc, const int &reflections);
   Color RefractedColor(PreparedComputation &pc, const int &refractions);
 
@@ -34,8 +35,6 @@ class World {
 
  private:
   Color ColorAt(Ray r, const int &reflections);
-
-  bool LightShadowed(const Tuple &p, const Tuple &light_position);
 
   std::vector<Shape *> objects_;
   Light *light_ = nullptr;

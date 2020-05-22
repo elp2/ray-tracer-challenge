@@ -114,28 +114,28 @@ TEST(WorldTest, NothingColiniarWithPointAndLight) {
   World w = DefaultWorld();
 
   Tuple p = Point(0.0, 10.0, 0.0);
-  ASSERT_FLOAT_EQ(w.Shadowing(p), 0.0);
+  ASSERT_FALSE(w.LightShadowed(p, w.light()->LightletsForPoint(p)[0]->position()));
 }
 
 TEST(WorldTest, ObjectBetweenPointAndLight) {
   World w = DefaultWorld();
 
   Tuple p = Point(10.0, -10.0, 10.0);
-  ASSERT_FLOAT_EQ(w.Shadowing(p), 1.0);
+  ASSERT_TRUE(w.LightShadowed(p, w.light()->LightletsForPoint(p)[0]->position()));
 }
 
 TEST(WorldTest, NoShadowBeforeObject) {
   World w = DefaultWorld();
 
   Tuple p = Point(-20.0, 20.0, -20.0);
-  ASSERT_FLOAT_EQ(w.Shadowing(p), 0.0);
+  ASSERT_FALSE(w.LightShadowed(p, w.light()->LightletsForPoint(p)[0]->position()));
 }
 
 TEST(WorldTest, NoShadowBehindLight) {
   World w = DefaultWorld();
 
   Tuple p = Point(-2.0, 2.0, -2.0);
-  ASSERT_FLOAT_EQ(w.Shadowing(p), 0.0);
+  ASSERT_FALSE(w.LightShadowed(p, w.light()->LightletsForPoint(p)[0]->position()));
 }
 
 TEST(WorldTest, ShadeHitOnShadowedLocation) {

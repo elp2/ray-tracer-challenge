@@ -59,7 +59,7 @@ void Tuple::Debug() const {
 std::string Tuple::DebugString() const {
   std::stringstream stream;
 
-  stream << "(" << this->x() << ", " << this->y() << ", " << this->z() << ", " << this->w() << ")" << std::endl;
+  stream << "(" << this->x() << ", " << this->y() << ", " << this->z() << ", " << this->w() << ")";
   return stream.str();
 }
 
