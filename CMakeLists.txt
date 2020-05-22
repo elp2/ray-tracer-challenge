@@ -4,8 +4,9 @@ project(ray-tracer-challenge)
 enable_testing()
 
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_FLAGS "-O3 -Wall -Wextra")
-set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall -Wextra")
+# set(CMAKE_CXX_FLAGS "-O3 -Wall -Wextra")
+# set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall -Wextra")
+set(CMAKE_CXX_FLAGS "-g -Wall -Wextra")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
