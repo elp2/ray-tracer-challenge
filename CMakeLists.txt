@@ -51,7 +51,8 @@ add_library (patterns
     src/patterns/ring_pattern.cc
     src/patterns/perturbed_pattern.cc
     src/patterns/striped_pattern.cc
-    src/patterns/three_d_pattern.cc)
+    src/patterns/three_d_pattern.cc
+    src/patterns/texture_pattern.cc)
 target_link_libraries(patterns primitives)
 target_include_directories(patterns PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
@@ -182,6 +183,10 @@ add_executable(new_lights WIN32
     src/exe/new_lights.cc)
 target_link_libraries(new_lights gui patterns primitives display shapes lights scene)
 
+add_executable(texture_mapping WIN32
+    src/exe/texture_mapping.cc)
+target_link_libraries(texture_mapping gui patterns primitives display shapes lights scene)
+
 # Below is from googletest README.md.
 # Download and unpack googletest at configure time.
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
@@ -223,6 +228,7 @@ add_executable(tests
     src/lights/point_light_test.cc
     src/patterns/pattern_test.cc
     src/patterns/striped_pattern_test.cc
+    src/patterns/texture_pattern_test.cc
     src/primitives/color_test.cc
     src/primitives/intersection_test.cc
     src/primitives/matrix_test.cc
