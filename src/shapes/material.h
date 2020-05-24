@@ -53,6 +53,10 @@ class Material {
   void set_pattern(Pattern *pattern) { pattern_ = pattern; };
   Pattern *pattern() const { return pattern_; };
 
+  // When not set, uses the color.
+  void set_uv_pattern(Pattern *uv_pattern) { uv_pattern_ = uv_pattern; };
+  Pattern *uv_pattern() const { return uv_pattern_; };
+
   // 1.0 = mirror, 0.0 = completely unreflective.
   void set_reflective(float reflective) { reflective_ = reflective; };
   float reflective() const { return reflective_; };
@@ -81,6 +85,9 @@ class Material {
   float transparency_;
   bool casts_shadow_ = true;
   Pattern *pattern_ = nullptr;
+  // Object points are UV Transformed before being applied through pattern.
+  Pattern *uv_pattern_ = nullptr;
+  Color PointColor(Tuple color_point, const Shape *shape) const;
 };
 
 #endif    // RTC_SHAPES_MATERIAL_H_

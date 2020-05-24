@@ -91,3 +91,8 @@ const Bounds Shape::ChildBounds(Shape *child) const {
 bool Shape::Includes(Shape *other) {
   return this == other;
 }
+
+const Tuple Shape::UVMappedPoint(const Tuple &object_point) const {
+  // Perform no transformation by default. Sub-classes should override.
+  return object_point;
+}

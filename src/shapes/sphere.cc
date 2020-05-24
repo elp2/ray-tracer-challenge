@@ -58,3 +58,9 @@ Sphere *GlassySphere() {
 const Bounds Sphere::UnitBounds() const {
   return Bounds(Point(-1, -1, -1), Point(1, 1, 1));
 }
+
+const Tuple Sphere::UVMappedPoint(const Tuple &object_point) const {
+  float u = atan2(object_point.x(), object_point.z()) / (2.0 * M_PI_2);
+  float v = asin(object_point.y()) / M_PI;
+  return Point(u, 0.0, v);
+}

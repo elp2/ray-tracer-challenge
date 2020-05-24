@@ -24,6 +24,9 @@ class Sphere : public Shape {
   const Tuple origin() const { return origin_; };
   const Bounds UnitBounds() const;
 
+ protected:
+  const Tuple UVMappedPoint(const Tuple &object_point) const override;
+
  private:
   Tuple origin_;
 };

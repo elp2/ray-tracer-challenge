@@ -3,6 +3,7 @@
 #include "shapes/material.h"
 #include "shapes/shape.h"
 
+#include <iostream>
 #include <math.h>
 
 Material::Material() {
@@ -25,7 +26,7 @@ bool Material::operator==(Material other) const {
 Color Material::Lighting(const Lightlet *lightlet, const Tuple &position,
     const Tuple &eye_vector, const Tuple &normal_vector, float shadowing, const Shape *shape) const {
   Tuple color_point = shape == nullptr ? position : shape->WorldPointToObject(position);
-  Color point_color = pattern_ == nullptr ? color_ : pattern_->ColorAt(color_point);
+  Color point_color = PointColor(color_point, shape);
   Color effective_color = point_color * lightlet->intensity();
   Color ambient_color = effective_color * ambient_;
   if (shadowing == 1.0) {
@@ -55,4 +56,15 @@ Color Material::Lighting(const Lightlet *lightlet, const Tuple &position,
   }
 
   return ambient_color + (diffuse_color + specular_color) * (1.0 - shadowing);
+}
+
+Color Material::PointColor(Tuple color_point, const Shape *shape) const {
+  if (pattern_ != nullptr) {
+    return pattern_->ColorAt(color_point);
+  } else if (uv_pattern_ != nullptr) {
+    Tuple uv_mapped = shape->UVMappedPoint(color_point);
+    Color color = uv_pattern_->ColorAt(uv_mapped);
+    return color;
+  }
+  return color_;
 }

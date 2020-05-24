@@ -46,9 +46,24 @@ World get_cube_world(Light *light) {
   World w = World();
   w.set_light(light);
 
-  auto *s = new Sphere();
-  s->SetTransform(Translation(0.5, 1, 0));
-  w.add_object(s);
+  float cs = 0.5;
+  auto *scbroken = new Sphere();
+  scbroken->SetTransform(Translation(0.5, 1, 2));
+  auto scbrokenp = new ThreeDPattern(Color(1, 0, 0), Color(0, 0, 0));
+  scbrokenp->set_transform(Scaling(cs, cs, cs));
+  auto scbrokenm = Material();
+  scbrokenm.set_pattern(scbrokenp);
+  scbroken->set_material(scbrokenm);
+  w.add_object(scbroken);
+
+  auto *sc = new Sphere();
+  sc->SetTransform(Translation(0.5, 1, 0));
+  auto scp = new ThreeDPattern(Color(1, 0, 0), Color(0, 0, 0));
+  scp->set_transform(Scaling(cs, cs, cs));
+  auto scm = Material();
+  scm.set_uv_pattern(scp);
+  sc->set_material(scm);
+  w.add_object(sc);
 
   auto *c = new Cube();
   Material cm = Material();
@@ -68,10 +83,10 @@ void render_worlds() {
   Tuple position =  Point(3, 5, 5);
   Color intensity = Color(1.0, 1.0, 1.0);
 
-  std::cout << "Rendering point_light.png." << std::endl;
+  std::cout << "Rendering texture_mapping.png." << std::endl;
   auto canvas1 = get_camera1().Render(get_cube_world(new PointLight(position, intensity)));
   PNGWriter ppm_writer1 = PNGWriter(canvas1);
-  ppm_writer1.WriteFile("point_light.png");
+  ppm_writer1.WriteFile("texture_mapping.png");
 }
 
 int main(int argc, char* argv[]) {

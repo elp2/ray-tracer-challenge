@@ -44,6 +44,8 @@ class Shape {
 
   void set_normal_noise(PerlinNoise *normal_noise) { normal_noise_ = normal_noise; };
 
+  virtual const Tuple UVMappedPoint(const Tuple &object_point) const;
+
  protected:
   virtual const Intersections ObjectIntersect(const Ray object_ray) const = 0;
   virtual const Tuple ObjectNormal(const Tuple &p, const Intersection &i) const = 0;
