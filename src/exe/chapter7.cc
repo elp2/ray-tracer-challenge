@@ -1,5 +1,5 @@
 #include "display/canvas.h"
-#include "display/ppm_writer.h"
+#include "images/ppm_writer.h"
 #include "lights/point_light.h"
 #include "primitives/math.h"
 #include "primitives/matrix.h"

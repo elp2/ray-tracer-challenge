@@ -29,12 +29,16 @@ add_library (primitives
     src/primitives/tuple.cc)
 target_include_directories(primitives PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
+add_library (images
+    src/images/crc.cc
+    src/images/png_writer.cc
+    src/images/ppm_writer.cc)
+target_link_libraries(images z)
+target_include_directories(images PUBLIC ${PROJECT_SOURCE_DIR}/src)
+
 add_library (display
-    src/display/crc.cc
-    src/display/canvas.cc
-    src/display/png_writer.cc
-    src/display/ppm_writer.cc)
-target_link_libraries(display z)
+    src/display/canvas.cc)
+target_link_libraries(display images)
 target_include_directories(display PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
 add_library (lights
@@ -223,8 +227,8 @@ endif()
 # Tests
 add_executable(tests
     src/display/canvas_test.cc
-    src/display/crc_test.cc
-    src/display/ppm_writer_test.cc
+    src/images/crc_test.cc
+    src/images/ppm_writer_test.cc
     src/lights/point_light_test.cc
     src/patterns/pattern_test.cc
     src/patterns/striped_pattern_test.cc
@@ -256,6 +260,7 @@ target_include_directories(tests PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_link_libraries(tests gtest_main)
 target_link_libraries(tests gmock)
 target_link_libraries(tests display)
+target_link_libraries(tests images)
 target_link_libraries(tests lights)
 target_link_libraries(tests primitives)
 target_link_libraries(tests scene)

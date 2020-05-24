@@ -1,5 +1,5 @@
 #include "display/canvas.h"
-#include "display/png_writer.h"
+#include "images/png_writer.h"
 #include "lights/point_light.h"
 #include "patterns/blended_pattern.h"
 #include "patterns/gradient_pattern.h"

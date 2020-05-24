@@ -9,7 +9,7 @@
 #include "gui/objects_window.h"
 #include "gui/preview_window.h"
 
-#include "display/png_writer.h"
+#include "images/png_writer.h"
 #include "scene/camera.h"
 #include "scene/world.h"
 

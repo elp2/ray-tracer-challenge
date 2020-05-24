@@ -1,4 +1,4 @@
-#include "display/ppm_writer.h"
+#include "images/ppm_writer.h"
 
 #include <math.h>
 

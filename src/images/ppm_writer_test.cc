@@ -1,7 +1,7 @@
 #include "gtest/gtest.h"
 
 #include "display/canvas.h"
-#include "display/ppm_writer.h"
+#include "images/ppm_writer.h"
 
 #include <ostream>
 #include <string>

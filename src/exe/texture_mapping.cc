@@ -1,5 +1,5 @@
 #include "display/canvas.h"
-#include "display/png_writer.h"
+#include "images/png_writer.h"
 #include "lights/area_light.h"
 #include "lights/point_light.h"
 #include "lights/spot_light.h"

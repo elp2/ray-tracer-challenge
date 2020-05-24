@@ -2,7 +2,7 @@
 #include "display/canvas.h"
 #include "primitives/matrix.h"
 #include "primitives/transformation.h"
-#include "display/ppm_writer.h"
+#include "images/ppm_writer.h"
 
 #include <cmath>
 #include <iostream>
