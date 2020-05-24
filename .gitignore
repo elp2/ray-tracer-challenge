@@ -31,6 +31,10 @@
 *.out
 *.app
 
+# Images
+*.png
+
 # Cmake Directories to ignore.
 build/*
 wsl/*
+.vscode/*

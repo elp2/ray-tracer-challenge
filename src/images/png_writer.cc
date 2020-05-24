@@ -8,10 +8,9 @@
 #include <math.h>
 
 #include "images/crc.h"
+#include "images/png.h"
 #include "primitives/color.h"
 #include "zlib.h"
-
-static const uint8_t SIGNATURE[8] = { 137, 80, 78, 71, 13, 10, 26, 10 };
 
 PNGWriter::PNGWriter(Canvas *canvas) {
   canvas_ = canvas;
@@ -32,7 +31,7 @@ void PNGWriter::WriteStream(std::ostream &stream) const {
 }
 
 void PNGWriter::WriteSignature(std::ostream &stream) const {
-  stream.write((char *)SIGNATURE, 8);
+  stream.write((char *)PNG_SIGNATURE, 8);
 }
 
 void PNGWriter::WriteHeader(std::ostream &stream) const {
