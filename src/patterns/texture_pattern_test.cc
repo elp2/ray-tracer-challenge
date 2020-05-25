@@ -34,13 +34,13 @@ class TexturePatternTest : public ::testing::Test {
 };
 
 TEST_F(TexturePatternTest, CenterIsWhite) {
-  auto tp = TexturePattern(3, 3, texture_);
+  auto tp = TexturePattern(3, 3, texture_, true);
 
   ASSERT_EQ(tp.ColorAt(Point(0.5, 0, 0.5)), Color(1, 1, 1));
 }
 
 TEST_F(TexturePatternTest, YAxisIgnored) {
-  auto tp = TexturePattern(3, 3, texture_);
+  auto tp = TexturePattern(3, 3, texture_, true);
 
   for (float x = 0; x <= 1.0; x += 0.1) {
     for (float y = 0; y <= 1.0; y += 0.1) {
@@ -52,19 +52,25 @@ TEST_F(TexturePatternTest, YAxisIgnored) {
 }
 
 TEST_F(TexturePatternTest, ExtendsBeyond01) {
-  auto tp = TexturePattern(3, 3, texture_);
+  auto tp = TexturePattern(3, 3, texture_, true);
 
   ASSERT_EQ(tp.ColorAt(Point(1.5, 0, 1.5)), Color(1, 1, 1));
 }
 
 TEST_F(TexturePatternTest, InterpolationAcrossEdge) {
-  auto tp = TexturePattern(3, 3, texture_);
+  auto tp = TexturePattern(3, 3, texture_, true);
 
-  ASSERT_EQ(tp.ColorAt(Point(0, 0, 0)), Color(0.5, 0.5, 0.5));
+  ASSERT_EQ(tp.ColorAt(Point(0, 0, 0)), Color(1, 1, 1));
 }
 
 TEST_F(TexturePatternTest, Interpolation) {
-  auto tp = TexturePattern(3, 3, texture_);
+  auto tp = TexturePattern(3, 3, texture_, true);
 
   ASSERT_EQ(tp.ColorAt(Point(1.0/3.0, 0, 1.0/3.0)), Color(0.5, 0.5, 0.5));
+}
+
+TEST_F(TexturePatternTest, InterpolationHalfwayToEdge) {
+  auto tp = TexturePattern(3, 3, texture_, true);
+
+  ASSERT_EQ(tp.ColorAt(Point(5.0/12.0, 0, 6.0/12.0)), Color(0.75, 0.75, 0.75));
 }

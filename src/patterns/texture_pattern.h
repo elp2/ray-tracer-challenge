@@ -10,7 +10,7 @@ class Tuple;
 
 class TexturePattern : public Pattern {
  public:
-  TexturePattern(int w, int h, std::vector<Color> *texture);
+  TexturePattern(int w, int h, std::vector<Color> *texture, bool interpolate);
   ~TexturePattern() = default;
 
  protected:
@@ -19,6 +19,7 @@ class TexturePattern : public Pattern {
  private:
   int w_;
   int h_;
+  bool interpolate_;
   std::vector<Color> *texture_;
 
   const Color InterpolatedColor(float x, float y) const;

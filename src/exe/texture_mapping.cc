@@ -1,4 +1,6 @@
 #include "display/canvas.h"
+#include "images/png_file.h"
+#include "images/png_reader.h"
 #include "images/png_writer.h"
 #include "lights/area_light.h"
 #include "lights/point_light.h"
@@ -8,6 +10,7 @@
 #include "patterns/perturbed_pattern.h"
 #include "patterns/ring_pattern.h"
 #include "patterns/striped_pattern.h"
+#include "patterns/texture_pattern.h"
 #include "patterns/three_d_pattern.h"
 #include "primitives/math.h"
 #include "primitives/matrix.h"
@@ -58,7 +61,10 @@ World get_cube_world(Light *light) {
 
   auto *sc = new Sphere();
   sc->SetTransform(Translation(0.5, 1, 0));
-  auto scp = new ThreeDPattern(Color(1, 0, 0), Color(0, 0, 0));
+
+  PNGReader reader = PNGReader();
+  auto scp_png = reader.ReadFile("2x2.png");
+  auto scp = new TexturePattern(scp_png->width(), scp_png->height(), scp_png->pixels(), false);
   scp->set_transform(Scaling(cs, cs, cs));
   auto scm = Material();
   scm.set_uv_pattern(scp);
@@ -74,6 +80,12 @@ World get_cube_world(Light *light) {
   w.add_object(c);
 
   auto *plane = new Plane();
+  PNGReader plane_reader = PNGReader();
+  auto plane_png = reader.ReadFile("2x2.png");
+  auto plane_texture = new TexturePattern(plane_png->width(), plane_png->height(), plane_png->pixels(), false);
+  auto scplane = Material();
+  scplane.set_pattern(plane_texture);
+  plane->set_material(scplane);
   w.add_object(plane);
 
   return w;
