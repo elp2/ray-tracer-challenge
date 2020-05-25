@@ -23,6 +23,9 @@ class Color : public Tuple {
 // Returns a 0.0-1.0 ranged color as 0-255 byte.
 uint8_t ColorByte(float color_component);
 
+// Transforms a 0-255 byte into 0.0-1.0 ranged color.
+float ColorFloat(uint8_t color);
+
 // Hadmard Product.
 Color operator*(const Color c, const Color o);
 Color operator*(const Color c, const float factor);

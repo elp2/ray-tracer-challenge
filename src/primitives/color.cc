@@ -66,11 +66,14 @@ Color TealColor() {
    return Color(0, 0.502, 0.502);
 }
 
-
 uint8_t ColorByte(float color_component) {
   if (color_component >= 1.0) {
     return 255;
   } else {
     return color_component * 256.0;
   }
+}
+
+float ColorFloat(uint8_t color) {
+  return (float)color / 255.0;
 }

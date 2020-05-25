@@ -5,18 +5,14 @@
 #include <fstream>
 #include <string>
 
+class PNGFile;
+
 struct PNGChunk {
   int length;
   std::string chunk_type;
   uint8_t *data;
-  uint32_t crc;
 };
 
-struct PNGFile {
-  int w;
-  int h;
-  void *rgb_array;
-};
 
 class PNGReader {
  public:
@@ -24,9 +20,9 @@ class PNGReader {
   ~PNGReader() = default;
 
   // Reads contents of *filename*.
-  PNGFile ReadFile(std::string filename) const;
+  PNGFile *ReadFile(std::string filename) const;
   // Reads into an arbitrary stream. Mostly used for testing.
-  PNGFile ReadStream(std::istream &stream) const;
+  PNGFile *ReadStream(std::istream &stream) const;
 
  private:
   void ReadSignature(std::istream &stream) const;

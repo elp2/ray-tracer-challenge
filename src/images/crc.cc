@@ -1,6 +1,7 @@
 #include "images/crc.h"
 
 #include <bitset>
+#include <cstring>
 #include <iostream>
 
 const uint32_t POLYNOMIAL = 0x04C11DB7;
@@ -49,4 +50,16 @@ uint32_t calculate_crc(const void *data, int length) {
 
   crc = reflect(crc, 32);
   return crc ^ CRC_XOR;
+}
+
+uint32_t calculate_png_crc(const std::string &type, const void *data, const int length) {
+  int combined_length = type.size() + length;
+  char *type_data = new char[combined_length];
+  strcpy(type_data, type.c_str());
+  memcpy(type_data + 4, data, length);
+
+  uint32_t crc = calculate_crc(type_data, combined_length);
+  free(type_data);
+
+  return crc;
 }

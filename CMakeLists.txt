@@ -31,6 +31,7 @@ target_include_directories(primitives PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
 add_library (images
     src/images/crc.cc
+    src/images/png_file.cc
     src/images/png_reader.cc
     src/images/png_writer.cc
     src/images/ppm_writer.cc)
@@ -229,6 +230,7 @@ endif()
 add_executable(tests
     src/display/canvas_test.cc
     src/images/crc_test.cc
+    src/images/png_file_test.cc
     src/images/png_reader_test.cc
     src/images/ppm_writer_test.cc
     src/lights/point_light_test.cc

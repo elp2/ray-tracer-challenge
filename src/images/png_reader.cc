@@ -1,6 +1,8 @@
 #include "images/png_reader.h"
 
+#include "images/crc.h"
 #include "images/png.h"
+#include "images/png_file.h"
 
 #include <arpa/inet.h>
 #include <cassert>
@@ -12,22 +14,24 @@ PNGReader::PNGReader() {
 
 }
 
-PNGFile PNGReader::ReadFile(std::string filename) const {
+PNGFile *PNGReader::ReadFile(std::string filename) const {
   std::ifstream instream(filename, std::ios::in | std::ios::binary);
-  PNGFile png = ReadStream(instream);
+  PNGFile *png = ReadStream(instream);
   instream.close();
   return png;
 }
 
-PNGFile PNGReader::ReadStream(std::istream &stream) const {
-  PNGFile png;
+PNGFile *PNGReader::ReadStream(std::istream &stream) const {
+  PNGFile *png = new PNGFile();
   ReadSignature(stream);
   while (stream) {
     PNGChunk chunk = GetChunk(stream);
     if (chunk.chunk_type == "IHDR") {
-      HandleIHDR(chunk, &png);
+      HandleIHDR(chunk, png);
     } else if (chunk.chunk_type == "IDAT") {
-      HandleIDAT(chunk, &png);
+      HandleIDAT(chunk, png);
+    } else if (chunk.chunk_type == "IEND") {
+      break;
     } else {
       std::cout << "Unknown chunk type: " << chunk.chunk_type << std::endl;
     }
@@ -48,7 +52,9 @@ const PNGChunk PNGReader::GetChunk(std::istream &stream) const {
   PNGChunk chunk;
   uint32_t len;
   stream.read((char *)&len, 4);
-  chunk.length = htonl(len);
+  len = htonl(len);
+  chunk.length = len;
+
 
   char chunk_type[5] = {0, 0, 0, 0, 0};
   stream.read(chunk_type, 4);
@@ -60,8 +66,10 @@ const PNGChunk PNGReader::GetChunk(std::istream &stream) const {
 
   uint32_t crc;
   stream.read((char *)&crc, 4);
-  chunk.crc = htonl(crc);
-  // TODO: Validate CRC on data.
+  crc = htonl(crc);
+
+  uint32_t calculated_crc = calculate_png_crc(chunk.chunk_type, chunk.data, chunk.length);
+  assert(crc == calculated_crc);
   return chunk;
 }
 
@@ -69,10 +77,10 @@ void PNGReader::HandleIHDR(PNGChunk &chunk, PNGFile *png) const {
   assert(chunk.length == 13);
   uint32_t w;
   memcpy(&w, chunk.data, sizeof(w));
-  png->w = htonl(w);
+  png->set_width(htonl(w));
   uint32_t h;
   memcpy(&h, chunk.data + 4, sizeof(h));
-  png->h = htonl(h);
+  png->set_height(htonl(h));
 
   // Confirm it doesn't have any unsupported features.
   assert(chunk.data[8] == 8); // 8 Bit Color Depth.
@@ -83,9 +91,5 @@ void PNGReader::HandleIHDR(PNGChunk &chunk, PNGFile *png) const {
 }
 
 void PNGReader::HandleIDAT(PNGChunk &chunk, PNGFile *png) const {
-  // TODO: Support multiple IDAT sections.
-  assert(png->rgb_array == nullptr);
-
-  // TODO: Unpack the data.
-  // Turn data into Colors.
+  png->HandleIDATData(chunk.data, chunk.length);
 }
