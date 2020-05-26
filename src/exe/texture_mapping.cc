@@ -63,7 +63,7 @@ World get_cube_world(Light *light) {
   sc->SetTransform(Translation(0.5, 1, 0));
 
   PNGReader reader = PNGReader();
-  auto scp_png = reader.ReadFile("2x2.png");
+  auto scp_png = reader.ReadFile("earth.png");
   auto scp = new TexturePattern(scp_png->width(), scp_png->height(), scp_png->pixels(), false);
   scp->set_transform(Scaling(cs, cs, cs));
   auto scm = Material();
@@ -75,13 +75,13 @@ World get_cube_world(Light *light) {
   Material cm = Material();
   cm.set_color(Color(0.3, 0.3, 0.3));
   cm.set_reflective(1.0);
-  c->SetTransform(Translation(-2.5, 2, -0.5));
+  c->SetTransform(Translation(-2.5, 2, -0.5) * Scaling(2, 2, 2));
   c->set_material(cm);
   w.add_object(c);
 
   auto *plane = new Plane();
   PNGReader plane_reader = PNGReader();
-  auto plane_png = reader.ReadFile("2x2.png");
+  auto plane_png = reader.ReadFile("earth.png");
   auto plane_texture = new TexturePattern(plane_png->width(), plane_png->height(), plane_png->pixels(), false);
   auto scplane = Material();
   scplane.set_pattern(plane_texture);
@@ -101,10 +101,22 @@ void render_worlds() {
   ppm_writer1.WriteFile("texture_mapping.png");
 }
 
+void test_png() {
+  Canvas *c = new Canvas(5, 5);
+  for (int y = 0; y < 5; ++y) {
+    for (int x = 0; x < 5; ++x) {
+      c->WritePixel(Color(0, 0, 1), x, y);
+    }
+  }
+  PNGWriter *writer = new PNGWriter(c);
+  writer->WriteFile("elpblue.png");
+}
+
 int main(int argc, char* argv[]) {
   (void)argc;
   (void)argv;
 
+  // test_png();
   render_worlds();
 
   return 0;

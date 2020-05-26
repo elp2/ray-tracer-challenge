@@ -27,7 +27,7 @@ class PNGReader {
  private:
   void ReadSignature(std::istream &stream) const;
   const PNGChunk GetChunk(std::istream &stream) const;
-  void HandleIHDR(PNGChunk &chunk, PNGFile *png) const;
+  PNGFile *HandleIHDR(PNGChunk &chunk) const;
   void HandleIDAT(PNGChunk &chunk, PNGFile *png) const;
 };
 

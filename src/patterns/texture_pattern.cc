@@ -1,6 +1,7 @@
 #include "patterns/texture_pattern.h"
 
 #include <cassert>
+#include <iostream>
 #include <math.h>
 
 TexturePattern::TexturePattern(int w, int h, std::vector<Color> *texture, bool interpolate) {

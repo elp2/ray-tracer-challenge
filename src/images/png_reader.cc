@@ -22,18 +22,23 @@ PNGFile *PNGReader::ReadFile(std::string filename) const {
 }
 
 PNGFile *PNGReader::ReadStream(std::istream &stream) const {
-  PNGFile *png = new PNGFile();
+  PNGFile *png;
   ReadSignature(stream);
   while (stream) {
     PNGChunk chunk = GetChunk(stream);
     if (chunk.chunk_type == "IHDR") {
-      HandleIHDR(chunk, png);
+      png = HandleIHDR(chunk);
     } else if (chunk.chunk_type == "IDAT") {
       HandleIDAT(chunk, png);
+    } else if (chunk.chunk_type == "pHYs") {
+      // Ignore - Phyiscal Pixel dimensions.
+    } else if (chunk.chunk_type == "tIME") {
+      // Ignore - Image last-modification time.
     } else if (chunk.chunk_type == "IEND") {
       break;
     } else {
       std::cout << "Unknown chunk type: " << chunk.chunk_type << std::endl;
+      assert(false);
     }
   }
 
@@ -73,23 +78,25 @@ const PNGChunk PNGReader::GetChunk(std::istream &stream) const {
   return chunk;
 }
 
-void PNGReader::HandleIHDR(PNGChunk &chunk, PNGFile *png) const {
+PNGFile *PNGReader::HandleIHDR(PNGChunk &chunk) const {
   assert(chunk.length == 13);
   uint32_t w;
   memcpy(&w, chunk.data, sizeof(w));
-  png->set_width(htonl(w));
+  w = htonl(w);
   uint32_t h;
   memcpy(&h, chunk.data + 4, sizeof(h));
-  png->set_height(htonl(h));
-
+  h = htonl(h);
   // Confirm it doesn't have any unsupported features.
   assert(chunk.data[8] == 8); // 8 Bit Color Depth.
   assert(chunk.data[9] == 2); // Colors are RGB Triples (no palette).
   assert(chunk.data[10] == 0); // Default compression.
   assert(chunk.data[10] == 0); // No filter.
   assert(chunk.data[10] == 0); // No interlacing.
+  PNGFile *png = new PNGFile(w, h);
+  return png;
 }
 
 void PNGReader::HandleIDAT(PNGChunk &chunk, PNGFile *png) const {
+  assert(png != nullptr);
   png->HandleIDATData(chunk.data, chunk.length);
 }

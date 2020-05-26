@@ -10,11 +10,9 @@
 
 class PNGFile {
  public:
-  PNGFile();
+  PNGFile(int width, int height);
   ~PNGFile() = default;
-  void set_width(int width) { width_ = width; };
   int width() const { return width_; };
-  void set_height(int height) { height_ = height; };
   int height() const { return height_; };
 
   void HandleIDATData(uint8_t *data, int len);
@@ -26,11 +24,15 @@ class PNGFile {
   void ParsePixels(uint8_t *data, int len);
 
  private:
+  uint8_t Recon(int row_pos, int filter, uint8_t data) const;
+
   int width_;
   int height_;
 
   // Stored by row.
   std::vector<Color> *pixels_;
+  uint8_t *current_row_;
+  uint8_t *previous_row_;
   // Which pixel step is being written.
   // Is either the filter type, or rgb triplets (row = 1 + 3 * w steps).
   int pixel_step_ = 0;

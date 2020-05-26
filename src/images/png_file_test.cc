@@ -13,7 +13,66 @@ class PNGFileTest : public ::testing::Test {
   ~PNGFileTest() {};
 };
 
-TEST(PNGFileTest, ConsolidatesMultipleIDATs) {
+TEST(PNGFileTest, FilterType1Simple) {
+  // SUB: Add a delta onto the previous pixel.
+  uint8_t data[] = {1, 255, 255, 255, 0, 0, 0};
+  std::vector<Color> expected = std::vector<Color> {
+    Color(1, 1, 1), Color(1, 1, 1)
+  };
+
+  PNGFile *png = new PNGFile(2, 1);
+  png->ParsePixels(data, 7);
+
+  std::vector<Color> *pixels = png->pixels();
+  ASSERT_EQ(expected.size(), pixels->size());
+  for (int i = 0; i < pixels->size(); ++i) {
+    EXPECT_EQ((*pixels)[i], expected[i]) << "Failure at " << i;
+  }
+}
+
+TEST(PNGFileTest, FilterType1Add) {
+  // SUB: Add a delta from the previous pixel.
+  uint8_t data[] = {1, 0, 0, 0, 100, 100, 100, 100, 100, 100, 100, 100, 100 };
+  float a = 0.0;
+  float b = 100.0 / 255.0;
+  float c = 200.0 / 255.0;
+  float d = (300 % 256) / 255.0;
+  std::vector<Color> expected = std::vector<Color> {
+    Color(a, a, a), Color(b, b, b), Color(c, c, c), Color(d, d, d),
+  };
+
+  PNGFile *png = new PNGFile(4, 1);
+  png->ParsePixels(data, 13);
+
+  std::vector<Color> *pixels = png->pixels();
+  ASSERT_EQ(expected.size(), pixels->size());
+  for (int i = 0; i < pixels->size(); ++i) {
+    EXPECT_EQ((*pixels)[i], expected[i]) << "Failure at " << i;
+  }
+}
+
+TEST(PNGFileTest, FilterType2Simple) {
+  // SUB: Add a delta from the pixel in the previous row.
+  uint8_t data[] = {
+    0, 255, 255, 255, 255, 255, 255,
+    2, 0, 0, 0, 0, 0, 0,
+  };
+  std::vector<Color> expected = std::vector<Color> {
+    Color(1, 1, 1), Color(1, 1, 1),
+    Color(1, 1, 1), Color(1, 1, 1),
+  };
+
+  PNGFile *png = new PNGFile(2, 2);
+  png->ParsePixels(data, 14);
+
+  std::vector<Color> *pixels = png->pixels();
+  ASSERT_EQ(expected.size(), pixels->size());
+  for (int i = 0; i < pixels->size(); ++i) {
+    EXPECT_EQ((*pixels)[i], expected[i]) << "Failure at " << i;
+  }
+}
+
+TEST(PNGFileTest, FilterType0) {
   uint8_t data[] = {0, 255, 255, 255, 0, 0, 0, 255, 255, 255,
                    0, 0, 0, 0, 255, 255, 255, 0, 0, 0,
                    0, 255, 255, 255, 0, 0, 0, 255, 255, 255};
@@ -23,24 +82,12 @@ TEST(PNGFileTest, ConsolidatesMultipleIDATs) {
     Color(1, 1, 1), Color(0, 0, 0), Color(1, 1, 1),
   };
 
-  for (int a = -3; a <= 3; ++a) {
-    for (int b = -3; b <= 3; ++b) {
-      PNGFile *png = new PNGFile();
-      png->set_height(3);
-      png->set_width(3);
+  PNGFile *png = new PNGFile(3, 3);
+  png->ParsePixels(data, 30);
 
-      int segment1 = 10 + a;
-      // Call ParsePixels directly so we don't have to bother compressing.
-      png->ParsePixels(data, segment1);
-      int segment2 = (20 + b) - (segment1);
-      png->ParsePixels(data + segment1, segment2);
-      int segment3 = 30 - segment2 - segment1;
-      png->ParsePixels(data + segment1 + segment2, segment3);
-
-      std::vector<Color> *pixels = png->pixels();
-      ASSERT_EQ(expected.size(), pixels->size());
-    }
+  std::vector<Color> *pixels = png->pixels();
+  ASSERT_EQ(expected.size(), pixels->size());
+  for (int i = 0; i < pixels->size(); ++i) {
+    EXPECT_EQ((*pixels)[i], expected[i]) << "Failure at " << i;
   }
-
-
 }

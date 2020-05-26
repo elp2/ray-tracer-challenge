@@ -28,3 +28,14 @@ TEST(PNGReaderTest, ReadsSingleIDAT) {
   ASSERT_EQ(pixels->size(), 1);
   ASSERT_EQ(Color(1, 0, 0), (*pixels)[0]);
 }
+
+TEST(PNGReaderTest, ReadsBlue5x5) {
+  PNGReader reader = PNGReader();
+  // 5 x 5 blue PNG.
+  PNGFile *png = reader.ReadFile("blue.png");
+  std::vector<Color> *pixels = png->pixels();
+  ASSERT_EQ(pixels->size(), 25);
+  for (int i = 0; i < 25; ++i) {
+    ASSERT_EQ(Color(0, 0, 1), (*pixels)[i]) << "Failed at: " << i;
+  }
+}
