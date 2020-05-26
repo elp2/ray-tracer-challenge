@@ -25,7 +25,7 @@ TEST(PNGFileTest, FilterType1Simple) {
 
   std::vector<Color> *pixels = png->pixels();
   ASSERT_EQ(expected.size(), pixels->size());
-  for (int i = 0; i < pixels->size(); ++i) {
+  for (std::vector<Color>::size_type i = 0; i < pixels->size(); ++i) {
     EXPECT_EQ((*pixels)[i], expected[i]) << "Failure at " << i;
   }
 }
@@ -46,7 +46,7 @@ TEST(PNGFileTest, FilterType1Add) {
 
   std::vector<Color> *pixels = png->pixels();
   ASSERT_EQ(expected.size(), pixels->size());
-  for (int i = 0; i < pixels->size(); ++i) {
+  for (std::vector<Color>::size_type i = 0; i < pixels->size(); ++i) {
     EXPECT_EQ((*pixels)[i], expected[i]) << "Failure at " << i;
   }
 }
@@ -67,7 +67,7 @@ TEST(PNGFileTest, FilterType2Simple) {
 
   std::vector<Color> *pixels = png->pixels();
   ASSERT_EQ(expected.size(), pixels->size());
-  for (int i = 0; i < pixels->size(); ++i) {
+  for (std::vector<Color>::size_type i = 0; i < pixels->size(); ++i) {
     EXPECT_EQ((*pixels)[i], expected[i]) << "Failure at " << i;
   }
 }
@@ -87,7 +87,7 @@ TEST(PNGFileTest, FilterType0) {
 
   std::vector<Color> *pixels = png->pixels();
   ASSERT_EQ(expected.size(), pixels->size());
-  for (int i = 0; i < pixels->size(); ++i) {
+  for (std::vector<Color>::size_type i = 0; i < pixels->size(); ++i) {
     EXPECT_EQ((*pixels)[i], expected[i]) << "Failure at " << i;
   }
 }
