@@ -63,7 +63,7 @@ World get_cube_world(Light *light) {
   sc->SetTransform(Translation(0.5, 1, 0));
 
   PNGReader reader = PNGReader();
-  auto scp_png = reader.ReadFile("earth.png");
+  auto scp_png = reader.ReadFile("earth_medium.png");
   auto scp = new TexturePattern(scp_png->width(), scp_png->height(), scp_png->pixels(), false);
   scp->set_transform(Scaling(cs, cs, cs));
   auto scm = Material();
@@ -81,8 +81,9 @@ World get_cube_world(Light *light) {
 
   auto *plane = new Plane();
   PNGReader plane_reader = PNGReader();
-  auto plane_png = reader.ReadFile("earth.png");
+  auto plane_png = reader.ReadFile("earth_medium.png");
   auto plane_texture = new TexturePattern(plane_png->width(), plane_png->height(), plane_png->pixels(), false);
+  plane_texture->set_transform(Scaling(3, 3, 3));
   auto scplane = Material();
   scplane.set_pattern(plane_texture);
   plane->set_material(scplane);
@@ -110,6 +111,19 @@ void test_png() {
   }
   PNGWriter *writer = new PNGWriter(c);
   writer->WriteFile("elpblue.png");
+
+  PNGReader earth_reader = PNGReader();
+  auto earth_png = earth_reader.ReadFile("earth_medium.png");
+  Canvas *earth_canvas = new Canvas(500, 500);
+
+  std::vector<Color> *pixels = earth_png->pixels();
+  for (int y = 0; y < 500; ++y) {
+    for (int x = 0; x < 500; ++x) {
+      earth_canvas->WritePixel((*pixels)[x + y * 500], x, y);
+    }
+  }
+  PNGWriter *earth_writer = new PNGWriter(earth_canvas);
+  earth_writer->WriteFile("elp_earth.png");
 }
 
 int main(int argc, char* argv[]) {

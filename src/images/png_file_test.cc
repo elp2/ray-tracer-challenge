@@ -91,3 +91,22 @@ TEST(PNGFileTest, FilterType0) {
     EXPECT_EQ((*pixels)[i], expected[i]) << "Failure at " << i;
   }
 }
+
+TEST(PNGFileTest, AverageFilter) {
+  EXPECT_EQ(AverageFilter(0, 0), 0);
+  EXPECT_EQ(AverageFilter(0, 2), 1);
+  EXPECT_EQ(AverageFilter(0, 3), 1);
+  EXPECT_EQ(AverageFilter(200, 200), 200);
+  EXPECT_EQ(AverageFilter(200, 201), 200);
+  EXPECT_EQ(AverageFilter(100, 101), 100);
+  EXPECT_EQ(AverageFilter(50, 100), 75);
+}
+
+
+TEST(PNGFileTest, PaethPredictor) {
+  EXPECT_EQ(PaethPredictor(3, 1, 1), 3);
+  EXPECT_EQ(PaethPredictor(3, 1, 3), 1);
+  EXPECT_EQ(PaethPredictor(2, 2, 2), 2);
+  EXPECT_EQ(PaethPredictor(235, 210, 182), 235);
+  EXPECT_EQ(PaethPredictor(47, 67, 192), 47);
+}

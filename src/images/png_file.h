@@ -18,7 +18,7 @@ class PNGFile {
   void HandleIDATData(uint8_t *data, int len);
 
   // Returns the underlying pixels. Error if not filled in.
-  std::vector<Color> *pixels() const { return pixels_; };
+  std::vector<Color> *pixels();
 
   // Exposed for testing.
   void ParsePixels(uint8_t *data, int len);
@@ -37,6 +37,13 @@ class PNGFile {
   // Is either the filter type, or rgb triplets (row = 1 + 3 * w steps).
   int pixel_step_ = 0;
   float partial_r_, partial_g_;
+
+  // We must concatenate all IDAT chunks and compress at end.
+  uint8_t *idat_ = nullptr;
+  int idat_len_ = 0;
 };
+
+uint8_t AverageFilter(uint8_t a, uint8_t b);
+uint8_t PaethPredictor(uint8_t a, uint8_t b, uint8_t c);
 
 #endif    // RTC_DISPLAY_PNG_FILE_H

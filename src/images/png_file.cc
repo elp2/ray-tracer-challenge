@@ -1,6 +1,7 @@
 #include "images/png_file.h"
 
 #include <cassert>
+#include <cstring>
 #include <iostream>
 #include "math.h"
 #include "zlib.h"
@@ -17,18 +18,13 @@ PNGFile::PNGFile(int width, int height) {
   // Keep track of this row and the one above for filtering.
   previous_row_ = new uint8_t[3 * width];
   current_row_ = new uint8_t[3 * width];
+
+  idat_ = new uint8_t[CHUNK_DATA_SIZE];
 }
 
 void PNGFile::HandleIDATData(uint8_t *data, int len) {
-  uint8_t *uncompressed = new uint8_t[CHUNK_DATA_SIZE];
-  uLongf data_size = CHUNK_DATA_SIZE;
-  int success = uncompress(uncompressed, &data_size, data, len);
-  if (success != Z_OK) {
-    std::cout << "uncompress error " << success << std::endl;
-    assert(Z_OK == success);
-  }
-
-  ParsePixels(uncompressed, data_size);
+  memcpy(idat_ + idat_len_, data, len);
+  idat_len_ += len;
 }
 
 void PNGFile::ParsePixels(uint8_t *data, int len) {
@@ -58,10 +54,11 @@ void PNGFile::ParsePixels(uint8_t *data, int len) {
 }
 
 uint8_t PaethPredictor(uint8_t a, uint8_t b, uint8_t c) {
-  uint8_t p = a + b - c;
-  uint8_t pa = abs(int(p) - int(a));
-  uint8_t pb = abs(int(p) - int(b));
-  uint8_t pc = abs(int(p) - int(c));
+  int p = a + b - c;
+  int pa = abs(p - int(a));
+  int pb = abs(p - int(b));
+  int pc = abs(p - int(c));
+
   if (pa <= pb && pa <= pc) {
     return a;
   } else if (pb <= pc) {
@@ -91,9 +88,30 @@ uint8_t PNGFile::Recon(int row_pos, int filter, uint8_t x) const {
     return x + AverageFilter(a, b);
   } else if (filter == 4) {
     uint8_t c = row_pos >= 3 ? previous_row_[row_pos - 3] : 0;
-    return x + PaethPredictor(a, b, c);
+    uint8_t ret = x + PaethPredictor(a, b, c);
+    return ret;
   } else {
     std::cout << "Unknown filter type: " << filter << std::endl;
     assert(false);
   }
+}
+
+std::vector<Color> *PNGFile::pixels() {
+  if (pixels_->size()) {
+    return pixels_;
+  }
+
+  uint8_t *uncompressed = new uint8_t[CHUNK_DATA_SIZE];
+  uLongf data_size = CHUNK_DATA_SIZE;
+  int success = uncompress(uncompressed, &data_size, idat_, idat_len_);
+  if (success != Z_OK) {
+    std::cout << "uncompress error " << success << std::endl;
+    assert(Z_OK == success);
+  }
+
+  ParsePixels(uncompressed, data_size);
+
+  delete(idat_);
+
+  return pixels_;
 }
