@@ -65,11 +65,21 @@ World get_cube_world(Light *light) {
   PNGReader reader = PNGReader();
   auto scp_png = reader.ReadFile("earth_medium.png");
   auto scp = new TexturePattern(scp_png->width(), scp_png->height(), scp_png->pixels(), false);
-  scp->set_transform(Scaling(cs, cs, cs));
+  // scp->set_transform(Scaling(cs, cs, cs));
   auto scm = Material();
   scm.set_uv_pattern(scp);
   sc->set_material(scm);
   w.add_object(sc);
+
+  auto *sc2 = new Sphere();
+  sc2->SetTransform(Translation(0.5, 1, -1.5) * RotationY(1.2 * M_PI));
+  auto sc2p_png = reader.ReadFile("earth_medium.png");
+  auto sc2p = new TexturePattern(sc2p_png->width(), sc2p_png->height(), sc2p_png->pixels(), false);
+  // sc2p->set_transform(Sc2aling(cs, cs, cs));
+  auto sc2m = Material();
+  sc2m.set_uv_pattern(sc2p);
+  sc2->set_material(sc2m);
+  w.add_object(sc2);
 
   auto *c = new Cube();
   Material cm = Material();
@@ -81,11 +91,12 @@ World get_cube_world(Light *light) {
 
   auto *plane = new Plane();
   PNGReader plane_reader = PNGReader();
-  auto plane_png = reader.ReadFile("earth_medium.png");
-  auto plane_texture = new TexturePattern(plane_png->width(), plane_png->height(), plane_png->pixels(), false);
-  plane_texture->set_transform(Scaling(3, 3, 3));
+  // auto plane_png = reader.ReadFile("earth_medium.png");
+  // auto plane_texture = new TexturePattern(plane_png->width(), plane_png->height(), plane_png->pixels(), false);
+  // plane_texture->set_transform(Scaling(3, 3, 3));
   auto scplane = Material();
-  scplane.set_pattern(plane_texture);
+  // scplane.set_pattern(plane_texture);
+  scplane.set_reflective(0.7);
   plane->set_material(scplane);
   w.add_object(plane);
 
@@ -100,6 +111,38 @@ void render_worlds() {
   auto canvas1 = get_camera1().Render(get_cube_world(new PointLight(position, intensity)));
   PNGWriter ppm_writer1 = PNGWriter(canvas1);
   ppm_writer1.WriteFile("texture_mapping.png");
+}
+
+void render_world_world() {
+  float fromx = 3;
+  float fromz = 3;
+  Camera c = Camera(CAMERA_DIMENSION, CAMERA_DIMENSION, M_PI / 4.0);
+  Tuple from = Point(fromx, 1.5, fromz);
+  Tuple to = Point(0, 1, 0);
+  Tuple up = Vector(0, 1, 0);
+  c.set_transform(ViewTransformation(from, to, up));
+
+  Tuple position =  Point(fromx, 1.5, fromz);
+  Color intensity = Color(1.0, 1.0, 1.0);
+
+  World w = World();
+  w.set_light(new PointLight(position, intensity));
+
+  auto *sc = new Sphere();
+  sc->SetTransform(Translation(0, 1, 0));
+  PNGReader reader = PNGReader();
+  auto scp_png = reader.ReadFile("debug_texture.png");
+  auto scp = new TexturePattern(scp_png->width(), scp_png->height(), scp_png->pixels(), false);
+  // scp->set_transform(Scaling(cs, cs, cs));
+  auto scm = Material();
+  scm.set_uv_pattern(scp);
+  sc->set_material(scm);
+  w.add_object(sc);
+
+  std::cout << "Rendering world_world.png." << std::endl;
+  auto canvas1 = c.Render(w);
+  PNGWriter ppm_writer1 = PNGWriter(canvas1);
+  ppm_writer1.WriteFile("world_world.png");
 }
 
 void test_png() {
@@ -132,6 +175,7 @@ int main(int argc, char* argv[]) {
 
   // test_png();
   render_worlds();
+  // render_world_world();
 
   return 0;
 }

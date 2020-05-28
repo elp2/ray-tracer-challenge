@@ -60,7 +60,7 @@ const Bounds Sphere::UnitBounds() const {
 }
 
 const Tuple Sphere::UVMappedPoint(const Tuple &object_point) const {
-  float u = atan2(object_point.x(), object_point.z()) / (2.0 * M_PI_2);
-  float v = asin(object_point.y()) / M_PI;
+  float u = 0.5 - atan2(object_point.z(), object_point.x()) / (2.0 * M_PI_2);
+  float v = 0.5 - asin(object_point.y()) / M_PI;
   return Point(u, 0.0, v);
 }
