@@ -34,7 +34,7 @@ class Camera {
 
   const std::vector<Ray> RaysForPixel(float x, float y) const;
   const Ray RayForPixel(float x, float y, const Tuple &aperature_point) const;
-  void RenderPixel(Canvas *canvas, World *w, int x, int y) const;
+  const Color PixelColor(World *w, float x, float y, float delta) const;
   const Color SubPixelColor(World *w, float x, float y) const;
 
   void set_transform(Matrix transform) { transform_ = transform; };

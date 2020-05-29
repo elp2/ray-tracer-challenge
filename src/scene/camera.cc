@@ -115,26 +115,36 @@ void Camera::RenderThread(Canvas *canvas, World *w, const int &mod) {
       if (cancelled_) {
         continue;
       }
-      RenderPixel(canvas, w, x, y);
+      Color c = PixelColor(w, x, y, supersample_ ? 0.5 : 0.0);
+      canvas->WritePixel(c, x, y);
     }
   }
 }
 
-void Camera::RenderPixel(Canvas *canvas, World *w, int x, int y) const {
-  const float fx = x;
-  const float fy = y;
+const Color Camera::PixelColor(World *w, float x, float y, float delta) const {
   Color c = Color(0, 0, 0);
-  if (supersample_) {
-    c = c + SubPixelColor(w, fx, fy) * (1.0 / 5.0);
-    c = c + SubPixelColor(w, fx + 0.5, fy + 0.5) * (1.0 / 5.0);
-    c = c + SubPixelColor(w, fx + 0.5, fy - 0.5) * (1.0 / 5.0);
-    c = c + SubPixelColor(w, fx - 0.5, fy - 0.5) * (1.0 / 5.0);
-    c = c + SubPixelColor(w, fx - 0.5, fy + 0.5) * (1.0 / 5.0);
-  } else {
-    c = SubPixelColor(w, x, y);
+  if (delta < 0.1) {
+    return SubPixelColor(w, x, y);
   }
 
-  canvas->WritePixel(c, x, y);
+  const float RECURSION_COLOR_LIMIT = 0.1;
+  Color center = SubPixelColor(w, x, y);
+  Color total = center * (1.0 / 5.0);
+
+  float dx[] = { 1.0, 1.0, -1.0, -1.0 };
+  float dy[] = { 1.0, -1.0, -1.0, 1.0 };
+  for (int i = 0; i < 4; ++i) {
+    float cx = x + dx[i] * delta;
+    float cy = y + dy[i] * delta;
+    Color corner = SubPixelColor(w, cx, cy);
+    Color diff = center - corner;
+    float components_diff = fabs(diff.r()) + fabs(diff.g()) + fabs(diff.b());
+    if (components_diff > RECURSION_COLOR_LIMIT) {
+      corner = PixelColor(w, cx, cy, delta / 2.0);
+    }
+    total = total + corner * (1.0 / 5.0);
+  }
+  return total;
 }
 
 const Color Camera::SubPixelColor(World *w, float x, float y) const {

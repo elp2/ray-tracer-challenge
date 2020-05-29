@@ -89,7 +89,7 @@ void render_cube_worlds() {
   // ppm_writer2.WriteFile("area_light.png");
 
   std::cout << "Rendering supersample.png." << std::endl;
-  auto canvas2 = get_camera1(true).Render(get_cube_world(new AreaLight(position, intensity, 0.2, 2)));
+  auto canvas2 = get_camera1(true).Render(get_cube_world(new AreaLight(position, intensity, 0.1, 4)));
   PNGWriter ppm_writer2 = PNGWriter(canvas2);
   ppm_writer2.WriteFile("supersample.png");
 }
