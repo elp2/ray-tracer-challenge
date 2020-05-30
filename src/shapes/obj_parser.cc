@@ -125,10 +125,15 @@ void ObjParser::AddVertexNormal(std::string vector) {
 }
 
 const Tuple ObjParser::VertexNormal(int vn) const {
-  assert(vn >= 1);
-  std::vector<Tuple>::size_type idx = vn - 1;
-  assert(idx < vertex_normals_.size());
-  return vertex_normals_[idx];
+  assert(vn != 0);
+  if (vn > 0) {
+    std::vector<Tuple>::size_type idx = vn - 1;
+    assert(idx < vertex_normals_.size());
+    return vertex_normals_[idx];
+  } else {
+    assert(abs(vn) <= vertex_normals_.size());
+    return vertex_normals_[vertex_normals_.size() + vn];
+  }
 }
 
 Group *ObjParser::DefaultGroup() const {
@@ -157,8 +162,14 @@ Group *ObjParser::GroupNamed(std::string name) const {
 }
 
 const Tuple ObjParser::Vertex(int v) const {
-  assert(v >= 1);
-  std::vector<Tuple>::size_type zero_indexed = v - 1;
-  assert(zero_indexed < vertices_.size());
-  return vertices_[zero_indexed];
+  assert(v != 0);
+  if (v > 0) {
+    std::vector<Tuple>::size_type zero_indexed = v - 1;
+    assert(zero_indexed < vertices_.size());
+    return vertices_[zero_indexed];
+  } else {
+    std::vector<Tuple>::size_type zero_indexed_from_last = v + 1;
+    assert(abs(zero_indexed_from_last) < vertices_.size());
+    return vertices_[vertices_.size() - 1 + zero_indexed_from_last];
+  }
 }
