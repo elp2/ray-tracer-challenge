@@ -1,5 +1,5 @@
 #include "display/canvas.h"
-#include "images/ppm_writer.h"
+#include "images/png_writer.h"
 #include "lights/point_light.h"
 #include "primitives/math.h"
 #include "primitives/matrix.h"
@@ -71,8 +71,9 @@ int main(int argc, char* argv[]) {
 
   auto canvas = get_camera().Render(get_world());
 
-  PPMWriter ppm_writer = PPMWriter(canvas);
-  ppm_writer.WriteFile("chapter7.ppm");
+  // TODO: Insane amount of acne on the planes!
+  PNGWriter png_writer = PNGWriter(canvas);
+  png_writer.WriteFile("chapter7.png");
 
   return 0;
 }

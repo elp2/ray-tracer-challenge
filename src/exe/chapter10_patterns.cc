@@ -1,5 +1,5 @@
 #include "display/canvas.h"
-#include "images/ppm_writer.h"
+#include "images/png_writer.h"
 #include "lights/point_light.h"
 #include "patterns/blended_pattern.h"
 #include "patterns/gradient_pattern.h"
@@ -83,8 +83,8 @@ int main(int argc, char* argv[]) {
 
   auto canvas = get_camera().Render(get_world());
 
-  PPMWriter ppm_writer = PPMWriter(canvas);
-  ppm_writer.WriteFile("chapter10_patterns.ppm");
+  PNGWriter png_writer = PNGWriter(canvas);
+  png_writer.WriteFile("chapter10_patterns.png");
 
   return 0;
 }
