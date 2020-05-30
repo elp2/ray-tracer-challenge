@@ -101,7 +101,7 @@ void ObjParser::AddFace(std::string vertices) {
     int vn0 = fv[0].vertex_normal;
     int vni = fv[i].vertex_normal;
     int vni1 = fv[i + 1].vertex_normal;
-    if (vn0 == 0 && vni == 0 && vni1 ==0) {
+    if (vn0 == 0 && vni == 0 && vni1 == 0) {
       auto face = new Triangle(Vertex(fv[0].vertex), Vertex(fv[i].vertex), Vertex(fv[i + 1].vertex));
       groups_[groups_.size() - 1]->AddFace(face);
     } else {
