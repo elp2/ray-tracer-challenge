@@ -1,6 +1,9 @@
 #include "shapes/bounds.h"
 
+#include <iostream>
 #include <math.h>
+
+#include "primitives/transformation.h"
 
 Bounds::Bounds(Tuple minimum, Tuple maximum) {
   minimum_ = minimum;
@@ -36,4 +39,28 @@ void Bounds::MergeWith(const Bounds &other) {
 
 const Tuple Bounds::center() const {
   return (maximum_ + minimum_) * 0.5;
+}
+
+const Matrix Bounds::UnitifyTransform(bool unitify_x, bool unitify_y, bool unitify_z) const {
+  float x_width = maximum().x() - minimum().x();
+  float y_width = maximum().y() - minimum().y();
+  float z_width = maximum().z() - minimum().z();
+
+  Matrix translation = Translation(
+      -minimum().x() - x_width / 2.0,
+      -minimum().y() - y_width / 2.0,
+      -minimum().z() - z_width / 2.0);
+
+  if (!unitify_x && !unitify_y && !unitify_z) {
+    return translation;
+  }
+  float x_scale = 2.0 / x_width;
+  float y_scale = 2.0 / y_width;
+  float z_scale = 2.0 / z_width;
+
+  float scale = std::min(unitify_x ? x_scale : INFINITY,
+      std::min(unitify_y ? y_scale : INFINITY, unitify_z ? z_scale : INFINITY));
+  Matrix scaling = Scaling(scale, scale, scale);
+
+  return scaling * translation;
 }

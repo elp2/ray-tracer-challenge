@@ -50,9 +50,9 @@ Group *get_pawn() {
   model.close();
 
   ObjParser *parser = new ObjParser(ss);
-  auto g = parser->GroupNamed("PEDONE12")->OptimizedSubgroups(5);
+  auto g = parser->GroupNamed("PEDONE12")->OptimizedSubgroups(5, true, false, true);
   Matrix scaling = Scaling(1.0 / 600.0, 1.0 / 600.0, 1.0 / 600.0);
-  g->SetTransform(scaling * Translation(0, 3, 0));
+  g->SetTransform(scaling);
   return g;
 }
 

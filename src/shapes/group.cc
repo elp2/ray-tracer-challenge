@@ -88,6 +88,11 @@ const Bounds Group::UnitBounds() const {
 }
 
 Group *Group::OptimizedSubgroups(int groups_per_dimension) {
+  return OptimizedSubgroups(groups_per_dimension, false, false, false);
+}
+
+Group *Group::OptimizedSubgroups(int groups_per_dimension,
+    bool unitify_x, bool unitify_y, bool unitify_z) {
   std::vector<Group *> subgroups;
   for (int i = 0; i < groups_per_dimension * groups_per_dimension * groups_per_dimension; ++i) {
     subgroups.push_back(new Group(material_));
@@ -112,6 +117,7 @@ Group *Group::OptimizedSubgroups(int groups_per_dimension) {
   for (auto subgroup : subgroups) {
     if (subgroup->size() > 0) {
       std::cout << "Subgroup size: " << subgroup->size() << std::endl;
+      subgroup->SetTransform(bounds_.UnitifyTransform(unitify_x, unitify_y, unitify_z));
       ret->AddChild(subgroup);
     }
   }

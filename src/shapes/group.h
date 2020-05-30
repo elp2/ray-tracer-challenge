@@ -31,6 +31,10 @@ class Group : public Shape {
 
   // Splits the group into subgroups. Do this before adding to a parent.
   Group *OptimizedSubgroups(int groups_per_dimension);
+  // Splits group into subgroups, and also scales and translates these groups
+  // so certain axes fit -1..1.
+  Group *OptimizedSubgroups(int groups_per_dimension,
+      bool unitify_x, bool unitify_y, bool unitify_z);
 
   bool Includes(Shape *other);
 
