@@ -1,5 +1,5 @@
 #include "display/canvas.h"
-#include "images/ppm_writer.h"
+#include "images/png_writer.h"
 #include "lights/point_light.h"
 #include "patterns/blended_pattern.h"
 #include "patterns/gradient_pattern.h"
@@ -21,7 +21,7 @@
 #include <cmath>
 #include <iostream>
 
-const int CAMERA_DIMENSION = 500;
+const int CAMERA_DIMENSION = 200;
 
 Camera get_camera1() {
   Camera c = Camera(CAMERA_DIMENSION, CAMERA_DIMENSION, M_PI / 4.0);
@@ -271,7 +271,7 @@ World get_world5() {
 }
 
 Camera get_camera5() {
-  Camera c = Camera(CAMERA_DIMENSION, CAMERA_DIMENSION, M_PI / 2.0, 0.05, 4, 100, false);
+  Camera c = Camera(CAMERA_DIMENSION, CAMERA_DIMENSION, M_PI / 2.0, 0.05, 4, 100, true);
   // Camera c = Camera(CAMERA_DIMENSION, CAMERA_DIMENSION, M_PI / 2.0, 0, 3, 1);
 
   Tuple from = Point(10, 3, 0);
@@ -285,30 +285,30 @@ int main(int argc, char* argv[]) {
   (void)argc;
   (void)argv;
 
-  // std::cout << "Rendering chapter11_1.ppm." << std::endl;
+  // std::cout << "Rendering chapter11_1.PNG." << std::endl;
   // auto canvas1 = get_camera1().Render(get_world1());
-  // PPMWriter ppm_writer1 = PPMWriter(canvas1);
-  // ppm_writer1.WriteFile("chapter11_1.ppm");
+  // PNGWriter PNG_writer1 = PNGWriter(canvas1);
+  // PNG_writer1.WriteFile("chapter11_1.PNG");
 
-  // std::cout << "Rendering chapter11_2.ppm." << std::endl;
+  // std::cout << "Rendering chapter11_2.PNG." << std::endl;
   // auto canvas2 = get_camera2().Render(get_world2());
-  // PPMWriter ppm_writer2 = PPMWriter(canvas2);
-  // ppm_writer2.WriteFile("chapter11_2.ppm");
+  // PNGWriter PNG_writer2 = PNGWriter(canvas2);
+  // PNG_writer2.WriteFile("chapter11_2.PNG");
 
-  // std::cout << "Rendering chapter11_3.ppm." << std::endl;
+  // std::cout << "Rendering chapter11_3.PNG." << std::endl;
   // auto canvas3 = get_camera3().Render(get_world3());
-  // PPMWriter ppm_writer3 = PPMWriter(canvas3);
-  // ppm_writer3.WriteFile("chapter11_3.ppm");
+  // PNGWriter PNG_writer3 = PNGWriter(canvas3);
+  // PNG_writer3.WriteFile("chapter11_3.PNG");
 
-  // std::cout << "Rendering chapter11_4.ppm." << std::endl;
+  // std::cout << "Rendering chapter11_4.PNG." << std::endl;
   // auto canvas4 = get_camera4().Render(get_world4(true));
-  // PPMWriter ppm_writer4 = PPMWriter(canvas4);
-  // ppm_writer4.WriteFile("chapter11_4.ppm");
+  // PNGWriter PNG_writer4 = PNGWriter(canvas4);
+  // PNG_writer4.WriteFile("chapter11_4.PNG");
 
-  std::cout << "Rendering chapter11_5.ppm." << std::endl;
+  std::cout << "Rendering chapter11_5.PNG." << std::endl;
   auto canvas4 = get_camera5().Render(get_world5());
-  PPMWriter ppm_writer4 = PPMWriter(canvas4);
-  ppm_writer4.WriteFile("chapter11_5.ppm");
+  PNGWriter PNG_writer4 = PNGWriter(canvas4);
+  PNG_writer4.WriteFile("chapter11_5.PNG");
 
 
   return 0;
