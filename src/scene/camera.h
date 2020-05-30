@@ -3,6 +3,7 @@
 
 #include <vector>
 
+#include "primitives/color.h"
 #include "primitives/matrix.h"
 
 class Canvas;
@@ -12,10 +13,14 @@ class World;
 class Camera {
  public:
   Camera(const int width, const int height, const float field_of_view,
-      const float aperature_radius, const float focal_length, const int rays_per_pixel);
+      const float aperature_radius, const float focal_length, const int rays_per_pixel,
+      bool supersample);
 
   Camera(const int width, const int height, const float field_of_view) :
-      Camera(width, height, field_of_view, 0.0, 1.0, 1) {};
+      Camera(width, height, field_of_view, 0.0, 1.0, 1, false) {};
+
+  Camera(const int width, const int height, const float field_of_view, bool supersample) :
+      Camera(width, height, field_of_view, 0.0, 1.0, 1, supersample) {};
 
   ~Camera() = default;
 
@@ -27,8 +32,11 @@ class Camera {
 
   const Tuple AperaturePoint() const;
 
-  const std::vector<Ray> RaysForPixel(int x, int y) const;
-  const Ray RayForPixel(int x, int y, const Tuple &aperature_point) const;
+  const std::vector<Ray> RaysForPixel(float x, float y) const;
+  const Ray RayForPixel(float x, float y, const Tuple &aperature_point) const;
+  const Color PixelColor(World *w, float x, float y, float delta) const;
+  const Color SubPixelColor(World *w, float x, float y) const;
+
   void set_transform(Matrix transform) { transform_ = transform; };
 
   // Cancels the rendering, preventing further writes from happening.
@@ -52,6 +60,7 @@ class Camera {
   int rays_per_pixel_ = 0;
   bool cancelled_ = false;
   Canvas *canvas_ = nullptr;
+  bool supersample_ = false;
 
   void RenderThread(Canvas *canvas, World *w, const int &mod);
 };

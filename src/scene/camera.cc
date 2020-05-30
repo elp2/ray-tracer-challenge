@@ -11,7 +11,8 @@
 #include "scene/world.h"
 
 Camera::Camera(const int width, const int height, const float field_of_view,
-    const float aperature_radius, const float focal_length, const int rays_per_pixel) {
+    const float aperature_radius, const float focal_length, const int rays_per_pixel,
+    bool supersample) {
   assert(width > 0);
   assert(height > 0);
   assert(field_of_view < M_PI);
@@ -38,6 +39,8 @@ Camera::Camera(const int width, const int height, const float field_of_view,
     half_height_ = half_view;
   }
   pixel_size_ = (half_width_ * 2.0) / (float)width_;
+
+  supersample_ = supersample;
 }
 
 const Tuple Camera::AperaturePoint() const {
@@ -53,7 +56,7 @@ const Tuple Camera::AperaturePoint() const {
   return Point(0, 0, 0);
 }
 
-const std::vector<Ray> Camera::RaysForPixel(int x, int y) const {
+const std::vector<Ray> Camera::RaysForPixel(float x, float y) const {
   std::vector<Ray> rays;
   if (aperature_radius_ == 0.0) {
     // Simple point aperature.
@@ -68,7 +71,7 @@ const std::vector<Ray> Camera::RaysForPixel(int x, int y) const {
   return rays;
 }
 
-const Ray Camera::RayForPixel(int x, int y, const Tuple &aperature_point) const {
+const Ray Camera::RayForPixel(float x, float y, const Tuple &aperature_point) const {
   float x_offset = (x + 0.5) * pixel_size_;
   float y_offset = (y + 0.5) * pixel_size_;
 
@@ -112,13 +115,44 @@ void Camera::RenderThread(Canvas *canvas, World *w, const int &mod) {
       if (cancelled_) {
         continue;
       }
-      std::vector<Ray> rays = RaysForPixel(x, y);
-      Color c = BlackColor();
-      for (auto r : rays) {
-        c = c + w->ColorAt(r);
-      }
-      c = c * (1.0f / rays.size());
+      Color c = PixelColor(w, x, y, supersample_ ? 0.5 : 0.0);
       canvas->WritePixel(c, x, y);
     }
   }
+}
+
+const Color Camera::PixelColor(World *w, float x, float y, float delta) const {
+  Color c = Color(0, 0, 0);
+  if (delta < 0.1) {
+    return SubPixelColor(w, x, y);
+  }
+
+  const float RECURSION_COLOR_LIMIT = 0.1;
+  Color center = SubPixelColor(w, x, y);
+  Color total = center * (1.0 / 5.0);
+
+  float dx[] = { 1.0, 1.0, -1.0, -1.0 };
+  float dy[] = { 1.0, -1.0, -1.0, 1.0 };
+  for (int i = 0; i < 4; ++i) {
+    float cx = x + dx[i] * delta;
+    float cy = y + dy[i] * delta;
+    Color corner = SubPixelColor(w, cx, cy);
+    Color diff = center - corner;
+    float components_diff = fabs(diff.r()) + fabs(diff.g()) + fabs(diff.b());
+    if (components_diff > RECURSION_COLOR_LIMIT) {
+      corner = PixelColor(w, cx, cy, delta / 2.0);
+    }
+    total = total + corner * (1.0 / 5.0);
+  }
+  return total;
+}
+
+const Color Camera::SubPixelColor(World *w, float x, float y) const {
+  std::vector<Ray> rays = RaysForPixel(x, y);
+  Color c = BlackColor();
+  for (auto r : rays) {
+    c = c + w->ColorAt(r);
+  }
+  c = c * (1.0f / rays.size());
+  return c;
 }

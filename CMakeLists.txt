@@ -193,6 +193,10 @@ add_executable(texture_mapping WIN32
     src/exe/texture_mapping.cc)
 target_link_libraries(texture_mapping gui patterns primitives display shapes lights scene)
 
+add_executable(supersample WIN32
+    src/exe/supersample.cc)
+target_link_libraries(supersample gui patterns primitives display shapes lights scene)
+
 # Below is from googletest README.md.
 # Download and unpack googletest at configure time.
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)

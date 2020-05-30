@@ -33,18 +33,9 @@
 
 const int CAMERA_DIMENSION = 400;
 
-Camera get_camera1() {
-  Camera c = Camera(CAMERA_DIMENSION, CAMERA_DIMENSION, M_PI / 4.0);
+Camera get_camera1(bool supersample) {
+  Camera c = Camera(CAMERA_DIMENSION, CAMERA_DIMENSION, M_PI / 4.0, supersample);
   Tuple from = Point(6, 4, -1);
-  Tuple to = Point(0, 0, 0);
-  Tuple up = Vector(0, 1, 0);
-  c.set_transform(ViewTransformation(from, to, up));
-  return c;
-}
-
-Camera get_camera2() {
-  Camera c = Camera(CAMERA_DIMENSION, CAMERA_DIMENSION, M_PI / 4.0);
-  Tuple from = Point(4, 16, 0);
   Tuple to = Point(0, 0, 0);
   Tuple up = Vector(0, 1, 0);
   c.set_transform(ViewTransformation(from, to, up));
@@ -92,39 +83,15 @@ void render_cube_worlds() {
   Tuple position =  Point(3, 5, 5);
   Color intensity = Color(1.0, 1.0, 1.0);
 
-  std::cout << "Rendering point_light.png." << std::endl;
-  auto canvas1 = get_camera1().Render(get_cube_world(new PointLight(position, intensity)));
-  PNGWriter ppm_writer1 = PNGWriter(canvas1);
-  ppm_writer1.WriteFile("point_light.png");
+  // std::cout << "Rendering area_light.png." << std::endl;
+  // auto canvas2 = get_camera2().Render(get_world(new AreaLight(position, intensity, 0.2, 2)));
+  // PNGWriter ppm_writer2 = PNGWriter(canvas2);
+  // ppm_writer2.WriteFile("area_light.png");
 
-  std::cout << "Rendering area_light.png." << std::endl;
-  auto canvas2 = get_camera1().Render(get_cube_world(new AreaLight(position, intensity, 0.1, 3)));
+  std::cout << "Rendering supersample.png." << std::endl;
+  auto canvas2 = get_camera1(true).Render(get_cube_world(new AreaLight(position, intensity, 0.1, 4)));
   PNGWriter ppm_writer2 = PNGWriter(canvas2);
-  ppm_writer2.WriteFile("area_light.png");
-
-  std::cout << "Rendering spot_light.png." << std::endl;
-  auto canvas3 = get_camera1().Render(get_cube_world(
-      new SpotLight(position, intensity, DEFAULT_CENTER_RADIANS, DEFAULT_TOTAL_RADIANS, Point(0, 0, 0))));
-  PNGWriter ppm_writer3 = PNGWriter(canvas3);
-  ppm_writer3.WriteFile("spot_light.png");
-}
-
-void render_bugfix_world() {
-  // The cube is 2 tall, so no light should fall behind the cube when light position y=1.5.
-  // However, it clearly does on the area light.
-  // This should be easily testable by seeing how we calculate the color for (100, 0).
-  Tuple position =  Point(4, 1.5, 0);
-  Color intensity = Color(1.0, 1.0, 1.0);
-
-  std::cout << "Rendering point_light.png." << std::endl;
-  auto canvas1 = get_camera2().Render(get_world(new PointLight(position, intensity)));
-  PNGWriter ppm_writer1 = PNGWriter(canvas1);
-  ppm_writer1.WriteFile("point_light.png");
-
-  std::cout << "Rendering area_light.png." << std::endl;
-  auto canvas2 = get_camera2().Render(get_world(new AreaLight(position, intensity, 0.2, 2)));
-  PNGWriter ppm_writer2 = PNGWriter(canvas2);
-  ppm_writer2.WriteFile("area_light.png");
+  ppm_writer2.WriteFile("supersample.png");
 }
 
 int main(int argc, char* argv[]) {
@@ -132,7 +99,6 @@ int main(int argc, char* argv[]) {
   (void)argv;
 
   render_cube_worlds();
-  // render_bugfix_world();
 
   return 0;
 }

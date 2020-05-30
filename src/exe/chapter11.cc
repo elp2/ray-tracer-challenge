@@ -271,7 +271,7 @@ World get_world5() {
 }
 
 Camera get_camera5() {
-  Camera c = Camera(CAMERA_DIMENSION, CAMERA_DIMENSION, M_PI / 2.0, 0.05, 4, 100);
+  Camera c = Camera(CAMERA_DIMENSION, CAMERA_DIMENSION, M_PI / 2.0, 0.05, 4, 100, false);
   // Camera c = Camera(CAMERA_DIMENSION, CAMERA_DIMENSION, M_PI / 2.0, 0, 3, 1);
 
   Tuple from = Point(10, 3, 0);

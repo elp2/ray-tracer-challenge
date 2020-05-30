@@ -91,7 +91,7 @@ World get_cube_world(Light *light) {
 
   auto *plane = new Plane();
   PNGReader plane_reader = PNGReader();
-  auto plane_png = reader.ReadFile("earth_medium.png");
+  // auto plane_png = reader.ReadFile("earth_medium.png");
   // auto plane_texture = new TexturePattern(plane_png->width(), plane_png->height(), plane_png->pixels(), false);
   // plane_texture->set_transform(Scaling(3, 3, 3));
   auto scplane = Material();
