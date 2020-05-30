@@ -1,5 +1,5 @@
 #include "display/canvas.h"
-#include "images/ppm_writer.h"
+#include "images/png_writer.h"
 #include "lights/point_light.h"
 #include "patterns/blended_pattern.h"
 #include "patterns/gradient_pattern.h"
@@ -22,10 +22,10 @@
 #include <cmath>
 #include <iostream>
 
-const int CAMERA_DIMENSION = 100;
+const int CAMERA_DIMENSION = 600;
 
 Camera get_camera1() {
-  Camera c = Camera(CAMERA_DIMENSION, CAMERA_DIMENSION, M_PI / 4.0);
+  Camera c = Camera(CAMERA_DIMENSION, CAMERA_DIMENSION, M_PI / 4.0, true);
   Tuple from = Point(-16, 4.0, 0.0);
   Tuple to = Point(0.0, 6.0, 3.0);
   Tuple up = Vector(0.0, 1.0, 0.0);
@@ -44,7 +44,7 @@ Shape *Domino(Color c, int y, int z) {
   m.set_color(c);
   m.set_reflective(0.3);
   cube->set_material(m);
-  
+
   return cube;
 }
 
@@ -54,7 +54,7 @@ World get_world1() {
 
   auto p = new Plane();
   Material pm1;
-  auto stripe1 = new StripedPattern(Color(0.5234, 0.3711, 0.2617), 
+  auto stripe1 = new StripedPattern(Color(0.5234, 0.3711, 0.2617),
       Color(0.6078, 0.4627, 0.3255));
   stripe1->set_transform(Scaling(0.25, 0.6, 0.25) * RotationY(M_PI / 3));
   auto perturbed_plane = new PerturbedPattern(stripe1);
@@ -91,10 +91,10 @@ int main(int argc, char* argv[]) {
   (void)argc;
   (void)argv;
 
-  std::cout << "Rendering chapter12_1.ppm." << std::endl;
+  std::cout << "Rendering chapter12_1.PNG." << std::endl;
   auto canvas1 = get_camera1().Render(get_world1());
-  PPMWriter ppm_writer1 = PPMWriter(canvas1);
-  ppm_writer1.WriteFile("chapter12_1.ppm");
+  PNGWriter PNG_writer1 = PNGWriter(canvas1);
+  PNG_writer1.WriteFile("chapter12_1.PNG");
 
   return 0;
 }

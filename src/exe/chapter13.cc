@@ -1,5 +1,5 @@
 #include "display/canvas.h"
-#include "images/ppm_writer.h"
+#include "images/png_writer.h"
 #include "lights/point_light.h"
 #include "patterns/blended_pattern.h"
 #include "patterns/gradient_pattern.h"
@@ -23,7 +23,7 @@
 #include <cmath>
 #include <iostream>
 
-const int CAMERA_DIMENSION = 100;
+const int CAMERA_DIMENSION = 400;
 
 Camera get_camera1() {
   Camera c = Camera(CAMERA_DIMENSION, CAMERA_DIMENSION, M_PI / 4.0);
@@ -77,10 +77,11 @@ int main(int argc, char* argv[]) {
   (void)argc;
   (void)argv;
 
-  std::cout << "Rendering chapter13.ppm." << std::endl;
+  // TODO: Cyldiner has lots of acne.
+  std::cout << "Rendering chapter13.PNG." << std::endl;
   auto canvas1 = get_camera1().Render(get_world1());
-  PPMWriter ppm_writer1 = PPMWriter(canvas1);
-  ppm_writer1.WriteFile("chapter13.ppm");
+  PNGWriter PNG_writer1 = PNGWriter(canvas1);
+  PNG_writer1.WriteFile("chapter13.PNG");
 
   return 0;
 }

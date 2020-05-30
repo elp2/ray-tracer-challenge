@@ -31,7 +31,7 @@
 #include <fstream>
 #include <iostream>
 
-const int CAMERA_DIMENSION = 1000;
+const int CAMERA_DIMENSION = 600;
 const bool SUPER_SAMPLE = true;
 const float CHESSBOARD_WIDTH = 2.5;
 
@@ -86,12 +86,6 @@ World get_world(Light *light) {
 }
 
 void render_chessboard() {
-
-  // std::cout << "Rendering area_light.png." << std::endl;
-  // auto canvas2 = get_camera2().Render(get_world(new AreaLight(position, intensity, 0.2, 2)));
-  // PNGWriter ppm_writer2 = PNGWriter(canvas2);
-  // ppm_writer2.WriteFile("area_light.png");
-
   std::cout << "Rendering chessboard.png." << std::endl;
   auto canvas2 = get_camera1(SUPER_SAMPLE).Render(get_world(LIGHT));
   PNGWriter ppm_writer2 = PNGWriter(canvas2);

@@ -1,5 +1,5 @@
 #include "display/canvas.h"
-#include "images/ppm_writer.h"
+#include "images/png_writer.h"
 #include "lights/point_light.h"
 #include "patterns/blended_pattern.h"
 #include "patterns/gradient_pattern.h"
@@ -24,7 +24,7 @@
 #include <cmath>
 #include <iostream>
 
-const int CAMERA_DIMENSION = 100;
+const int CAMERA_DIMENSION = 400;
 const float CYLINDER_LENGTH = 4.0;
 
 Camera get_camera1() {
@@ -119,15 +119,15 @@ int main(int argc, char* argv[]) {
   (void)argv;
 
   // Material tests.
-  // std::cout << "Rendering chapter14_1.ppm." << std::endl;
-  // auto canvas1 = get_camera1().Render(get_world1());
-  // PPMWriter ppm_writer1 = PPMWriter(canvas1);
-  // ppm_writer1.WriteFile("chapter14_1.ppm");
+  std::cout << "Rendering chapter14_1.png." << std::endl;
+  auto canvas1 = get_camera1().Render(get_world1());
+  PNGWriter PNG_writer1 = PNGWriter(canvas1);
+  PNG_writer1.WriteFile("chapter14_1.PNG");
 
-  std::cout << "Rendering chapter14_2.ppm." << std::endl;
+  std::cout << "Rendering chapter14_2.PNG." << std::endl;
   auto canvas2 = get_camera2().Render(get_world2());
-  PPMWriter ppm_writer2 = PPMWriter(canvas2);
-  ppm_writer2.WriteFile("chapter14_2.ppm");
+  PNGWriter PNG_writer2 = PNGWriter(canvas2);
+  PNG_writer2.WriteFile("chapter14_2.PNG");
 
   return 0;
 }
