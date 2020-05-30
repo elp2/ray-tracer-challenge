@@ -22,7 +22,7 @@ PNGFile *PNGReader::ReadFile(std::string filename) const {
 }
 
 PNGFile *PNGReader::ReadStream(std::istream &stream) const {
-  PNGFile *png;
+  PNGFile *png = nullptr;
   ReadSignature(stream);
   while (stream) {
     PNGChunk chunk = GetChunk(stream);
