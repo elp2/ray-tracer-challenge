@@ -34,10 +34,10 @@
 #include <fstream>
 #include <iostream>
 
-const int CAMERA_DIMENSION = 200;
+const int CAMERA_DIMENSION = 400;
 
 Camera get_camera1() {
-  Camera c = Camera(CAMERA_DIMENSION, CAMERA_DIMENSION, M_PI / 4.0);
+  Camera c = Camera(CAMERA_DIMENSION, CAMERA_DIMENSION, M_PI / 4.0, true);
   Tuple from = Point(6, 4, -1);
   Tuple to = Point(0, 0, 0);
   Tuple up = Vector(0, 1, 0);
@@ -72,7 +72,7 @@ World get_cube_world(Light *light) {
   w.add_object(sc);
 
   auto *sc2 = new Sphere();
-  sc2->SetTransform(Translation(0.5, 1, -1.5) * RotationY(1.2 * M_PI));
+  sc2->SetTransform(Translation(1.5, 1, -2.5) * RotationY(0.5 * M_PI));
   auto sc2p_png = reader.ReadFile("earth_medium.png");
   auto sc2p = new TexturePattern(sc2p_png->width(), sc2p_png->height(), sc2p_png->pixels(), false);
   // sc2p->set_transform(Sc2aling(cs, cs, cs));
@@ -126,7 +126,7 @@ void render_world_world() {
   Color intensity = Color(1.0, 1.0, 1.0);
 
   World w = World();
-  w.set_light(new PointLight(position, intensity));
+  w.set_light(new AreaLight(position, intensity, 0.5, 3));
 
   auto *sc = new Sphere();
   sc->SetTransform(Translation(0, 1, 0));
