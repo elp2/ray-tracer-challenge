@@ -30,7 +30,8 @@
 const int CAMERA_DIMENSION = 400;
 
 Camera get_camera1() {
-  Camera c = Camera(CAMERA_DIMENSION, CAMERA_DIMENSION, M_PI / 4.0);
+![Spotlight on Chessboard](/images/chessboard.png)
+  Camera c = Camera(CAMERA_DIMENSION, CAMERA_DIMENSION, M_PI / 4.0, true);
   Tuple from = Point(2, 2.0, 3);
   Tuple to = Point(0, 0, 0);
   Tuple up = Vector(0, 1, 0);
@@ -131,15 +132,15 @@ int main(int argc, char* argv[]) {
   (void)argc;
   (void)argv;
 
-  // std::cout << "Rendering chapter15_1.PNG." << std::endl;
+  // std::cout << "Rendering chapter15_1.png." << std::endl;
   // auto canvas1 = get_camera1().Render(get_world1());
   // PNGWriter PNG_writer1 = PNGWriter(canvas1);
-  // PNG_writer1.WriteFile("chapter15_1.PNG");
+  // PNG_writer1.WriteFile("chapter15_1.png");
 
-  std::cout << "Rendering chapter15_2.PNG." << std::endl;
+  std::cout << "Rendering chapter15_2.png." << std::endl;
   auto canvas2 = get_camera2().Render(get_world2());
   PNGWriter PNG_writer2 = PNGWriter(canvas2);
-  PNG_writer2.WriteFile("chapter15_2.PNG");
+  PNG_writer2.WriteFile("chapter15_2.png");
 
   return 0;
 }
