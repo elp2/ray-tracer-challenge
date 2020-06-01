@@ -1,5 +1,5 @@
 # ray-tracer-challenge
-C++ implementation of the "Ray Tracing Challenge" book and extra things.
+C++ implementation of the "Ray Tracer Challenge" book and many extra features.
 
 ## Features
 
